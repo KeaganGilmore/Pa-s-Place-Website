@@ -1,0 +1,142 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WaveDivider from '../components/WaveDivider.astro';
+import { getSettings } from '../lib/cms';
+
+const settings = await getSettings();
+
+const ways = [
+  {
+    title: 'Sponsor a holiday',
+    text: 'Cover a child’s stay — accommodation, meals and every activity in between. One sponsorship is one first look at the ocean.',
+    accent: true,
+  },
+  {
+    title: 'Book a stay',
+    text: `Bring your family or group for an affordable beachside holiday (${settings.pricing.accommodation}). Every booking directly funds our children’s retreats.`,
+  },
+  {
+    title: 'Hire the venue',
+    text: `Host your gathering with us (${settings.pricing.venue}) and turn your event into a child’s holiday.`,
+  },
+];
+
+const roles = [
+  ['Activity coordinators', 'Run beach games, trails and team building'],
+  ['Caretakers', 'Help hold the quiet hours and the loud ones'],
+  ['Catering hands', 'Big pots, unique foods, many helpers'],
+  ['Admin & comms', 'Keep the tide charts of the organisation'],
+  ['Maintenance', 'Hammers, paintbrushes and salty hinges'],
+];
+---
+
+<Layout title="Get Involved" description="Sponsor a child's holiday, book a stay, volunteer or reach out — every bit helps send a child to the sea.">
+  <!-- ============ PAGE HERO ============ -->
+  <section class="bg-sea-950">
+    <div class="mx-auto max-w-6xl px-5 pb-16 pt-24 text-center sm:pt-32">
+      <p class="fade-up text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-sun-300" style="--d: 0.05s">Get involved</p>
+      <h1 class="fade-up mx-auto mt-4 max-w-3xl font-display text-5xl font-semibold text-shell sm:text-6xl" style="--d: 0.18s">
+        Help a child meet the ocean.
+      </h1>
+      <p class="fade-up mx-auto mt-6 max-w-xl text-lg text-sand-100/80" style="--d: 0.32s">
+        However you join in — sponsoring, staying, volunteering — it all flows the same way.
+      </p>
+    </div>
+    <WaveDivider fill="var(--color-shell)" />
+  </section>
+
+  <!-- ============ WAYS TO HELP ============ -->
+  <section class="py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl px-5">
+      <div class="grid gap-8 md:grid-cols-3">
+        {
+          ways.map((w) => (
+            <article
+              class={`reveal flex flex-col rounded-[1.8rem] p-8 ${
+                w.accent
+                  ? 'bg-coral-500 text-shell shadow-[0_24px_48px_-20px_rgb(217_84_46/0.55)]'
+                  : 'bg-sand-100 text-ink'
+              }`}
+            >
+              <h2 class={`font-display text-2xl font-semibold ${w.accent ? 'text-shell' : 'text-sea-900'}`}>{w.title}</h2>
+              <p class={`mt-4 flex-1 ${w.accent ? 'text-shell/90' : 'text-ink/75'}`}>{w.text}</p>
+              <a
+                href={`mailto:${settings.contact.email}?subject=${encodeURIComponent(w.title + " — Pa's Place")}`}
+                class={`btn mt-7 self-start ${w.accent ? 'bg-shell !text-coral-600 hover:bg-sand-100' : 'btn-sea'}`}
+              >
+                Email us about this
+              </a>
+            </article>
+          ))
+        }
+      </div>
+      <p class="reveal mx-auto mt-10 max-w-2xl text-center text-ink/70">
+        Prefer to give directly? Contact us for our banking details — and tell us if you&rsquo;d like your gift
+        to sponsor a specific retreat.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ VOLUNTEER ============ -->
+  <section class="relative">
+    <WaveDivider fill="var(--color-sand-100)" />
+    <div class="bg-sand-100 py-16 sm:py-20">
+      <div class="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-[1fr_1.2fr]">
+        <div class="reveal">
+          <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-coral-500">Volunteer</p>
+          <h2 class="mt-4 text-4xl font-semibold text-sea-900">Come lend a hand</h2>
+          <p class="mt-5 max-w-md text-lg text-ink/80">
+            Retreats run on many hands. If you have a free weekend and any of these instincts, we would love
+            to meet you.
+          </p>
+        </div>
+        <ul class="space-y-4">
+          {
+            roles.map(([role, blurb]) => (
+              <li class="reveal flex items-baseline justify-between gap-6 rounded-2xl bg-shell px-6 py-4 shadow-sm">
+                <span class="font-display text-lg font-semibold text-sea-900">{role}</span>
+                <span class="text-right text-sm text-ink/60">{blurb}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="py-16 sm:py-24">
+    <div class="mx-auto max-w-3xl px-5 text-center">
+      <h2 class="reveal text-4xl font-semibold text-sea-900 sm:text-5xl">
+        Or just <em class="squiggle font-display italic text-sea-700">say hello</em>
+      </h2>
+      <p class="reveal mt-5 text-lg text-ink/80">
+        {settings.contact.person ? `Ask for ${settings.contact.person}.` : ''} We answer quickest by phone.
+      </p>
+      <div class="reveal mt-9 flex flex-wrap justify-center gap-4">
+        {
+          settings.contact.phone && (
+            <a href={`tel:${settings.contact.phoneLink || settings.contact.phone}`} class="btn btn-coral">
+              Call {settings.contact.phone}
+            </a>
+          )
+        }
+        {
+          settings.contact.email && (
+            <a href={`mailto:${settings.contact.email}`} class="btn btn-sea">
+              {settings.contact.email}
+            </a>
+          )
+        }
+      </div>
+      <p class="mt-8 text-ink/60">{settings.contact.address}</p>
+      {
+        settings.contact.mapUrl && (
+          <a class="mt-2 inline-block font-bold text-sea-700 underline-offset-4 hover:underline" href={settings.contact.mapUrl}>
+            Open the map &rarr;
+          </a>
+        )
+      }
+    </div>
+  </section>
+</Layout>

@@ -1,8 +1,16 @@
 {
   "siteName": "Pa's Place",
+  "tagline": "Coastal holidays for children who need them most — Pennington, KwaZulu-Natal",
   "contact": {
-    "phone": "",
-    "email": "",
-    "address": ""
+    "person": "Luke",
+    "phone": "073 436 5056",
+    "phoneLink": "+27734365056",
+    "email": "info@pasplace.co.za",
+    "address": "35b Umdoni Road, Kelso, Pennington, KwaZulu-Natal, South Africa",
+    "mapUrl": "https://www.google.com/maps/d/u/0/edit?mid=1sgAUvrOYHiKmndi8EFMzghuUgxeYLtw&ll=-30.377096718500717%2C30.696060901428037&z=19"
+  },
+  "pricing": {
+    "accommodation": "R200 per person per night (minimum 4 people)",
+    "venue": "R80 per person (minimum 10 people, R500 deposit)"
   }
 }

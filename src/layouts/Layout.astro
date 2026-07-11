@@ -1,14 +1,20 @@
 ---
+import '@fontsource-variable/fraunces/full.css';
+import '@fontsource-variable/fraunces/full-italic.css';
+import '@fontsource-variable/nunito-sans';
 import '../styles/global.css';
-import settings from '../content/settings.json';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { getSettings } from '../lib/cms';
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const { title, description } = Astro.props;
-const pageTitle = title ? `${title} | ${settings.siteName}` : settings.siteName;
+const settings = await getSettings();
+const { title, description = settings.tagline } = Astro.props;
+const pageTitle = title ? `${title} | ${settings.siteName}` : `${settings.siteName} — ${settings.tagline}`;
 ---
 
 <!doctype html>
@@ -16,11 +22,24 @@ const pageTitle = title ? `${title} | ${settings.siteName}` : settings.siteName;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {description && <meta name="description" content={description} />}
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{pageTitle}</title>
   </head>
-  <body>
-    <slot />
+  <body class="grain">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-sea-900 focus:px-5 focus:py-2.5 focus:font-bold focus:text-shell"
+    >
+      Skip to content
+    </a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
   </body>
 </html>

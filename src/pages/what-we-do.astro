@@ -1,0 +1,137 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import WaveDivider from '../components/WaveDivider.astro';
+import { getGallery, getSettings } from '../lib/cms';
+
+const settings = await getSettings();
+const gallery = await getGallery();
+
+const allImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/images/**/*.{webp,jpg,jpeg,png}',
+  { eager: true }
+);
+const photo = (slug: string) => {
+  const g = gallery.find((x) => x.slug === slug);
+  return g?.image ? { meta: allImages[g.image]?.default, alt: g.alt } : undefined;
+};
+
+const offerings = [
+  {
+    eyebrow: 'For children',
+    title: 'Sponsored seaside retreats',
+    text: 'Our reason for being. Fun-filled, carefully held holidays for disadvantaged children — beach days, trail walks, rock pools, sports, team building, music and arts, and food they’ve never tried before. Every retreat is paced to each group: room for the noisiest hours and the quietest ones.',
+    image: photo('rock-pools'),
+    note: 'Funded by sponsors and bookings — see how you can help.',
+    noteHref: '/get-involved',
+  },
+  {
+    eyebrow: 'For families & groups',
+    title: 'Affordable beachside stays',
+    text: 'Comfortable, peaceful accommodation two minutes from the waves, priced for families and groups who struggle to find the funds for a restful holiday in today’s economy. Every paid stay helps keep the lights on for our children’s retreats.',
+    image: photo('the-house'),
+    note: settings.pricing.accommodation,
+  },
+  {
+    eyebrow: 'For our neighbours',
+    title: 'Community food & play days',
+    text: 'Occasional open days for local families: big pots of unique, filling meals, our playground in full voice, and planned programmes of activity. Long tables, longer afternoons.',
+    image: photo('food-day'),
+    note: `Venue hire: ${settings.pricing.venue}`,
+  },
+];
+---
+
+<Layout title="What We Do" description="Sponsored children's retreats, affordable family stays, and community food & play days in Pennington, KZN.">
+  <!-- ============ PAGE HERO ============ -->
+  <section class="bg-sand-100">
+    <div class="mx-auto max-w-6xl px-5 pb-16 pt-24 sm:pt-32">
+      <p class="fade-up text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-coral-500" style="--d: 0.05s">What we do</p>
+      <h1 class="fade-up mt-4 max-w-3xl font-display text-5xl font-semibold text-sea-900 sm:text-6xl" style="--d: 0.18s">
+        One home, three tides of work.
+      </h1>
+      <p class="fade-up mt-6 max-w-xl text-lg text-ink/80" style="--d: 0.32s">
+        Everything at Pa&rsquo;s Place feeds the same mission — the sponsored holidays are why we exist, and
+        the stays and open days keep them possible.
+      </p>
+    </div>
+    <WaveDivider fill="var(--color-shell)" />
+  </section>
+
+  <!-- ============ OFFERINGS ============ -->
+  <section class="py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl space-y-24 px-5">
+      {
+        offerings.map((o, i) => (
+          <article class={`grid items-center gap-10 lg:grid-cols-2 ${i % 2 === 1 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
+            <div class="reveal">
+              <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-sea-500">{o.eyebrow}</p>
+              <h2 class="mt-4 text-3xl font-semibold text-sea-900 sm:text-4xl">{o.title}</h2>
+              <p class="mt-5 max-w-lg text-lg text-ink/80">{o.text}</p>
+              {o.note && (
+                <p class="mt-6 inline-block rounded-full bg-sand-100 px-5 py-2.5 font-bold text-sea-900">
+                  {o.noteHref ? (
+                    <a href={o.noteHref} class="underline decoration-coral-500 decoration-2 underline-offset-4">
+                      {o.note}
+                    </a>
+                  ) : (
+                    o.note
+                  )}
+                </p>
+              )}
+            </div>
+            <div class="reveal">
+              {o.image?.meta && (
+                <Image
+                  src={o.image.meta}
+                  alt={o.image.alt}
+                  widths={[480, 800, 1100]}
+                  sizes="(min-width: 1024px) 45vw, 92vw"
+                  class={`w-full object-cover shadow-2xl ${
+                    i % 2 === 1 ? 'rounded-[2.2rem] rounded-tl-[6rem]' : 'rounded-[2.2rem] rounded-br-[6rem]'
+                  } aspect-[4/3]`}
+                />
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ============ A DAY WITH US ============ -->
+  <section class="relative">
+    <WaveDivider fill="var(--color-sea-950)" />
+    <div class="bg-sea-950 py-16 text-sand-100 sm:py-20">
+      <div class="mx-auto max-w-6xl px-5">
+        <h2 class="reveal text-center font-display text-4xl font-semibold text-shell sm:text-5xl">A day moves with the tides</h2>
+        <ol class="mx-auto mt-14 grid max-w-4xl gap-x-10 gap-y-8 sm:grid-cols-2">
+          {
+            [
+              ['Sunrise', 'Beach walk while the sand is still cool — rock pools at low tide.'],
+              ['Morning', 'Trails through the milkwoods; nature seeking with big questions welcome.'],
+              ['Midday', 'Unique foods, prepared together and eaten loudly.'],
+              ['Afternoon', 'Sports, team building and beach games until the shadows stretch.'],
+              ['Evening', 'Music, arts and shell painting on the veranda.'],
+              ['Night', 'Star gazing, quiet hours, and falling asleep to the sound of the sea.'],
+            ].map(([time, what], i) => (
+              <li class="reveal flex gap-5">
+                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-sea-900 font-display text-lg font-semibold text-sun-300">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 class="font-display text-xl font-semibold text-shell">{time}</h3>
+                  <p class="mt-1 text-sand-100/75">{what}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+        <div class="mt-14 pb-6 text-center">
+          <a href="/get-involved" class="btn btn-coral">Make a day like this happen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

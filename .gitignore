@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 # local MCP tooling config (contains API keys)
 .mcp.json
+
+# temporary reference documents
+*.pdf

@@ -1,1 +1,216 @@
 @import "tailwindcss";
+
+@theme {
+  /* ---- Pa's Place: sun-bleached coastal palette ---- */
+  --color-shell: #fdf9f0;
+  --color-sand-100: #f8efdd;
+  --color-sand-200: #f0e2c5;
+  --color-sand-300: #e2cfa6;
+  --color-driftwood: #7c6b4e;
+
+  --color-sea-300: #86c5cf;
+  --color-sea-500: #24869a;
+  --color-sea-700: #185f70;
+  --color-sea-900: #123c4a;
+  --color-sea-950: #0b2831;
+  --color-ink: #12333f;
+
+  --color-coral-400: #f58a66;
+  --color-coral-500: #ee6a41;
+  --color-coral-600: #d9542e;
+
+  --color-sun-300: #fad37f;
+  --color-sun-400: #f6bc4f;
+
+  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
+  --font-body: "Nunito Sans Variable", "Segoe UI", system-ui, sans-serif;
+}
+
+/* ---------- base ---------- */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-shell);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 60, "WONK" 1;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--color-sun-300);
+  color: var(--color-sea-950);
+}
+
+/* ---------- grain overlay (whole page atmosphere) ---------- */
+
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.8rem 1.7rem;
+  font-weight: 750;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn-coral {
+  background: var(--color-coral-500);
+  color: var(--color-shell);
+  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--color-coral-600) 70%, transparent);
+}
+.btn-coral:hover { background: var(--color-coral-600); }
+
+.btn-shell {
+  background: color-mix(in srgb, var(--color-shell) 12%, transparent);
+  color: var(--color-shell);
+  border: 1.5px solid color-mix(in srgb, var(--color-shell) 45%, transparent);
+  backdrop-filter: blur(4px);
+}
+.btn-shell:hover { background: color-mix(in srgb, var(--color-shell) 22%, transparent); }
+
+.btn-sea {
+  background: var(--color-sea-700);
+  color: var(--color-shell);
+  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--color-sea-900) 70%, transparent);
+}
+.btn-sea:hover { background: var(--color-sea-900); }
+
+/* ---------- squiggle underline accent ---------- */
+
+.squiggle {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='104' height='10' viewBox='0 0 104 10'%3E%3Cpath d='M1 7c8-5 16-5 24 0s16 5 24 0 16-5 24 0 16 5 24 0' fill='none' stroke='%23ee6a41' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 50% 100%;
+  background-size: 100% 0.32em;
+  padding-bottom: 0.28em;
+}
+
+/* nav link underline that draws in on hover */
+.navlink {
+  position: relative;
+}
+.navlink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: var(--color-coral-500);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.22s ease;
+}
+.navlink:hover::after,
+.navlink[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* ---------- entrance animations ---------- */
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  animation: rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--d, 0s);
+}
+
+/* scroll-driven reveals — pure CSS, gracefully static where unsupported */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: rise-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 45%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up { animation: none; }
+}
+
+/* ---------- activities tide marquee ---------- */
+
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 3.5rem;
+  padding-right: 3.5rem;
+  animation: drift 38s linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+@keyframes drift {
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; flex-wrap: wrap; width: auto; }
+}
+
+/* ---------- polaroid photos ---------- */
+
+.polaroid {
+  background: #fffdf7;
+  padding: 0.75rem 0.75rem 1.1rem;
+  border-radius: 6px;
+  box-shadow:
+    0 1px 2px rgb(18 51 63 / 0.10),
+    0 16px 32px -16px rgb(18 51 63 / 0.35);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+.polaroid:nth-child(3n + 1) { transform: rotate(-1.7deg); }
+.polaroid:nth-child(3n + 2) { transform: rotate(1.1deg); }
+.polaroid:nth-child(3n)     { transform: rotate(-0.5deg); }
+.polaroid:hover {
+  transform: rotate(0deg) translateY(-6px) scale(1.02);
+  box-shadow:
+    0 2px 4px rgb(18 51 63 / 0.12),
+    0 28px 48px -20px rgb(18 51 63 / 0.45);
+  z-index: 5;
+}
+
+/* ---------- sun disc decoration ---------- */
+
+.sun-disc {
+  background: radial-gradient(circle at 38% 35%, var(--color-sun-300), var(--color-sun-400) 58%, var(--color-coral-400));
+  border-radius: 9999px;
+}
