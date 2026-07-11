@@ -1,5 +1,6 @@
 ---
-import SunMark from './SunMark.astro';
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/pas-place-logo.png';
 
 const links = [
   { label: 'Home', href: '/' },
@@ -12,13 +13,13 @@ const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
 
-<header class="sticky top-0 z-50 border-b border-sand-200/80 bg-shell/90 backdrop-blur-md">
-  <div class="relative mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-3">
-    <a href="/" class="flex shrink-0 items-center gap-2.5">
-      <SunMark class="h-10 w-10" />
+<header class="sticky top-0 z-50 border-b border-cream-200/90 bg-paper/92 backdrop-blur-md">
+  <div class="relative mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-2.5">
+    <a href="/" class="flex shrink-0 items-center gap-3">
+      <Image src={logo} alt="" widths={[96, 144]} sizes="52px" class="h-13 w-13 object-contain" />
       <span class="leading-none">
-        <span class="font-display text-[1.35rem] font-bold text-sea-900">Pa&rsquo;s Place</span>
-        <span class="mt-1 block text-[0.62rem] font-extrabold uppercase tracking-[0.2em] text-driftwood">
+        <span class="font-display text-[1.35rem] font-bold text-bark-900">Pa&rsquo;s Place</span>
+        <span class="mt-1 block text-[0.62rem] font-extrabold uppercase tracking-[0.2em] text-bark-700/80">
           Pennington &middot; KZN &middot; NPC
         </span>
       </span>
@@ -29,7 +30,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
         links.map((l) => (
           <a
             href={l.href}
-            class="navlink pb-0.5 text-[0.95rem] font-bold text-sea-900"
+            class="navlink pb-0.5 text-[0.95rem] font-bold text-bark-900"
             aria-current={isActive(l.href) ? 'page' : undefined}
           >
             {l.label}
@@ -38,13 +39,13 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
       }
     </nav>
 
-    <a href="/get-involved" class="btn btn-coral hidden !py-2.5 md:inline-flex">Sponsor a holiday</a>
+    <a href="/get-involved" class="btn btn-marigold hidden !py-2.5 md:inline-flex">Sponsor a holiday</a>
 
     <!-- mobile menu: pure CSS checkbox toggle, no JS -->
     <input type="checkbox" id="nav-toggle" class="peer sr-only" />
     <label
       for="nav-toggle"
-      class="grid h-11 w-11 cursor-pointer place-items-center rounded-full text-sea-900 transition hover:bg-sand-100 md:hidden"
+      class="grid h-11 w-11 cursor-pointer place-items-center rounded-full text-bark-900 transition hover:bg-cream-100 md:hidden"
     >
       <span class="sr-only">Open menu</span>
       <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
@@ -52,20 +53,20 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
       </svg>
     </label>
 
-    <div class="absolute inset-x-0 top-full hidden border-b border-sand-200 bg-shell shadow-xl peer-checked:block md:!hidden">
+    <div class="absolute inset-x-0 top-full hidden border-b border-cream-200 bg-paper shadow-xl peer-checked:block md:!hidden">
       <nav class="flex flex-col gap-1 px-5 py-4" aria-label="Mobile">
         {
           links.map((l) => (
             <a
               href={l.href}
-              class="rounded-xl px-3 py-2.5 font-bold text-sea-900 hover:bg-sand-100"
+              class="rounded-xl px-3 py-2.5 font-bold text-bark-900 hover:bg-cream-100"
               aria-current={isActive(l.href) ? 'page' : undefined}
             >
               {l.label}
             </a>
           ))
         }
-        <a href="/get-involved" class="btn btn-coral mt-2 justify-center">Sponsor a holiday</a>
+        <a href="/get-involved" class="btn btn-marigold mt-2 justify-center">Sponsor a holiday</a>
       </nav>
     </div>
   </div>

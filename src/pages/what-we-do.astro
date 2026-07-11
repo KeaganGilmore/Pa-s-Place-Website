@@ -14,7 +14,7 @@ const allImages = import.meta.glob<{ default: ImageMetadata }>(
 );
 const photo = (slug: string) => {
   const g = gallery.find((x) => x.slug === slug);
-  return g?.image ? { meta: allImages[g.image]?.default, alt: g.alt } : undefined;
+  return g?.image ? { meta: allImages[g.image]?.default, alt: g.alt, caption: g.caption } : undefined;
 };
 
 const offerings = [
@@ -45,18 +45,18 @@ const offerings = [
 
 <Layout title="What We Do" description="Sponsored children's retreats, affordable family stays, and community food & play days in Pennington, KZN.">
   <!-- ============ PAGE HERO ============ -->
-  <section class="bg-sand-100">
+  <section class="bg-cream-100">
     <div class="mx-auto max-w-6xl px-5 pb-16 pt-24 sm:pt-32">
-      <p class="fade-up text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-coral-500" style="--d: 0.05s">What we do</p>
-      <h1 class="fade-up mt-4 max-w-3xl font-display text-5xl font-semibold text-sea-900 sm:text-6xl" style="--d: 0.18s">
+      <p class="fade-up text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-marigold-600" style="--d: 0.05s">What we do</p>
+      <h1 class="fade-up mt-4 max-w-3xl font-display text-5xl font-semibold text-bark-900 sm:text-6xl" style="--d: 0.18s">
         One home, three tides of work.
       </h1>
-      <p class="fade-up mt-6 max-w-xl text-lg text-ink/80" style="--d: 0.32s">
+      <p class="fade-up mt-6 max-w-xl text-lg text-cocoa/85" style="--d: 0.32s">
         Everything at Pa&rsquo;s Place feeds the same mission — the sponsored holidays are why we exist, and
         the stays and open days keep them possible.
       </p>
     </div>
-    <WaveDivider fill="var(--color-shell)" />
+    <WaveDivider fill="var(--color-paper)" />
   </section>
 
   <!-- ============ OFFERINGS ============ -->
@@ -64,15 +64,15 @@ const offerings = [
     <div class="mx-auto max-w-6xl space-y-24 px-5">
       {
         offerings.map((o, i) => (
-          <article class={`grid items-center gap-10 lg:grid-cols-2 ${i % 2 === 1 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
+          <article class={`grid items-center gap-12 lg:grid-cols-2 ${i % 2 === 1 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
             <div class="reveal">
-              <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-sea-500">{o.eyebrow}</p>
-              <h2 class="mt-4 text-3xl font-semibold text-sea-900 sm:text-4xl">{o.title}</h2>
-              <p class="mt-5 max-w-lg text-lg text-ink/80">{o.text}</p>
+              <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-sea-600">{o.eyebrow}</p>
+              <h2 class="mt-4 text-3xl font-semibold text-bark-900 sm:text-4xl">{o.title}</h2>
+              <p class="mt-5 max-w-lg text-lg text-cocoa/85">{o.text}</p>
               {o.note && (
-                <p class="mt-6 inline-block rounded-full bg-sand-100 px-5 py-2.5 font-bold text-sea-900">
+                <p class="mt-6 inline-block rounded-full bg-cream-100 px-5 py-2.5 font-bold text-bark-900">
                   {o.noteHref ? (
-                    <a href={o.noteHref} class="underline decoration-coral-500 decoration-2 underline-offset-4">
+                    <a href={o.noteHref} class="underline decoration-marigold-500 decoration-2 underline-offset-4">
                       {o.note}
                     </a>
                   ) : (
@@ -83,15 +83,20 @@ const offerings = [
             </div>
             <div class="reveal">
               {o.image?.meta && (
-                <Image
-                  src={o.image.meta}
-                  alt={o.image.alt}
-                  widths={[480, 800, 1100]}
-                  sizes="(min-width: 1024px) 45vw, 92vw"
-                  class={`w-full object-cover shadow-2xl ${
-                    i % 2 === 1 ? 'rounded-[2.2rem] rounded-tl-[6rem]' : 'rounded-[2.2rem] rounded-br-[6rem]'
-                  } aspect-[4/3]`}
-                />
+                <figure class={`polaroid mx-auto max-w-lg ${i % 2 === 1 ? '!-rotate-1' : '!rotate-1'}`}>
+                  <Image
+                    src={o.image.meta}
+                    alt={o.image.alt}
+                    widths={[480, 800, 1100]}
+                    sizes="(min-width: 1024px) 45vw, 92vw"
+                    class="aspect-[4/3] w-full rounded-[3px] object-cover"
+                  />
+                  {o.image.caption && (
+                    <figcaption class="pt-3 text-center font-display text-[1.05rem] italic text-cocoa/80">
+                      {o.image.caption}
+                    </figcaption>
+                  )}
+                </figure>
               )}
             </div>
           </article>
@@ -102,10 +107,10 @@ const offerings = [
 
   <!-- ============ A DAY WITH US ============ -->
   <section class="relative">
-    <WaveDivider fill="var(--color-sea-950)" />
-    <div class="bg-sea-950 py-16 text-sand-100 sm:py-20">
+    <WaveDivider fill="var(--color-bark-950)" />
+    <div class="bg-bark-950 py-16 text-cream-100 sm:py-20">
       <div class="mx-auto max-w-6xl px-5">
-        <h2 class="reveal text-center font-display text-4xl font-semibold text-shell sm:text-5xl">A day moves with the tides</h2>
+        <h2 class="reveal text-center font-display text-4xl font-semibold text-paper sm:text-5xl">A day moves with the tides</h2>
         <ol class="mx-auto mt-14 grid max-w-4xl gap-x-10 gap-y-8 sm:grid-cols-2">
           {
             [
@@ -117,19 +122,19 @@ const offerings = [
               ['Night', 'Star gazing, quiet hours, and falling asleep to the sound of the sea.'],
             ].map(([time, what], i) => (
               <li class="reveal flex gap-5">
-                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-sea-900 font-display text-lg font-semibold text-sun-300">
+                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-bark-900 font-display text-lg font-semibold text-marigold-300">
                   {i + 1}
                 </span>
                 <div>
-                  <h3 class="font-display text-xl font-semibold text-shell">{time}</h3>
-                  <p class="mt-1 text-sand-100/75">{what}</p>
+                  <h3 class="font-display text-xl font-semibold text-paper">{time}</h3>
+                  <p class="mt-1 text-cream-100/75">{what}</p>
                 </div>
               </li>
             ))
           }
         </ol>
         <div class="mt-14 pb-6 text-center">
-          <a href="/get-involved" class="btn btn-coral">Make a day like this happen</a>
+          <a href="/get-involved" class="btn btn-marigold">Make a day like this happen</a>
         </div>
       </div>
     </div>

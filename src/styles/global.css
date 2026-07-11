@@ -1,26 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  /* ---- Pa's Place: sun-bleached coastal palette ---- */
-  --color-shell: #fdf9f0;
-  --color-sand-100: #f8efdd;
-  --color-sand-200: #f0e2c5;
-  --color-sand-300: #e2cfa6;
-  --color-driftwood: #7c6b4e;
+  /* ---- Pa's Place: palette drawn from the sunburst-dove logo ---- */
+  --color-paper: #fbf3e3;        /* warm cream base */
+  --color-cream-100: #f6ead1;
+  --color-cream-200: #eedcb6;
+  --color-cream-300: #e2cb9a;
 
-  --color-sea-300: #86c5cf;
-  --color-sea-500: #24869a;
-  --color-sea-700: #185f70;
-  --color-sea-900: #123c4a;
-  --color-sea-950: #0b2831;
-  --color-ink: #12333f;
+  --color-bark-700: #5c4a36;     /* driftwood brown */
+  --color-bark-900: #423424;
+  --color-bark-950: #33291c;     /* dark sections */
+  --color-cocoa: #4a3c2d;        /* body text — the logo's warm gray-brown */
 
-  --color-coral-400: #f58a66;
-  --color-coral-500: #ee6a41;
-  --color-coral-600: #d9542e;
+  --color-marigold-300: #fbc968; /* the logo's sun rays */
+  --color-marigold-400: #f7ae3c;
+  --color-marigold-500: #f0931f;
+  --color-marigold-600: #d1770e;
 
-  --color-sun-300: #fad37f;
-  --color-sun-400: #f6bc4f;
+  --color-dove-200: #d8edf5;     /* the dove's soft blue edge */
+  --color-dove-300: #b4dceb;
+
+  --color-sea-600: #3e7e8e;      /* supporting only — we are still by the sea */
+  --color-sea-800: #29586a;
 
   --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
   --font-body: "Nunito Sans Variable", "Segoe UI", system-ui, sans-serif;
@@ -33,27 +34,27 @@ html {
 }
 
 body {
-  background-color: var(--color-shell);
-  color: var(--color-ink);
+  background-color: var(--color-paper);
+  color: var(--color-cocoa);
   font-family: var(--font-body);
   font-size: 1.0625rem;
-  line-height: 1.65;
+  line-height: 1.68;
   -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 60, "WONK" 1;
-  line-height: 1.08;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  line-height: 1.1;
   text-wrap: balance;
 }
 
 ::selection {
-  background: var(--color-sun-300);
-  color: var(--color-sea-950);
+  background: var(--color-marigold-300);
+  color: var(--color-bark-950);
 }
 
-/* ---------- grain overlay (whole page atmosphere) ---------- */
+/* ---------- grain overlay (old photo album atmosphere) ---------- */
 
 .grain::after {
   content: "";
@@ -61,7 +62,7 @@ h1, h2, h3, h4 {
   inset: 0;
   z-index: 60;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.06;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -81,32 +82,32 @@ h1, h2, h3, h4 {
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0); }
 
-.btn-coral {
-  background: var(--color-coral-500);
-  color: var(--color-shell);
-  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--color-coral-600) 70%, transparent);
+.btn-marigold {
+  background: var(--color-marigold-500);
+  color: #fffaf0;
+  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--color-marigold-600) 75%, transparent);
 }
-.btn-coral:hover { background: var(--color-coral-600); }
+.btn-marigold:hover { background: var(--color-marigold-600); }
 
-.btn-shell {
-  background: color-mix(in srgb, var(--color-shell) 12%, transparent);
-  color: var(--color-shell);
-  border: 1.5px solid color-mix(in srgb, var(--color-shell) 45%, transparent);
+.btn-paper {
+  background: color-mix(in srgb, var(--color-paper) 14%, transparent);
+  color: var(--color-paper);
+  border: 1.5px solid color-mix(in srgb, var(--color-paper) 50%, transparent);
   backdrop-filter: blur(4px);
 }
-.btn-shell:hover { background: color-mix(in srgb, var(--color-shell) 22%, transparent); }
+.btn-paper:hover { background: color-mix(in srgb, var(--color-paper) 26%, transparent); }
 
-.btn-sea {
-  background: var(--color-sea-700);
-  color: var(--color-shell);
-  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--color-sea-900) 70%, transparent);
+.btn-bark {
+  background: var(--color-bark-900);
+  color: var(--color-paper);
+  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--color-bark-950) 70%, transparent);
 }
-.btn-sea:hover { background: var(--color-sea-900); }
+.btn-bark:hover { background: var(--color-bark-950); }
 
 /* ---------- squiggle underline accent ---------- */
 
 .squiggle {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='104' height='10' viewBox='0 0 104 10'%3E%3Cpath d='M1 7c8-5 16-5 24 0s16 5 24 0 16-5 24 0 16 5 24 0' fill='none' stroke='%23ee6a41' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='104' height='10' viewBox='0 0 104 10'%3E%3Cpath d='M1 7c8-5 16-5 24 0s16 5 24 0 16-5 24 0 16 5 24 0' fill='none' stroke='%23f0931f' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: 50% 100%;
   background-size: 100% 0.32em;
@@ -125,7 +126,7 @@ h1, h2, h3, h4 {
   bottom: -3px;
   height: 2.5px;
   border-radius: 2px;
-  background: var(--color-coral-500);
+  background: var(--color-marigold-500);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.22s ease;
@@ -186,31 +187,40 @@ h1, h2, h3, h4 {
   .marquee-track { animation: none; flex-wrap: wrap; width: auto; }
 }
 
-/* ---------- polaroid photos ---------- */
+/* ---------- photo-album polaroids with masking tape ---------- */
 
 .polaroid {
-  background: #fffdf7;
+  position: relative;
+  background: #fffdf6;
   padding: 0.75rem 0.75rem 1.1rem;
-  border-radius: 6px;
+  border-radius: 4px;
   box-shadow:
-    0 1px 2px rgb(18 51 63 / 0.10),
-    0 16px 32px -16px rgb(18 51 63 / 0.35);
+    0 1px 2px rgb(51 41 28 / 0.12),
+    0 16px 32px -16px rgb(51 41 28 / 0.4);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
 }
-.polaroid:nth-child(3n + 1) { transform: rotate(-1.7deg); }
-.polaroid:nth-child(3n + 2) { transform: rotate(1.1deg); }
-.polaroid:nth-child(3n)     { transform: rotate(-0.5deg); }
+.polaroid::before {
+  /* masking tape */
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 96px;
+  height: 26px;
+  transform: translateX(-50%) rotate(-2.5deg);
+  background: color-mix(in srgb, var(--color-cream-200) 78%, #ffffff);
+  opacity: 0.85;
+  box-shadow: 0 1px 2px rgb(51 41 28 / 0.15);
+  clip-path: polygon(2% 8%, 98% 0%, 100% 92%, 0% 100%);
+}
+.polaroid:nth-child(3n + 1) { transform: rotate(-2.2deg); }
+.polaroid:nth-child(3n + 2) { transform: rotate(1.6deg); }
+.polaroid:nth-child(3n)     { transform: rotate(-0.7deg); }
+.polaroid:nth-child(even)::before { transform: translateX(-50%) rotate(3deg); }
 .polaroid:hover {
   transform: rotate(0deg) translateY(-6px) scale(1.02);
   box-shadow:
-    0 2px 4px rgb(18 51 63 / 0.12),
-    0 28px 48px -20px rgb(18 51 63 / 0.45);
+    0 2px 4px rgb(51 41 28 / 0.14),
+    0 28px 48px -20px rgb(51 41 28 / 0.5);
   z-index: 5;
-}
-
-/* ---------- sun disc decoration ---------- */
-
-.sun-disc {
-  background: radial-gradient(circle at 38% 35%, var(--color-sun-300), var(--color-sun-400) 58%, var(--color-coral-400));
-  border-radius: 9999px;
 }

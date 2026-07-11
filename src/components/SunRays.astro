@@ -1,0 +1,28 @@
+---
+// Hand-drawn-feel sun rays radiating like the Pa's Place logo.
+// Deterministic irregularity: ray lengths and gaps vary in a fixed pattern.
+interface Props {
+  class?: string;
+  color?: string;
+}
+const { class: className = 'h-40 w-40', color = 'var(--color-marigold-400)' } = Astro.props;
+
+const rays: string[] = [];
+const lengths = [26, 16, 34, 20, 28, 14, 32, 22, 18, 30, 15, 25];
+for (let i = 0; i < 24; i++) {
+  const angle = (i / 24) * Math.PI * 2 + (i % 3) * 0.045;
+  const inner = 52 + (i % 4) * 3.5;
+  const len = lengths[i % lengths.length];
+  const x1 = 100 + Math.cos(angle) * inner;
+  const y1 = 100 + Math.sin(angle) * inner;
+  const x2 = 100 + Math.cos(angle) * (inner + len);
+  const y2 = 100 + Math.sin(angle) * (inner + len);
+  rays.push(`M${x1.toFixed(1)},${y1.toFixed(1)} L${x2.toFixed(1)},${y2.toFixed(1)}`);
+}
+---
+
+<svg class={className} viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g stroke={color} stroke-width="5" stroke-linecap="round">
+    {rays.map((d) => <path d={d}></path>)}
+  </g>
+</svg>

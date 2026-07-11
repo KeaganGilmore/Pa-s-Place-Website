@@ -3,11 +3,11 @@ import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import WaveDivider from '../components/WaveDivider.astro';
-import { getGallery, getHomepage, getSettings } from '../lib/cms';
+import SunRays from '../components/SunRays.astro';
+import { getGallery, getHomepage } from '../lib/cms';
 import coastline from '../assets/images/coastline.webp';
 
 const homepage = await getHomepage();
-const settings = await getSettings();
 const gallery = await getGallery();
 
 // CMS image fields store repo paths; resolve them to Astro's optimized assets.
@@ -56,12 +56,12 @@ const pillars = [
 
 <Layout>
   <!-- ============ HERO ============ -->
-  <section class="relative flex min-h-[94svh] items-end overflow-hidden bg-sea-950">
+  <section class="relative flex min-h-[94svh] items-end overflow-hidden bg-bark-950">
     {
       heroImage && (
         <Image
           src={heroImage}
-          alt="A child standing at the water's edge, seeing the sea for the first time"
+          alt="A grandfather and child walking hand in hand through the dunes toward the sea"
           widths={[640, 1024, 1600]}
           sizes="100vw"
           loading="eager"
@@ -70,90 +70,92 @@ const pillars = [
         />
       )
     }
-    <div class="absolute inset-0 bg-gradient-to-t from-sea-950/85 via-sea-950/25 to-sea-950/40" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-bark-950/85 via-bark-950/15 to-bark-950/30" aria-hidden="true"></div>
 
     <div class="relative z-10 mx-auto w-full max-w-6xl px-5 pb-24 pt-40 sm:pb-28">
-      <p class="fade-up text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-sun-300" style="--d: 0.05s">
+      <p class="fade-up text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-marigold-300" style="--d: 0.05s">
         {homepage.heroEyebrow}
       </p>
       <h1
-        class="fade-up mt-5 max-w-3xl whitespace-pre-line font-display text-5xl font-semibold text-shell sm:text-6xl lg:text-7xl"
+        class="fade-up mt-5 max-w-3xl whitespace-pre-line font-display text-5xl font-semibold text-paper sm:text-6xl lg:text-7xl"
         style="--d: 0.18s"
       >
         {homepage.heroTitle}
       </h1>
-      <p class="fade-up mt-6 max-w-xl text-lg text-sand-100/90 sm:text-xl" style="--d: 0.34s">
+      <p class="fade-up mt-6 max-w-xl text-lg text-cream-100/90 sm:text-xl" style="--d: 0.34s">
         {homepage.heroSubtitle}
       </p>
       <div class="fade-up mt-9 flex flex-wrap gap-4" style="--d: 0.5s">
-        <a href="/get-involved" class="btn btn-coral">Sponsor a holiday</a>
-        <a href="/our-story" class="btn btn-shell">Read our story</a>
+        <a href="/get-involved" class="btn btn-marigold">Sponsor a holiday</a>
+        <a href="/our-story" class="btn btn-paper">Read our story</a>
       </div>
     </div>
 
-    <WaveDivider fill="var(--color-shell)" class="absolute inset-x-0 bottom-0 z-10" />
+    <WaveDivider fill="var(--color-paper)" class="absolute inset-x-0 bottom-0 z-10" />
   </section>
 
   <!-- ============ MISSION ============ -->
   <section class="relative overflow-hidden py-20 sm:py-28">
     <div class="mx-auto grid max-w-6xl items-center gap-14 px-5 lg:grid-cols-[1.15fr_1fr]">
       <div class="reveal">
-        <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-coral-500">Why we exist</p>
-        <h2 class="mt-4 text-4xl font-semibold text-sea-900 sm:text-5xl">
+        <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-marigold-600">Why we exist</p>
+        <h2 class="mt-4 text-4xl font-semibold text-bark-900 sm:text-5xl">
           The greatest joy we witness is a child
-          <em class="squiggle font-display italic text-sea-700">seeing the sea</em>
+          <em class="squiggle font-display italic text-sea-600">seeing the sea</em>
           for the very first time.
         </h2>
-        <p class="mt-7 max-w-xl text-lg text-ink/80">
+        <p class="mt-7 max-w-xl text-lg text-cocoa/85">
           Pa&rsquo;s Place is a non-profit company in Pennington, on KwaZulu-Natal&rsquo;s south coast, founded
           with one mission: giving coastal, fun-filled holidays to disadvantaged children.
         </p>
-        <p class="mt-4 max-w-xl text-lg text-ink/80">
+        <p class="mt-4 max-w-xl text-lg text-cocoa/85">
           More than accommodation, it&rsquo;s a retreat — a place where a breath of true holiday can relax
           the most troubled of young minds, and where every stay carries a little learning, whether it&rsquo;s
           a piece of marine life or a fruit on a tree.
         </p>
-        <a href="/our-story" class="group mt-7 inline-flex items-center gap-2 font-bold text-sea-700">
+        <a href="/our-story" class="group mt-7 inline-flex items-center gap-2 font-bold text-sea-800">
           The whole story
           <span class="transition-transform group-hover:translate-x-1">&rarr;</span>
         </a>
       </div>
 
       <div class="reveal relative mx-auto w-full max-w-md lg:max-w-none">
-        <div class="sun-disc absolute -right-6 -top-10 h-36 w-36 opacity-90 sm:-right-10 sm:h-44 sm:w-44" aria-hidden="true"></div>
-        <Image
-          src={coastline}
-          alt="The Pennington coastline at dawn — an empty golden beach and misty coastal forest"
-          widths={[480, 800, 1200]}
-          sizes="(min-width: 1024px) 40vw, 90vw"
-          class="relative rounded-[2.2rem] rounded-tr-[6rem] object-cover shadow-2xl"
-        />
-        <p class="mt-3 text-center font-display text-sm italic text-driftwood">
-          Pennington, KwaZulu-Natal — our stretch of the Indian Ocean
-        </p>
+        <SunRays class="absolute -right-12 -top-16 h-44 w-44 opacity-80 sm:-right-16 sm:h-56 sm:w-56" />
+        <div class="polaroid relative !rotate-1">
+          <Image
+            src={coastline}
+            alt="The Pennington coastline — a golden beach and an old bench facing the sea"
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 1024px) 40vw, 90vw"
+            class="aspect-[4/3] w-full rounded-[3px] object-cover"
+          />
+          <p class="pt-3 text-center font-display text-[1.05rem] italic text-cocoa/80">
+            Pennington, KwaZulu-Natal — our stretch of the Indian Ocean
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ============ PILLARS ============ -->
   <section class="relative">
-    <WaveDivider fill="var(--color-sand-100)" />
-    <div class="bg-sand-100 pb-24 pt-8 sm:pb-28">
+    <WaveDivider fill="var(--color-cream-100)" />
+    <div class="bg-cream-100 pb-24 pt-8 sm:pb-28">
       <div class="mx-auto max-w-6xl px-5">
         <div class="reveal max-w-2xl">
-          <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-sea-500">What we do</p>
-          <h2 class="mt-4 text-4xl font-semibold text-sea-900 sm:text-5xl">Three ways we move with the tides</h2>
+          <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-sea-600">What we do</p>
+          <h2 class="mt-4 text-4xl font-semibold text-bark-900 sm:text-5xl">Three ways we move with the tides</h2>
         </div>
 
         <div class="mt-14 grid gap-8 md:grid-cols-3">
           {
             pillars.map((p, i) => (
               <article
-                class={`reveal rounded-[1.8rem] bg-shell p-8 shadow-[0_20px_40px_-24px_rgb(18_51_63/0.35)] ${
+                class={`reveal rounded-[1.8rem] bg-paper p-8 shadow-[0_20px_40px_-24px_rgb(51_41_28/0.4)] ${
                   i === 0 ? 'md:-rotate-1' : i === 2 ? 'md:rotate-1' : 'md:translate-y-4'
                 }`}
               >
-                <div class="grid h-14 w-14 place-items-center rounded-2xl bg-coral-500/12 text-coral-600">
+                <div class="grid h-14 w-14 place-items-center rounded-2xl bg-marigold-400/15 text-marigold-600">
                   {p.icon === 'sun' && (
                     <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
                       <circle cx="12" cy="12" r="4.2" />
@@ -175,8 +177,8 @@ const pillars = [
                     </svg>
                   )}
                 </div>
-                <h3 class="mt-6 text-2xl font-semibold text-sea-900">{p.title}</h3>
-                <p class="mt-3 text-ink/75">{p.text}</p>
+                <h3 class="mt-6 text-2xl font-semibold text-bark-900">{p.title}</h3>
+                <p class="mt-3 text-cocoa/80">{p.text}</p>
               </article>
             ))
           }
@@ -186,13 +188,13 @@ const pillars = [
   </section>
 
   <!-- ============ ACTIVITIES MARQUEE ============ -->
-  <section class="bg-sea-900 py-10" aria-label="Activities at Pa's Place">
+  <section class="bg-bark-900 py-10" aria-label="Activities at Pa's Place">
     <div class="marquee">
       <div class="marquee-track" aria-hidden="true">
         {
           [...activities, ...activities].map((a) => (
-            <span class="flex items-center gap-3 whitespace-nowrap font-display text-2xl italic text-sand-100/90">
-              <svg class="h-3.5 w-3.5 text-sun-400" viewBox="0 0 12 12" fill="currentColor">
+            <span class="flex items-center gap-3 whitespace-nowrap font-display text-2xl italic text-cream-100/90">
+              <svg class="h-3.5 w-3.5 text-marigold-400" viewBox="0 0 12 12" fill="currentColor">
                 <path d="M6 0l1.4 4.6L12 6l-4.6 1.4L6 12 4.6 7.4 0 6l4.6-1.4Z" />
               </svg>
               {a}
@@ -209,15 +211,15 @@ const pillars = [
     <div class="mx-auto max-w-6xl px-5">
       <div class="reveal flex flex-wrap items-end justify-between gap-6">
         <div class="max-w-xl">
-          <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-coral-500">Moments</p>
-          <h2 class="mt-4 text-4xl font-semibold text-sea-900 sm:text-5xl">Days at Pa&rsquo;s Place</h2>
+          <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-marigold-600">The family album</p>
+          <h2 class="mt-4 text-4xl font-semibold text-bark-900 sm:text-5xl">Days at Pa&rsquo;s Place</h2>
         </div>
-        <p class="max-w-xs pb-1 text-sm italic text-driftwood">
+        <p class="max-w-xs pb-1 text-sm italic text-bark-700/80">
           A growing album — swapped and captioned by our own hands through the site&rsquo;s CMS.
         </p>
       </div>
 
-      <div class="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="mt-16 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
         {
           photos.map((p) => (
             <figure class="polaroid reveal">
@@ -229,7 +231,7 @@ const pillars = [
                 class="aspect-square w-full rounded-[3px] object-cover"
               />
               {p.caption && (
-                <figcaption class="pt-3 text-center font-display text-[1.05rem] italic leading-snug text-ink/80">
+                <figcaption class="pt-3 text-center font-display text-[1.05rem] italic leading-snug text-cocoa/80">
                   {p.caption}
                 </figcaption>
               )}
@@ -242,21 +244,19 @@ const pillars = [
 
   <!-- ============ CLOSING CTA ============ -->
   <section class="relative">
-    <WaveDivider fill="var(--color-sea-950)" />
-    <div class="bg-sea-950 pb-4 pt-16 text-center sm:pt-20">
+    <WaveDivider fill="var(--color-bark-950)" />
+    <div class="bg-bark-950 pb-4 pt-16 text-center sm:pt-20">
       <div class="mx-auto max-w-3xl px-5">
-        <svg class="mx-auto h-8 w-8 text-sun-400" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
-          <path d="M6 0l1.4 4.6L12 6l-4.6 1.4L6 12 4.6 7.4 0 6l4.6-1.4Z"></path>
-        </svg>
-        <h2 class="reveal mt-6 font-display text-4xl font-semibold italic text-shell sm:text-5xl">
+        <SunRays class="mx-auto h-16 w-16" color="var(--color-marigold-400)" />
+        <h2 class="reveal mt-6 font-display text-4xl font-semibold italic text-paper sm:text-5xl">
           For R200 a night, a child who has only heard of the ocean can fall asleep to the sound of it.
         </h2>
-        <p class="mt-6 text-lg text-sand-100/75">
+        <p class="mt-6 text-lg text-cream-100/75">
           Sponsor a holiday, book a stay that funds one, or simply come lend a hand.
         </p>
         <div class="mt-9 flex flex-wrap justify-center gap-4 pb-10">
-          <a href="/get-involved" class="btn btn-coral">Get involved</a>
-          <a href="/what-we-do" class="btn btn-shell">See what we do</a>
+          <a href="/get-involved" class="btn btn-marigold">Get involved</a>
+          <a href="/what-we-do" class="btn btn-paper">See what we do</a>
         </div>
       </div>
     </div>

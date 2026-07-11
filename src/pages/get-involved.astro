@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import WaveDivider from '../components/WaveDivider.astro';
+import SunRays from '../components/SunRays.astro';
 import { getSettings } from '../lib/cms';
 
 const settings = await getSettings();
@@ -32,17 +33,18 @@ const roles = [
 
 <Layout title="Get Involved" description="Sponsor a child's holiday, book a stay, volunteer or reach out — every bit helps send a child to the sea.">
   <!-- ============ PAGE HERO ============ -->
-  <section class="bg-sea-950">
-    <div class="mx-auto max-w-6xl px-5 pb-16 pt-24 text-center sm:pt-32">
-      <p class="fade-up text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-sun-300" style="--d: 0.05s">Get involved</p>
-      <h1 class="fade-up mx-auto mt-4 max-w-3xl font-display text-5xl font-semibold text-shell sm:text-6xl" style="--d: 0.18s">
+  <section class="bg-bark-950">
+    <div class="mx-auto max-w-6xl px-5 pb-16 pt-24 text-center sm:pt-28">
+      <SunRays class="fade-up mx-auto h-16 w-16" style="--d: 0s" />
+      <p class="fade-up mt-4 text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-marigold-300" style="--d: 0.05s">Get involved</p>
+      <h1 class="fade-up mx-auto mt-4 max-w-3xl font-display text-5xl font-semibold text-paper sm:text-6xl" style="--d: 0.18s">
         Help a child meet the ocean.
       </h1>
-      <p class="fade-up mx-auto mt-6 max-w-xl text-lg text-sand-100/80" style="--d: 0.32s">
+      <p class="fade-up mx-auto mt-6 max-w-xl text-lg text-cream-100/80" style="--d: 0.32s">
         However you join in — sponsoring, staying, volunteering — it all flows the same way.
       </p>
     </div>
-    <WaveDivider fill="var(--color-shell)" />
+    <WaveDivider fill="var(--color-paper)" />
   </section>
 
   <!-- ============ WAYS TO HELP ============ -->
@@ -54,15 +56,15 @@ const roles = [
             <article
               class={`reveal flex flex-col rounded-[1.8rem] p-8 ${
                 w.accent
-                  ? 'bg-coral-500 text-shell shadow-[0_24px_48px_-20px_rgb(217_84_46/0.55)]'
-                  : 'bg-sand-100 text-ink'
+                  ? 'bg-marigold-500 text-paper shadow-[0_24px_48px_-20px_rgb(209_119_14/0.6)]'
+                  : 'bg-cream-100 text-cocoa'
               }`}
             >
-              <h2 class={`font-display text-2xl font-semibold ${w.accent ? 'text-shell' : 'text-sea-900'}`}>{w.title}</h2>
-              <p class={`mt-4 flex-1 ${w.accent ? 'text-shell/90' : 'text-ink/75'}`}>{w.text}</p>
+              <h2 class={`font-display text-2xl font-semibold ${w.accent ? 'text-paper' : 'text-bark-900'}`}>{w.title}</h2>
+              <p class={`mt-4 flex-1 ${w.accent ? 'text-paper/90' : 'text-cocoa/80'}`}>{w.text}</p>
               <a
                 href={`mailto:${settings.contact.email}?subject=${encodeURIComponent(w.title + " — Pa's Place")}`}
-                class={`btn mt-7 self-start ${w.accent ? 'bg-shell !text-coral-600 hover:bg-sand-100' : 'btn-sea'}`}
+                class={`btn mt-7 self-start ${w.accent ? 'bg-paper !text-marigold-600 hover:bg-cream-100' : 'btn-bark'}`}
               >
                 Email us about this
               </a>
@@ -70,7 +72,7 @@ const roles = [
           ))
         }
       </div>
-      <p class="reveal mx-auto mt-10 max-w-2xl text-center text-ink/70">
+      <p class="reveal mx-auto mt-10 max-w-2xl text-center text-cocoa/75">
         Prefer to give directly? Contact us for our banking details — and tell us if you&rsquo;d like your gift
         to sponsor a specific retreat.
       </p>
@@ -79,13 +81,13 @@ const roles = [
 
   <!-- ============ VOLUNTEER ============ -->
   <section class="relative">
-    <WaveDivider fill="var(--color-sand-100)" />
-    <div class="bg-sand-100 py-16 sm:py-20">
+    <WaveDivider fill="var(--color-cream-100)" />
+    <div class="bg-cream-100 py-16 sm:py-20">
       <div class="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-[1fr_1.2fr]">
         <div class="reveal">
-          <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-coral-500">Volunteer</p>
-          <h2 class="mt-4 text-4xl font-semibold text-sea-900">Come lend a hand</h2>
-          <p class="mt-5 max-w-md text-lg text-ink/80">
+          <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-marigold-600">Volunteer</p>
+          <h2 class="mt-4 text-4xl font-semibold text-bark-900">Come lend a hand</h2>
+          <p class="mt-5 max-w-md text-lg text-cocoa/85">
             Retreats run on many hands. If you have a free weekend and any of these instincts, we would love
             to meet you.
           </p>
@@ -93,9 +95,9 @@ const roles = [
         <ul class="space-y-4">
           {
             roles.map(([role, blurb]) => (
-              <li class="reveal flex items-baseline justify-between gap-6 rounded-2xl bg-shell px-6 py-4 shadow-sm">
-                <span class="font-display text-lg font-semibold text-sea-900">{role}</span>
-                <span class="text-right text-sm text-ink/60">{blurb}</span>
+              <li class="reveal flex items-baseline justify-between gap-6 rounded-2xl bg-paper px-6 py-4 shadow-sm">
+                <span class="font-display text-lg font-semibold text-bark-900">{role}</span>
+                <span class="text-right text-sm text-cocoa/65">{blurb}</span>
               </li>
             ))
           }
@@ -107,32 +109,32 @@ const roles = [
   <!-- ============ CONTACT ============ -->
   <section class="py-16 sm:py-24">
     <div class="mx-auto max-w-3xl px-5 text-center">
-      <h2 class="reveal text-4xl font-semibold text-sea-900 sm:text-5xl">
-        Or just <em class="squiggle font-display italic text-sea-700">say hello</em>
+      <h2 class="reveal text-4xl font-semibold text-bark-900 sm:text-5xl">
+        Or just <em class="squiggle font-display italic text-sea-600">say hello</em>
       </h2>
-      <p class="reveal mt-5 text-lg text-ink/80">
+      <p class="reveal mt-5 text-lg text-cocoa/85">
         {settings.contact.person ? `Ask for ${settings.contact.person}.` : ''} We answer quickest by phone.
       </p>
       <div class="reveal mt-9 flex flex-wrap justify-center gap-4">
         {
           settings.contact.phone && (
-            <a href={`tel:${settings.contact.phoneLink || settings.contact.phone}`} class="btn btn-coral">
+            <a href={`tel:${settings.contact.phoneLink || settings.contact.phone}`} class="btn btn-marigold">
               Call {settings.contact.phone}
             </a>
           )
         }
         {
           settings.contact.email && (
-            <a href={`mailto:${settings.contact.email}`} class="btn btn-sea">
+            <a href={`mailto:${settings.contact.email}`} class="btn btn-bark">
               {settings.contact.email}
             </a>
           )
         }
       </div>
-      <p class="mt-8 text-ink/60">{settings.contact.address}</p>
+      <p class="mt-8 text-cocoa/65">{settings.contact.address}</p>
       {
         settings.contact.mapUrl && (
-          <a class="mt-2 inline-block font-bold text-sea-700 underline-offset-4 hover:underline" href={settings.contact.mapUrl}>
+          <a class="mt-2 inline-block font-bold text-sea-800 underline-offset-4 hover:underline" href={settings.contact.mapUrl}>
             Open the map &rarr;
           </a>
         )

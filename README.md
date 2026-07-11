@@ -18,6 +18,8 @@ npm run dev
 - Site: http://localhost:4321
 - CMS admin: http://localhost:4321/keystatic (local mode — edits write straight to your working copy; commit them like any other change)
 
+The CMS admin is protected by HTTP Basic Auth — default credentials `admin` / `rootpass`, overridable via `CMS_USER` / `CMS_PASSWORD` env vars. **Change these on the Railway service before going live.**
+
 ## Build & run
 
 ```bash
