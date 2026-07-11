@@ -10,7 +10,7 @@ Rebuild the Pa's Place website from the ground up on a lightweight, fast stack, 
 
 ## Decisions
 
-### Framework: Astro 5
+### Framework: Astro (v7 at time of scaffold)
 
 - Static-first: public pages ship as plain HTML/CSS with zero JavaScript unless a component opts in.
 - Node adapter (standalone) so the app runs as a small server on Railway; the Keystatic admin routes require server rendering, while all public pages remain prerendered.

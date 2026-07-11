@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pa's Place Website (v2)
 
-## Getting Started
+Ground-up rebuild of the Pa's Place website on a lightweight stack:
 
-First, run the development server:
+- **[Astro 7](https://astro.build)** — static-first framework; public pages ship zero JavaScript. Runs as a small Node server (standalone adapter) on Railway.
+- **[Tailwind CSS v4](https://tailwindcss.com)** — styling.
+- **[Keystatic](https://keystatic.com)** — git-based CMS. Admin UI at `/keystatic` writes content (JSON/Markdown) and images into this repo.
+
+Design docs live in [docs/superpowers/specs/](docs/superpowers/specs/). The previous Next.js site is preserved in git history on `main` (pre-overhaul).
+
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Site: http://localhost:4321
+- CMS admin: http://localhost:4321/keystatic (local mode — edits write straight to your working copy; commit them like any other change)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Build & run
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+node ./dist/server/entry.mjs
+```
 
-## Learn More
+## Deployment (Railway)
 
-To learn more about Next.js, take a look at the following resources:
+`railway.json` sets the build (`npm run build`) and start (`node ./dist/server/entry.mjs`) commands. Railway provides `PORT`; `HOST=0.0.0.0` is set in the start command.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Enabling CMS editing on the live site
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Keystatic runs in **local** storage mode by default (dev only). For staff to edit from the deployed site, switch to **GitHub** mode:
 
-## Deploy on Vercel
+1. Visit `/keystatic` on the deployed site (or run the Keystatic GitHub setup locally) and follow the flow to create a GitHub App for this repo.
+2. Set these variables on the Railway service:
+   - `KEYSTATIC_STORAGE=github`
+   - `KEYSTATIC_GITHUB_REPO_OWNER` / `KEYSTATIC_GITHUB_REPO_NAME`
+   - `KEYSTATIC_GITHUB_CLIENT_ID` / `KEYSTATIC_GITHUB_CLIENT_SECRET` / `KEYSTATIC_SECRET` (from the GitHub App)
+3. Staff sign in with GitHub accounts that have access to the repo. Published edits are commits, which trigger a Railway redeploy (~1–2 min to go live).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+  pages/        # routes
+  components/   # .astro components
+  layouts/
+  content/      # Keystatic-managed content (settings, page content)
+  assets/       # images (Astro-optimized at build)
+keystatic.config.ts   # CMS schema
+astro.config.mjs
+railway.json
+```

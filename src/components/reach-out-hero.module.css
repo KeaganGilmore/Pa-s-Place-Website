@@ -1,9 +1,0 @@
-.hero {
-  background-image: url('../../public/reach-out/bg.jpg');
-  opacity: 0.8;
-  height: 100vh; /* Adjusted height */
-}
-
-.absolute.top-[200px] {
-  margin-top: 50px; /* Added margin-top */
-}
