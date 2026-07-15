@@ -1,0 +1,81 @@
+---
+// The front door: a bright day at the beach. Joyful photo, one warm
+// promise, two clear paths (book / sponsor), and the facts that make
+// booking feel safe. The bedtime-story pages live deeper in the book.
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Sunburst from '../Sunburst.astro';
+import Dove from '../Dove.astro';
+import TornEdge from '../TornEdge.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  priceChip?: string;
+}
+const { eyebrow, title, subtitle, image, imageAlt, priceChip } = Astro.props;
+
+const chips = [priceChip && `from ${priceChip}`, '2 minutes from the beach', 'registered NPC'].filter(
+  Boolean
+) as string[];
+---
+
+<section class="relative flex min-h-[92svh] items-end overflow-hidden bg-cream-200" aria-label="Welcome to Pa's Place">
+  <!-- mirrored so the open sand sits under the card and the play stays visible -->
+  <Image
+    src={image}
+    alt={imageAlt}
+    widths={[640, 1024, 1440, 1820]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+    class="absolute inset-0 h-full w-full -scale-x-100 object-cover object-[68%_50%] md:object-[32%_50%]"
+  />
+  <!-- warm scrim so the card and chips always read -->
+  <div class="absolute inset-0 bg-gradient-to-t from-bark-950/60 via-bark-950/10 to-marigold-300/20" aria-hidden="true"></div>
+
+  <!-- the sun of the book, peeking in -->
+  <Sunburst class="absolute -right-12 -top-14 h-44 w-44 opacity-90 sm:-right-8 sm:h-56 sm:w-56" color="#fbc968" spin />
+
+  <!-- the dove crosses the morning -->
+  <div class="absolute left-[6%] top-[12%] w-16 opacity-95 sm:w-20" aria-hidden="true">
+    <Dove class="h-auto w-full" />
+  </div>
+
+  <div class="relative z-10 mx-auto w-full max-w-6xl px-5 pb-12 pt-36 sm:pb-14">
+    <div class="relative max-w-2xl rounded-[1.6rem] bg-paper/95 p-6 shadow-[0_30px_60px_-30px_rgb(24_18_10/0.7)] sm:p-9">
+      <span class="tape" aria-hidden="true"></span>
+      <p class="hand fade-up text-xl text-marigold-600 sm:text-2xl" style="--d: 0.05s">{eyebrow}</p>
+      <h1 class="fade-up mt-2 font-display text-[2.4rem] font-semibold leading-[1.06] text-bark-900 sm:text-5xl" style="--d: 0.16s">
+        {title}
+      </h1>
+      <p class="fade-up mt-4 max-w-xl text-lg text-cocoa/85" style="--d: 0.28s">
+        {subtitle}
+      </p>
+      <div class="fade-up mt-7 flex flex-wrap items-center gap-4" style="--d: 0.4s">
+        <a href="/book-a-stay" class="btn btn-marigold">Book a stay</a>
+        <a href="/get-involved" class="btn btn-bark">Sponsor a holiday</a>
+      </div>
+      <p class="fade-up mt-5" style="--d: 0.5s">
+        <a href="/our-story" class="hand text-xl text-bark-700/85 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900">
+          or start with the story of Pa&rsquo;s Place &rarr;
+        </a>
+      </p>
+    </div>
+
+    <ul class="fade-up mt-5 flex flex-wrap gap-2.5" style="--d: 0.6s">
+      {
+        chips.map((c) => (
+          <li class="rounded-full border border-paper/50 bg-bark-950/45 px-4 py-1.5 text-sm font-bold text-paper backdrop-blur-sm">
+            {c}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <TornEdge fill="var(--color-paper)" class="absolute inset-x-0 bottom-0 z-10" seed={43} />
+</section>

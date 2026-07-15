@@ -1,13 +1,14 @@
 ---
 import type { ImageMetadata } from 'astro';
 import Layout from '../layouts/Layout.astro';
-import SceneCover from '../components/story/scenes/SceneCover.astro';
+import HeroDay from '../components/story/scenes/HeroDay.astro';
 import StayBand from '../components/story/scenes/StayBand.astro';
 import MissionMoment from '../components/story/scenes/MissionMoment.astro';
 import SceneTides from '../components/story/scenes/SceneTides.astro';
 import SceneAlbum from '../components/story/scenes/SceneAlbum.astro';
 import SceneTurnPage from '../components/story/scenes/SceneTurnPage.astro';
 import { getGallery, getHomepage, getSettings } from '../lib/cms';
+import firstSea from '../assets/images/hero-first-sea.webp';
 
 const homepage = await getHomepage();
 const gallery = await getGallery();
@@ -30,11 +31,25 @@ const photos = gallery
 const whatsapp = settings.contact.phoneLink
   ? `https://wa.me/${settings.contact.phoneLink.replace(/[^0-9]/g, '')}`
   : undefined;
+
+// "R200 per person per night (minimum 4 people)" → chip-sized "R200 per person per night"
+const priceChip = settings.pricing.accommodation?.split(' (')[0];
 ---
 
-<Layout headerTheme="night">
+<Layout>
   <div id="storybook">
-    <SceneCover eyebrow={homepage.heroEyebrow ?? ''} title={homepage.heroTitle ?? ''} subtitle={homepage.heroSubtitle ?? ''} />
+    {
+      heroImage && (
+        <HeroDay
+          eyebrow={homepage.heroEyebrow ?? ''}
+          title={homepage.heroTitle ?? ''}
+          subtitle={homepage.heroSubtitle ?? ''}
+          image={heroImage}
+          imageAlt="Children playing ball on the golden beach in the late afternoon sun"
+          priceChip={priceChip}
+        />
+      )
+    }
     <StayBand
       photo={houseImage}
       photoAlt={house?.alt ?? "The Pa's Place house"}
@@ -43,14 +58,10 @@ const whatsapp = settings.contact.phoneLink
       phoneLink={settings.contact.phoneLink}
       whatsapp={whatsapp}
     />
-    {
-      heroImage && (
-        <MissionMoment
-          photo={heroImage}
-          photoAlt="A grandfather and child walking hand in hand through the dunes toward the sea"
-        />
-      )
-    }
+    <MissionMoment
+      photo={firstSea}
+      photoAlt="A grandfather and child walking hand in hand through the dunes toward the sea"
+    />
     <SceneTides />
     <SceneAlbum photos={photos} />
     <SceneTurnPage />

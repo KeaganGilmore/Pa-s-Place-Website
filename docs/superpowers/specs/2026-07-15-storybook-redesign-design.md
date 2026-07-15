@@ -144,3 +144,30 @@ What changed:
   rAF to ~0, which starves scrubbed/ticker animations and CSS-transition
   *rendering* — verify end states by forcing frames, and prefer time-based
   CSS transitions for one-shot effects.
+
+## v3.2 hero revision — research-driven day hero (same day, user direction)
+
+The night cover + booking buttons read as "the worst of both worlds": a somber
+front door for guests, a cluttered one for donors. Researched comparable
+charity-plus-accommodation organisations:
+
+- **Family Holiday Charity** — "Making memories happen" over a joyful bright
+  beach photo; deficit stats *after* the hero; action tiles per audience.
+- **Give Kids The World Village** — "We fulfill dream wishes"; bright resort
+  photography; donation asks secondary.
+- **National Trust Holidays** — booking search as the hero; mission woven in
+  as "the money you spend directly supports our work"; award trust signals.
+- **YHA** — charity hostel network; book-direct-first, "every stay supports".
+
+Applied pattern: the hero is now a **bright golden-hour film photo of children
+playing on the beach** (generated 1820×1024 via Recraft in the established
+35mm Kodak language, mirrored so the action sits clear of the copy), with a
+taped paper card: positive fused headline ("A beach holiday that gives one
+back."), dual CTAs (Book primary / Sponsor secondary), a handwritten story
+link, and trust chips (price · 2 min from beach · registered NPC). Night
+imagery now lives only in the back-cover footer and Our Story. The deficit
+line stays with the mission iris further down the page.
+
+Also fixed: `npm uninstall gsap` had pruned **sharp** (a phantom transitive
+dep) which silently 500'd every dev `/_image` request — sharp is now an
+explicit dependency.

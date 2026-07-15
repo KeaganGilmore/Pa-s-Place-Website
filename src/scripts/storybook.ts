@@ -18,21 +18,6 @@ function buildStorybook() {
 
   const stillBook = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---- cover: the night sky drifts as the reader leaves it ---- */
-  const moon = root.querySelector<SVGElement>('[data-cover-moon]');
-  const stars = root.querySelector<HTMLElement>('[data-cover-stars]');
-  const far = root.querySelector<SVGGElement>('[data-cover-far]');
-  if (!stillBook && moon && stars && far) {
-    const drift = () => {
-      const s = Math.min(Math.max(window.scrollY, 0), window.innerHeight);
-      moon.style.transform = `translateY(${(s * 0.4).toFixed(1)}px)`;
-      stars.style.transform = `translateY(${(s * 0.18).toFixed(1)}px)`;
-      far.style.transform = `translateY(${((-26 * s) / window.innerHeight).toFixed(1)}px)`;
-    };
-    window.addEventListener('scroll', drift, { passive: true, signal });
-    drift();
-  }
-
   /* ---- mission: the drawing opens into the photograph, once ---- */
   const mission = root.querySelector<HTMLElement>('[data-scene="mission"]');
   if (!stillBook && mission && 'IntersectionObserver' in window) {
