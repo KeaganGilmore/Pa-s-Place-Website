@@ -2,134 +2,107 @@
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
-import ChapterHeader from '../components/story/ChapterHeader.astro';
+import StoryNight from '../components/story/scenes/StoryNight.astro';
+import StoryDream from '../components/story/scenes/StoryDream.astro';
+import StoryJourney from '../components/story/scenes/StoryJourney.astro';
+import MissionMoment from '../components/story/scenes/MissionMoment.astro';
+import StoryEnd from '../components/story/scenes/StoryEnd.astro';
 import TornEdge from '../components/story/TornEdge.astro';
-import Stars from '../components/story/Stars.astro';
-import Dove from '../components/story/Dove.astro';
-import { getGallery, getSettings } from '../lib/cms';
+import { getGallery } from '../lib/cms';
 import coastline from '../assets/images/coastline.webp';
+import firstSea from '../assets/images/hero-first-sea.webp';
 
-const settings = await getSettings();
 const gallery = await getGallery();
-
 const allImages = import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/images/**/*.{webp,jpg,jpeg,png}',
   { eager: true }
 );
 const house = gallery.find((g) => g.slug === 'the-house');
-const houseImage = house ? allImages[house.image!]?.default : undefined;
+const houseImage = house?.image ? allImages[house.image]?.default : undefined;
 ---
 
-<Layout title="Our Story" description="Why Pa's Place exists — a retreat in Pennington, KZN giving coastal holidays to disadvantaged children.">
-  <ChapterHeader
-    chapter="one"
-    title="A breath of true holiday can relax the most troubled of young minds."
-    note="why there is a place called Pa's, and why its door is always sandy"
-    seed={57}
-  />
+<Layout
+  title="Our Story"
+  description="The story of Pa's Place — a nonprofit in Pennington, KZN giving children who have never seen the sea their first seaside holiday."
+  headerTheme="night"
+>
+  <div id="storybook">
+    <StoryNight />
+    <StoryDream />
+    <StoryJourney />
+    <MissionMoment
+      photo={firstSea}
+      photoAlt="A grandfather and child walking hand in hand through the dunes toward the sea"
+    />
 
-  <!-- ============ THE STORY, TOLD ============ -->
-  <section class="bg-paper py-14 sm:py-20">
-    <div class="mx-auto grid max-w-6xl gap-14 px-5 lg:grid-cols-[1.2fr_1fr]">
-      <div class="max-w-xl space-y-6 text-lg text-cocoa/90">
-        <p class="reveal drop-cap">
-          Pa&rsquo;s Place Non-Profit Company was founded with a simple mission: <strong class="text-bark-900">giving coastal, fun-filled holidays to disadvantaged children.</strong> Based in Kelso,
-          Pennington, on KwaZulu-Natal&rsquo;s south coast, we provide affordable, comfortable,
-          peaceful and activity-filled beachside accommodation.
-        </p>
-        <p class="reveal">
-          But Pa&rsquo;s Place is more than accommodation. It&rsquo;s a retreat — one that lifts children out of
-          buildings, classrooms and familiar concerns. With attention to communication, care with questions
-          and energy toward activities, we&rsquo;ve learned how deeply a real holiday can settle a young mind.
-        </p>
-        <p class="reveal">
-          Our days move with the tides — through the noisiest and the quietest hours. Beach going, trail
-          walking, nature seeking, sports playing, team building, music and arts creating, unique foods
-          preparing. And woven through all of it: learning. Whether it&rsquo;s a piece of marine life in a rock
-          pool or a fruit hanging from a tree, children leave Pa&rsquo;s Place knowing something they didn&rsquo;t
-          know before.
-        </p>
-        <p class="reveal">
-          Our premises offer a quiet setting where natural creativity can spark into fun-filled noise — and
-          our naturally abundant town is just the beginning. We aim to take children far and wide, to the
-          most beautiful places KwaZulu-Natal holds.
-        </p>
-
-        <blockquote class="reveal !mt-10 border-l-4 border-marigold-400 pl-5">
-          <p class="font-display text-2xl font-semibold italic text-bark-900">
-            Every stay carries a little learning &mdash; and a lot of sea air.
+    <!-- ============ THE STORY, TOLD ============ -->
+    <section class="relative bg-paper" aria-label="What Pa's Place is">
+      <TornEdge fill="var(--color-paper)" seed={97} class="relative z-10 -mt-[25px] sm:-mt-[35px]" />
+      <div class="mx-auto grid max-w-6xl gap-14 px-5 py-14 sm:py-20 lg:grid-cols-[1.2fr_1fr]">
+        <div class="max-w-xl space-y-6 text-lg text-cocoa/90">
+          <p class="hand !-mb-2 text-2xl text-marigold-600">so, plainly then:</p>
+          <p class="reveal drop-cap">
+            Pa&rsquo;s Place Non-Profit Company was founded with a simple mission: <strong class="text-bark-900">giving coastal, fun-filled holidays to disadvantaged children.</strong> Based in Kelso,
+            Pennington, on KwaZulu-Natal&rsquo;s south coast, we provide affordable, comfortable,
+            peaceful and activity-filled beachside accommodation.
           </p>
-        </blockquote>
-      </div>
+          <p class="reveal">
+            But Pa&rsquo;s Place is more than accommodation. It&rsquo;s a retreat — one that lifts children out of
+            buildings, classrooms and familiar concerns. With attention to communication, care with questions
+            and energy toward activities, we&rsquo;ve learned how deeply a real holiday can settle a young mind.
+          </p>
+          <p class="reveal">
+            Our days move with the tides — through the noisiest and the quietest hours. Beach going, trail
+            walking, nature seeking, sports playing, team building, music and arts creating, unique foods
+            preparing. And woven through all of it: learning. Whether it&rsquo;s a piece of marine life in a rock
+            pool or a fruit hanging from a tree, children leave Pa&rsquo;s Place knowing something they didn&rsquo;t
+            know before.
+          </p>
+          <p class="reveal">
+            The holidays are funded by sponsors — and by the ordinary paying guests who book the house for
+            their own family holidays. That&rsquo;s the whole machine: <strong class="text-bark-900">every stay helps fund the next child&rsquo;s first look at the sea.</strong>
+          </p>
 
-      <aside class="reveal self-start lg:sticky lg:top-28">
-        {
-          houseImage && (
-            <figure class="keepsake mx-auto max-w-sm !rotate-1">
-              <Image
-                src={houseImage}
-                alt={house?.alt ?? "The Pa's Place house"}
-                widths={[480, 760]}
-                sizes="(min-width: 1024px) 30vw, 90vw"
-                class="aspect-[4/3] w-full object-cover"
-              />
-              <figcaption class="hand pt-3 text-center text-[1.4rem] text-cocoa/85">{house?.caption}</figcaption>
-            </figure>
-          )
-        }
-        <figure class="keepsake mx-auto mt-12 max-w-sm !-rotate-1">
-          <Image
-            src={coastline}
-            alt="The Pennington coastline — a golden beach and an old bench facing the sea"
-            widths={[480, 760]}
-            sizes="(min-width: 1024px) 30vw, 90vw"
-            class="aspect-[4/3] w-full object-cover"
-          />
-          <figcaption class="hand pt-3 text-center text-[1.4rem] text-cocoa/85">our stretch of the Indian Ocean</figcaption>
-        </figure>
-        <div class="relative mt-12 rounded-[1.4rem] border-2 border-bark-900/10 bg-cream-100 p-7">
-          <span class="tape" aria-hidden="true"></span>
-          <h2 class="font-display text-xl font-semibold text-bark-900">Where you&rsquo;ll find us</h2>
-          <p class="mt-3 whitespace-pre-line text-cocoa/80">{settings.contact.address}</p>
+          <blockquote class="reveal !mt-10 border-l-4 border-marigold-400 pl-5">
+            <p class="font-display text-2xl font-semibold italic text-bark-900">
+              Every stay carries a little learning &mdash; and a lot of sea air.
+            </p>
+          </blockquote>
+        </div>
+
+        <aside class="reveal self-start lg:sticky lg:top-28">
           {
-            settings.contact.mapUrl && (
-              <a class="hand mt-3 inline-block text-xl text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900" href={settings.contact.mapUrl}>
-                open the map &rarr;
-              </a>
+            houseImage && (
+              <figure class="keepsake mx-auto max-w-sm !rotate-1">
+                <Image
+                  src={houseImage}
+                  alt={house?.alt ?? "The Pa's Place house"}
+                  widths={[480, 760]}
+                  sizes="(min-width: 1024px) 30vw, 90vw"
+                  class="aspect-[4/3] w-full object-cover"
+                />
+                <figcaption class="hand pt-3 text-center text-[1.4rem] text-cocoa/85">{house?.caption}</figcaption>
+              </figure>
             )
           }
-        </div>
-      </aside>
-    </div>
-  </section>
-
-  <!-- ============ THE DREAM, AGAIN ============ -->
-  <section class="relative">
-    <TornEdge fill="var(--color-night-900)" seed={61} />
-    <div class="relative overflow-hidden bg-night-900 py-16 sm:py-20">
-      <Stars class="absolute inset-0 h-full w-full opacity-80" count={40} seed={37} />
-      <div class="absolute right-[8%] top-8 w-20 sm:w-24">
-        <Dove class="h-auto w-full" star />
+          <figure class="keepsake mx-auto mt-12 max-w-sm !-rotate-1">
+            <Image
+              src={coastline}
+              alt="The Pennington coastline — a golden beach and an old bench facing the sea"
+              widths={[480, 760]}
+              sizes="(min-width: 1024px) 30vw, 90vw"
+              class="aspect-[4/3] w-full object-cover"
+            />
+            <figcaption class="hand pt-3 text-center text-[1.4rem] text-cocoa/85">our stretch of the Indian Ocean</figcaption>
+          </figure>
+        </aside>
       </div>
-      <div class="relative mx-auto max-w-3xl px-5 text-center">
-        <p class="hand reveal text-2xl text-marigold-300">the part we can&rsquo;t forget</p>
-        <h2 class="reveal mt-3 font-display text-4xl font-semibold italic text-moon sm:text-5xl">
-          Most of the children we host have never seen the sea.
-        </h2>
-        <p class="reveal mx-auto mt-6 max-w-xl text-lg text-cream-100/80">
-          Most disadvantaged children can only travel to the coast during school holidays — many never get
-          the chance at all. It is our mission to sponsor holidays for children who have not yet been able
-          to see the sea, and to keep our doors affordable for the families who need rest most.
-        </p>
-        <a href="/get-involved" class="btn btn-marigold btn-on-night mt-9">Help send a child to the sea</a>
-      </div>
-    </div>
-    <TornEdge fill="var(--color-paper)" flip seed={63} class="bg-night-900" />
-  </section>
+    </section>
 
-  <div class="bg-paper pb-20 pt-10 text-center">
-    <p class="hand text-2xl text-bark-700/70">
-      next: <a href="/what-we-do" class="text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900">chapter two &mdash; what we do &rarr;</a>
-    </p>
+    <StoryEnd />
   </div>
 </Layout>
+
+<script>
+  import '../scripts/storybook';
+</script>

@@ -1,0 +1,29 @@
+---
+// Where we are, plainly.
+import TornEdge from '../story/TornEdge.astro';
+
+interface Props {
+  address: string;
+  mapUrl?: string | null;
+}
+const { address, mapUrl } = Astro.props;
+---
+
+<section class="relative" aria-label="Where to find us">
+  <TornEdge fill="var(--color-cream-100)" seed={91} class="bg-paper" />
+  <div class="bg-cream-100 py-14 sm:py-16">
+    <div class="mx-auto grid max-w-6xl items-center gap-10 px-5 md:grid-cols-[1fr_auto]">
+      <div>
+        <p class="hand text-2xl text-marigold-600">finding us</p>
+        <h2 class="mt-2 font-display text-3xl font-semibold text-bark-900 sm:text-4xl">Kelso, Pennington &mdash; the quiet bit of the South Coast</h2>
+        <p class="mt-4 max-w-xl whitespace-pre-line text-lg text-cocoa/85">{address}</p>
+        <p class="hand mt-3 text-xl text-bark-700/75">about an hour south of Durban, and two minutes from the water</p>
+      </div>
+      <div class="flex flex-wrap gap-4 md:flex-col">
+        {mapUrl && <a href={mapUrl} class="btn btn-marigold">Open the map</a>}
+        <a href="/book-a-stay" class="btn btn-paper">Book a stay</a>
+      </div>
+    </div>
+  </div>
+  <TornEdge fill="var(--color-paper)" flip seed={93} class="bg-cream-100" />
+</section>

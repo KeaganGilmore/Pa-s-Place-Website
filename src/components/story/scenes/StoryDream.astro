@@ -1,0 +1,116 @@
+---
+// Page one: the dream. A sea the child has never seen, imagined at night —
+// rolling moonlit waves, a paper boat, and the dove gliding through with a
+// star. All ambient CSS; nothing is scrubbed or pinned.
+import Dove from '../Dove.astro';
+import Stars from '../Stars.astro';
+
+const wavePath = (width: number, height: number, baseY: number, amp: number, seg: number, seed: number) => {
+  let a = seed;
+  const rand = () => {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  let d = `M0,${baseY}`;
+  for (let x = 0; x < width; x += seg) {
+    const a1 = amp * (0.7 + rand() * 0.6);
+    d += ` C${x + seg * 0.32},${baseY - a1} ${x + seg * 0.68},${baseY + a1 * 0.75} ${x + seg},${baseY}`;
+  }
+  return { band: `${d} L${width},${height} L0,${height} Z`, crest: d };
+};
+
+const W = 2880;
+const back = wavePath(W, 340, 84, 20, 288, 2);
+const mid = wavePath(W, 340, 72, 26, 240, 9);
+const front = wavePath(W, 340, 58, 30, 320, 17);
+
+const questions = [
+  { text: 'is it bigger than the river?', cls: 'left-[6%] top-[44%] sm:left-[10%] sm:top-[34%]' },
+  { text: 'does it really roar?', cls: 'right-[6%] top-[36%] sm:right-[14%] sm:top-[27%]' },
+  { text: 'how salty is salty?', cls: 'left-[14%] top-[54%] sm:left-[24%] sm:top-[48%]' },
+];
+---
+
+<section
+  id="the-dream"
+  class="relative min-h-[96svh] overflow-hidden"
+  style="background: linear-gradient(to bottom, var(--color-night-800) 0%, var(--color-night-900) 78%, var(--color-night-900) 100%);"
+  aria-label="Page one — the dream"
+>
+  <Stars class="absolute inset-x-0 top-0 h-[46svh] w-full opacity-70" count={30} seed={13} />
+
+  <!-- moonlight on the dream water -->
+  <div
+    class="absolute bottom-0 left-[58%] top-[55%] w-40 -translate-x-1/2 opacity-[0.13]"
+    style="background: linear-gradient(to bottom, transparent, #f7ecd2 45%, #f7ecd2 100%); filter: blur(26px);"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="pointer-events-none relative z-20 mx-auto max-w-4xl px-5 pt-[13svh] text-center sm:pt-[15svh]">
+    <p class="reveal hand text-2xl text-marigold-300">at night, some of them dream of it &mdash;</p>
+    <h2 class="reveal mt-3 font-display text-4xl font-semibold italic text-moon sm:text-5xl lg:text-6xl">
+      a sea they know only<br />from bedtime stories.
+    </h2>
+  </div>
+
+  {
+    questions.map((q, i) => (
+      <p
+        class={`reveal hand pointer-events-none absolute z-20 text-xl text-dove-200/80 sm:text-2xl ${q.cls}`}
+        style={`rotate: ${i % 2 === 0 ? '-3deg' : '2.5deg'}`}
+      >
+        {q.text}
+      </p>
+    ))
+  }
+
+  <!-- the dove, carrying a wished-on star -->
+  <div class="absolute left-[12%] top-[40%] z-20 w-24 sm:left-[16%] sm:w-32">
+    <div class="bob">
+      <Dove class="h-auto w-full" star />
+    </div>
+  </div>
+
+  <!-- dream waves (strips start off-left so the waft sway never shows an edge) -->
+  <div class="absolute bottom-[16svh] left-[-4%] z-[5] w-[208%]">
+    <svg class="waft block h-[26svh] w-full" viewBox={`0 0 ${W} 340`} preserveAspectRatio="none" aria-hidden="true">
+      <path d={back.band} fill="var(--color-night-300)" opacity="0.3"></path>
+      <path d={back.crest} fill="none" stroke="var(--color-dove-200)" stroke-opacity="0.25" stroke-width="3"></path>
+    </svg>
+  </div>
+
+  <!-- the paper boat rides the middle water -->
+  <div class="absolute bottom-[23svh] left-[16%] z-[8] w-24 sm:w-32">
+    <div class="bob">
+      <svg class="h-auto w-full drop-shadow-[0_10px_16px_rgba(6,8,20,0.45)]" viewBox="0 0 120 84" fill="none" aria-hidden="true">
+        <path d="M60 12 L60 3 L73 7.5 Z" fill="#f7ae3c"></path>
+        <path d="M60 3 L60 14" stroke="#5c4a36" stroke-width="1.6" stroke-linecap="round"></path>
+        <path d="M60 12 L60 50 L24 50 Z" fill="#fffdf6" stroke="#d8c7a4" stroke-width="1.6" stroke-linejoin="round"></path>
+        <path d="M60 12 L60 50 L96 50 Z" fill="#f6ead1" stroke="#d8c7a4" stroke-width="1.6" stroke-linejoin="round"></path>
+        <path d="M8 52 L112 52 L86 76 L34 76 Z" fill="#fffdf6" stroke="#d8c7a4" stroke-width="1.8" stroke-linejoin="round"></path>
+        <path d="M8 52 L34 76 L34 60 Z" fill="#eedcb6" opacity="0.7"></path>
+        <path d="M112 52 L86 76 L86 60 Z" fill="#eedcb6" opacity="0.7"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="absolute bottom-[7svh] left-[-4%] z-[9] w-[208%]">
+    <svg class="waft-late block h-[24svh] w-full" viewBox={`0 0 ${W} 340`} preserveAspectRatio="none" aria-hidden="true">
+      <path d={mid.band} fill="var(--color-sea-600)" opacity="0.5"></path>
+      <path d={mid.crest} fill="none" stroke="var(--color-dove-200)" stroke-opacity="0.35" stroke-width="3.5" stroke-dasharray="26 14"></path>
+    </svg>
+  </div>
+
+  <div class="absolute bottom-0 left-[-4%] z-10 w-[208%]">
+    <svg class="waft block h-[18svh] w-full" viewBox={`0 0 ${W} 340`} preserveAspectRatio="none" aria-hidden="true">
+      <path d={front.band} fill="var(--color-night-950)"></path>
+      <path d={front.crest} fill="none" stroke="var(--color-night-300)" stroke-opacity="0.5" stroke-width="3"></path>
+    </svg>
+  </div>
+
+  <p class="hand absolute bottom-4 right-6 z-20 text-lg text-cream-100/40">&middot; one &middot;</p>
+</section>

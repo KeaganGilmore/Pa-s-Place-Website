@@ -1,0 +1,119 @@
+---
+// The cover of the storybook: night over the inland hills — far from the
+// sea — one small house with a light still on.
+import Stars from '../Stars.astro';
+import Fireflies from '../Fireflies.astro';
+---
+
+<section
+  class="relative flex min-h-[100svh] flex-col overflow-hidden"
+  style="background: linear-gradient(to bottom, var(--color-night-950) 0%, var(--color-night-900) 62%, var(--color-night-800) 100%);"
+  aria-label="The story begins — far from the sea"
+>
+  <div class="absolute inset-x-0 top-0 h-[70svh]">
+    <Stars class="h-full w-full" count={54} seed={5} />
+  </div>
+
+  <!-- the moon -->
+  <svg class="absolute right-[8%] top-[9%] h-32 w-32 sm:h-44 sm:w-44" viewBox="0 0 200 200" aria-hidden="true">
+    <defs>
+      <radialGradient id="story-moonglow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#f7ecd2" stop-opacity="0.5"></stop>
+        <stop offset="55%" stop-color="#f7ecd2" stop-opacity="0.14"></stop>
+        <stop offset="100%" stop-color="#f7ecd2" stop-opacity="0"></stop>
+      </radialGradient>
+    </defs>
+    <circle cx="100" cy="100" r="96" fill="url(#story-moonglow)"></circle>
+    <circle cx="100" cy="100" r="52" fill="#f7ecd2"></circle>
+    <circle cx="82" cy="88" r="9" fill="#eedcb6" opacity="0.6"></circle>
+    <circle cx="114" cy="118" r="6" fill="#eedcb6" opacity="0.5"></circle>
+    <circle cx="104" cy="78" r="4.5" fill="#eedcb6" opacity="0.45"></circle>
+  </svg>
+
+  <div class="relative z-10 mx-auto w-full max-w-6xl px-5 pb-[42svh] pt-[16svh] sm:pt-[19svh]">
+    <p class="hand fade-up text-xl text-marigold-300 sm:text-2xl" style="--d: 0.1s">
+      the story of Pa&rsquo;s Place &mdash; best read slowly
+    </p>
+    <h1
+      class="fade-up mt-4 max-w-3xl font-display text-[2.7rem] font-semibold leading-[1.05] text-moon sm:text-6xl lg:text-7xl"
+      style="--d: 0.24s"
+    >
+      Some children have never seen the sea.
+    </h1>
+    <p class="fade-up mt-6 max-w-xl text-lg text-cream-100/80 sm:text-xl" style="--d: 0.4s">
+      An hour inland from here — sometimes less — are children who know the ocean only from
+      pictures and other people&rsquo;s stories. This is the story of a place built to change
+      that, one holiday at a time.
+    </p>
+  </div>
+
+  <!-- the inland hills, and one lit window -->
+  <svg
+    class="absolute bottom-0 left-0 h-[46svh] w-full"
+    viewBox="0 0 1440 520"
+    preserveAspectRatio="xMidYMax slice"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path
+      d="M0,318 C120,296 250,276 370,288 C490,300 570,258 706,268 C842,278 964,238 1102,256 C1240,274 1342,250 1440,266 L1440,520 L0,520 Z"
+      fill="var(--color-night-700)"
+      opacity="0.75"
+    ></path>
+    <path
+      d="M0,382 C150,350 302,340 470,352 C638,364 762,328 922,342 C1082,356 1262,330 1440,352 L1440,520 L0,520 Z"
+      fill="var(--color-night-800)"
+    ></path>
+    <g>
+      <path
+        d="M0,452 C200,428 420,438 640,444 C860,450 1080,432 1440,446 L1440,520 L0,520 Z"
+        fill="var(--color-night-900)"
+      ></path>
+
+      <g fill="var(--color-night-950)">
+        <path d="M888 446 L894 400 L900 446 Z"></path>
+        <circle cx="897" cy="392" r="26"></circle>
+        <circle cx="874" cy="402" r="17"></circle>
+        <circle cx="918" cy="404" r="15"></circle>
+        <path d="M1052 450 L1056 416 L1061 450 Z"></path>
+        <circle cx="1057" cy="408" r="18"></circle>
+        <circle cx="1041" cy="416" r="11"></circle>
+      </g>
+
+      <g>
+        <circle cx="742" cy="420" r="42" fill="#f7ae3c" opacity="0.1"></circle>
+        <rect x="712" y="400" width="82" height="50" rx="3" fill="var(--color-night-950)"></rect>
+        <path d="M704 402 L753 372 L802 402 Z" fill="var(--color-night-950)"></path>
+        <rect x="776" y="376" width="11" height="20" fill="var(--color-night-950)"></rect>
+        <path d="M782 370 C787 361 778 353 784 343 C786 339 784 336 786 331" stroke="#f7ecd2" stroke-opacity="0.3" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 7" fill="none"></path>
+        <rect x="730" y="414" width="17" height="19" rx="2" fill="#f7ae3c" class="twinkle" style="--tw-delay: 1.8s"></rect>
+        <path d="M738.5 414 v19 M730 423.5 h17" stroke="var(--color-night-950)" stroke-width="1.6"></path>
+        <rect x="758" y="418" width="13" height="32" rx="6" fill="#0b0e1e"></rect>
+      </g>
+
+      <path
+        d="M764 452 C700 466 640 480 560 492 C480 504 420 508 360 512"
+        stroke="#f7ecd2"
+        stroke-opacity="0.28"
+        stroke-width="4"
+        stroke-linecap="round"
+        stroke-dasharray="2 14"
+        fill="none"
+      ></path>
+    </g>
+  </svg>
+
+  <div class="absolute inset-x-0 bottom-0 h-[30svh]">
+    <Fireflies class="h-full w-full" count={6} seed={23} />
+  </div>
+
+  <a
+    href="#the-dream"
+    class="group absolute bottom-5 left-1/2 z-10 -translate-x-1/2 text-cream-100/60 transition hover:text-moon"
+    aria-label="Scroll to begin the story"
+  >
+    <svg class="h-7 w-7 animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M5 9l7 7 7-7"></path>
+    </svg>
+  </a>
+</section>

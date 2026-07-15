@@ -35,6 +35,46 @@ function buildStorybook() {
     signal.addEventListener('abort', () => io.disconnect());
   }
 
+  /* ---- story journey: the road draws itself, once, dove in tow ---- */
+  const journeySection = root.querySelector<HTMLElement>('[data-scene="story-journey"]');
+  const journeyArt = Array.from(root.querySelectorAll<SVGSVGElement>('[data-journey-art]')).find(
+    (el) => el.getBoundingClientRect().width > 0
+  );
+  const roadMask = journeyArt?.querySelector<SVGPathElement>('[data-journey-pathmask]') ?? null;
+  const doveG = journeyArt?.querySelector<SVGGElement>('[data-journey-dove]') ?? null;
+  if (!stillBook && journeySection && roadMask && doveG && 'IntersectionObserver' in window) {
+    const len = roadMask.getTotalLength();
+    roadMask.style.strokeDasharray = `${len + 2}`;
+    roadMask.style.strokeDashoffset = `${len + 2}`;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        const t0 = performance.now();
+        const DUR = 4200;
+        const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+        const tick = (now: number) => {
+          if (signal.aborted) return;
+          const p = ease(Math.min(1, (now - t0) / DUR));
+          roadMask.style.strokeDashoffset = String((1 - p) * (len + 2));
+          const pt = roadMask.getPointAtLength(p * len);
+          doveG.setAttribute('transform', `translate(${pt.x.toFixed(1)}, ${(pt.y - 34).toFixed(1)})`);
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      },
+      { threshold: 0.35 }
+    );
+    io.observe(journeySection);
+    signal.addEventListener('abort', () => io.disconnect());
+  } else if (stillBook && roadMask) {
+    // reduced motion: the road is simply there, dove at the signpost
+    if (doveG) {
+      const end = roadMask.getPointAtLength(roadMask.getTotalLength());
+      doveG.setAttribute('transform', `translate(${end.x.toFixed(1)}, ${(end.y - 34).toFixed(1)})`);
+    }
+  }
+
   /* ---- album: drag the strip with a mouse (touch scrolls natively) ---- */
   const vp = root.querySelector<HTMLElement>('[data-album-viewport]');
   if (vp) {

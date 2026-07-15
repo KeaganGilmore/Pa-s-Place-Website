@@ -2,13 +2,13 @@
 import type { ImageMetadata } from 'astro';
 import Layout from '../layouts/Layout.astro';
 import HeroDay from '../components/story/scenes/HeroDay.astro';
-import StayBand from '../components/story/scenes/StayBand.astro';
-import MissionMoment from '../components/story/scenes/MissionMoment.astro';
-import SceneTides from '../components/story/scenes/SceneTides.astro';
+import FactsRow from '../components/home/FactsRow.astro';
+import ThePlace from '../components/home/ThePlace.astro';
 import SceneAlbum from '../components/story/scenes/SceneAlbum.astro';
-import SceneTurnPage from '../components/story/scenes/SceneTurnPage.astro';
+import LocationBand from '../components/home/LocationBand.astro';
+import CharityNote from '../components/home/CharityNote.astro';
 import { getGallery, getHomepage, getSettings } from '../lib/cms';
-import firstSea from '../assets/images/hero-first-sea.webp';
+import coastline from '../assets/images/coastline.webp';
 
 const homepage = await getHomepage();
 const gallery = await getGallery();
@@ -50,21 +50,20 @@ const priceChip = settings.pricing.accommodation?.split(' (')[0];
         />
       )
     }
-    <StayBand
-      photo={houseImage}
-      photoAlt={house?.alt ?? "The Pa's Place house"}
+    <FactsRow accommodation={settings.pricing.accommodation} venue={settings.pricing.venue} />
+    <ThePlace
+      housePhoto={houseImage}
+      houseAlt={house?.alt ?? "The Pa's Place house"}
+      houseCaption={house?.caption}
+      beachPhoto={coastline}
       pricing={settings.pricing.accommodation ?? ''}
       phone={settings.contact.phone}
       phoneLink={settings.contact.phoneLink}
       whatsapp={whatsapp}
     />
-    <MissionMoment
-      photo={firstSea}
-      photoAlt="A grandfather and child walking hand in hand through the dunes toward the sea"
-    />
-    <SceneTides />
     <SceneAlbum photos={photos} />
-    <SceneTurnPage />
+    <LocationBand address={settings.contact.address ?? ''} mapUrl={settings.contact.mapUrl} />
+    <CharityNote />
   </div>
 </Layout>
 

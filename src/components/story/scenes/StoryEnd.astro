@@ -1,15 +1,18 @@
 ---
-// The last page: sunset. The reader is asked to turn the page for the
-// next child, and the dove flies off to fetch the next chapter.
+// The last page: sunset, and the ask. The reader is invited to fund the
+// next child's first sight of the sea.
 import Dove from '../Dove.astro';
 import Fireflies from '../Fireflies.astro';
+import { getSettings } from '../../../lib/cms';
+
+const settings = await getSettings();
+const sponsorMail = `mailto:${settings.contact.email}?subject=${encodeURIComponent("Sponsoring a child's holiday — Pa's Place")}`;
 ---
 
 <section
-  data-scene="turnpage"
   class="relative overflow-hidden"
-  style="background: linear-gradient(to bottom, var(--color-cream-100) 0%, #f9e0ae 24%, #f3b878 50%, #db8757 70%, #7e5a74 87%, var(--color-night-800) 100%);"
-  aria-label="The last page — help turn it"
+  style="background: linear-gradient(to bottom, var(--color-paper) 0%, #f9e0ae 24%, #f3b878 50%, #db8757 70%, #7e5a74 87%, var(--color-night-800) 100%);"
+  aria-label="The last page — help write the next one"
 >
   <div class="relative z-10 mx-auto max-w-4xl px-5 pb-[36svh] pt-20 text-center sm:pt-24">
     <p class="reveal hand text-2xl text-bark-700">the page you get to write</p>
@@ -17,13 +20,17 @@ import Fireflies from '../Fireflies.astro';
       For R200 a night, a child who has only heard of the ocean can fall asleep to the sound of it.
     </h2>
     <p class="reveal mx-auto mt-6 max-w-xl text-lg text-bark-950/80">
-      Sponsor a holiday, book a stay that funds one, or lend a pair of hands.
-      Every bit of help turns the page for the next child.
+      Sponsor a night, a weekend, or a whole retreat — every rand goes to a child&rsquo;s
+      holiday. Ask us for our banking details, or simply send a message and we&rsquo;ll match
+      your gift to the next group.
     </p>
     <div class="reveal mt-9 flex flex-wrap justify-center gap-4">
-      <a href="/get-involved" class="btn btn-marigold">Sponsor a holiday</a>
-      <a href="/book-a-stay" class="btn btn-paper">Book a stay</a>
+      <a href={sponsorMail} class="btn btn-marigold">Sponsor a holiday</a>
+      <a href="/get-involved" class="btn btn-paper">More ways to help</a>
     </div>
+    <p class="reveal hand mt-6 text-xl text-bark-950/70">
+      {settings.contact.phone && <>or phone {settings.contact.person ?? 'us'} on {settings.contact.phone}</>}
+    </p>
   </div>
 
   <!-- the dove heads off for the next chapter -->
@@ -45,14 +52,8 @@ import Fireflies from '../Fireflies.astro';
     <g stroke="var(--color-marigold-300)" stroke-width="5" stroke-linecap="round" opacity="0.85">
       <path d="M566 160 l-30 -12 M874 160 l30 -12 M600 96 l-22 -22 M840 96 l22 -22 M690 62 l-6 -30 M750 62 l6 -30"></path>
     </g>
-    <path
-      d="M0,212 C160,196 320,222 480,210 C640,198 800,224 960,212 C1120,200 1280,222 1440,210 L1440,300 L0,300 Z"
-      fill="var(--color-sea-800)"
-    ></path>
-    <path
-      d="M0,248 C200,236 400,258 600,248 C800,238 1000,260 1200,250 C1300,246 1380,250 1440,248 L1440,300 L0,300 Z"
-      fill="var(--color-night-900)"
-    ></path>
+    <path d="M0,212 C160,196 320,222 480,210 C640,198 800,224 960,212 C1120,200 1280,222 1440,210 L1440,300 L0,300 Z" fill="var(--color-sea-800)"></path>
+    <path d="M0,248 C200,236 400,258 600,248 C800,238 1000,260 1200,250 C1300,246 1380,250 1440,248 L1440,300 L0,300 Z" fill="var(--color-night-900)"></path>
     <g stroke="#fbc968" stroke-width="4" stroke-linecap="round" opacity="0.55">
       <path d="M660 232 h34 M716 244 h44 M690 258 h30 M730 226 h26"></path>
     </g>
@@ -62,5 +63,5 @@ import Fireflies from '../Fireflies.astro';
     <Fireflies class="h-full w-full" count={5} seed={31} />
   </div>
 
-  <p class="hand absolute bottom-4 right-6 z-10 text-lg text-cream-100/50">&middot; the last page &middot;</p>
+  <p class="hand absolute bottom-4 right-6 z-10 text-lg text-cream-100/50">&middot; the end &mdash; and the beginning &middot;</p>
 </section>

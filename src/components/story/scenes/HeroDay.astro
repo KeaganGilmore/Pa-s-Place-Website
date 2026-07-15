@@ -18,7 +18,7 @@ interface Props {
 }
 const { eyebrow, title, subtitle, image, imageAlt, priceChip } = Astro.props;
 
-const chips = [priceChip && `from ${priceChip}`, '2 minutes from the beach', 'registered NPC'].filter(
+const chips = [priceChip && `from ${priceChip}`, '2 minutes from the beach', 'families & groups welcome'].filter(
   Boolean
 ) as string[];
 ---
@@ -57,11 +57,11 @@ const chips = [priceChip && `from ${priceChip}`, '2 minutes from the beach', 're
       </p>
       <div class="fade-up mt-7 flex flex-wrap items-center gap-4" style="--d: 0.4s">
         <a href="/book-a-stay" class="btn btn-marigold">Book a stay</a>
-        <a href="/get-involved" class="btn btn-bark">Sponsor a holiday</a>
+        <a href="#place" class="btn btn-bark">See the place</a>
       </div>
       <p class="fade-up mt-5" style="--d: 0.5s">
         <a href="/our-story" class="hand text-xl text-bark-700/85 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900">
-          or start with the story of Pa&rsquo;s Place &rarr;
+          run by a nonprofit &mdash; every stay helps send a child to the sea &rarr;
         </a>
       </p>
     </div>

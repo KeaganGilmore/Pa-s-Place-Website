@@ -1,0 +1,187 @@
+---
+// Page two: the journey. An early morning, and a road that draws itself
+// from the little house to the signpost by the sea — once, when the page
+// scrolls into view. Two art variants: wide for desktop, tall for phones.
+import Dove from '../Dove.astro';
+import Sunburst from '../Sunburst.astro';
+---
+
+<section
+  data-scene="story-journey"
+  class="relative min-h-[96svh] overflow-hidden"
+  style="background: linear-gradient(to bottom, #a99ab0 0%, #d9a184 30%, #f4cf96 62%, #fbf3e3 100%);"
+  aria-label="Page two — the journey to the sea"
+>
+  <!-- the sun, up early -->
+  <div class="absolute right-[6%] top-[7svh] z-[4] sm:right-[12%]">
+    <Sunburst class="h-36 w-36 sm:h-48 sm:w-48" core spin />
+  </div>
+
+  <div class="relative z-20 mx-auto w-full max-w-6xl px-5 pt-[10svh] sm:pt-[12svh]">
+    <div class="reveal max-w-lg rounded-[1.4rem] bg-paper/85 p-6 shadow-[0_18px_40px_-24px_rgb(24_18_10/0.4)] backdrop-blur-[3px] sm:p-7">
+      <p class="hand text-2xl text-marigold-600">and one morning, an envelope: <em>pack a bag!</em></p>
+      <h2 class="mt-3 font-display text-3xl font-semibold text-bark-900 sm:text-4xl">
+        Pa&rsquo;s Place was built for that dream.
+      </h2>
+      <p class="mt-4 text-cocoa/85">
+        A holiday home in Pennington on KwaZulu-Natal&rsquo;s south coast, where the beach is a
+        two-minute walk &mdash; and where fun-filled seaside holidays are <strong>given, not sold</strong>,
+        to children who need them most.
+      </p>
+    </div>
+  </div>
+
+  <!-- wide composition (md+) -->
+  <svg
+    data-journey-art
+    class="absolute bottom-0 left-0 z-10 hidden h-[52svh] w-full md:block"
+    viewBox="0 0 1440 520"
+    preserveAspectRatio="xMidYMax slice"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <defs>
+      <mask id="story-road-d" maskUnits="userSpaceOnUse">
+        <path
+          data-journey-pathmask
+          d="M118 350 C220 400 320 356 430 400 C560 452 660 470 780 440 C900 410 960 462 1080 448 C1160 438 1200 424 1244 414"
+          stroke="#fff"
+          stroke-width="26"
+          stroke-linecap="round"
+          fill="none"
+        ></path>
+      </mask>
+    </defs>
+
+    <g>
+      <rect x="1100" y="268" width="340" height="34" fill="var(--color-sea-500)"></rect>
+      <path d="M1110 278 h44 M1176 288 h36 M1240 276 h46 M1310 286 h40 M1380 278 h36" stroke="var(--color-dove-200)" stroke-width="3" stroke-linecap="round" opacity="0.8"></path>
+    </g>
+
+    <path d="M0,300 C140,272 300,258 460,274 C620,290 760,250 920,262 C1040,271 1100,290 1160,296 L1160,302 L1440,302 L1440,520 L0,520 Z" fill="var(--color-grass-300)"></path>
+    <path d="M0,368 C180,336 360,330 540,346 C720,362 880,330 1060,344 C1220,356 1340,340 1440,352 L1440,520 L0,520 Z" fill="var(--color-grass-500)"></path>
+
+    <g>
+      <rect x="76" y="322" width="58" height="36" rx="2.5" fill="var(--color-bark-900)"></rect>
+      <path d="M70 324 L105 302 L140 324 Z" fill="var(--color-bark-950)"></path>
+      <rect x="90" y="334" width="12" height="13" rx="1.5" fill="var(--color-marigold-300)"></rect>
+      <rect x="110" y="336" width="10" height="22" rx="4" fill="var(--color-night-950)"></rect>
+    </g>
+
+    <g mask="url(#story-road-d)">
+      <path
+        d="M118 350 C220 400 320 356 430 400 C560 452 660 470 780 440 C900 410 960 462 1080 448 C1160 438 1200 424 1244 414"
+        stroke="var(--color-bark-700)"
+        stroke-width="6"
+        stroke-linecap="round"
+        stroke-dasharray="18 20"
+        fill="none"
+      ></path>
+    </g>
+
+    <path d="M0,452 C220,424 460,436 700,442 C940,448 1180,430 1440,444 L1440,520 L0,520 Z" fill="var(--color-grass-700)"></path>
+
+    <g fill="var(--color-marigold-400)"><circle cx="240" cy="470" r="5"></circle><circle cx="612" cy="482" r="4.5"></circle><circle cx="1330" cy="474" r="5"></circle></g>
+    <g fill="#fffdf6"><circle cx="420" cy="490" r="4"></circle><circle cx="980" cy="486" r="4.5"></circle></g>
+    <g stroke="var(--color-grass-300)" stroke-width="3" stroke-linecap="round">
+      <path d="M240 475 v14 M612 486 v12 M1330 479 v13 M420 494 v10 M980 490 v12"></path>
+    </g>
+
+    <g>
+      <rect x="1246" y="330" width="9" height="100" rx="2" fill="var(--color-bark-900)"></rect>
+      <g transform="rotate(-3 1250 348)">
+        <rect x="1216" y="336" width="112" height="27" rx="4" fill="var(--color-marigold-300)" stroke="var(--color-bark-900)" stroke-width="2.5"></rect>
+        <path d="M1328 336 L1344 349.5 L1328 363 Z" fill="var(--color-marigold-300)" stroke="var(--color-bark-900)" stroke-width="2.5" stroke-linejoin="round"></path>
+        <text x="1231" y="356" style="font-family: var(--font-hand); font-weight: 700;" font-size="21" fill="var(--color-bark-950)">Pa&rsquo;s Place</text>
+      </g>
+      <g transform="rotate(2 1250 384)">
+        <rect x="1222" y="372" width="96" height="25" rx="4" fill="var(--color-dove-200)" stroke="var(--color-bark-900)" stroke-width="2.5"></rect>
+        <path d="M1318 372 L1333 384.5 L1318 397 Z" fill="var(--color-dove-200)" stroke="var(--color-bark-900)" stroke-width="2.5" stroke-linejoin="round"></path>
+        <text x="1236" y="390" style="font-family: var(--font-hand); font-weight: 700;" font-size="18" fill="var(--color-bark-950)">the sea! 2 min</text>
+      </g>
+    </g>
+
+    <g data-journey-dove transform="translate(118, 320)">
+      <g transform="translate(-19, -21) scale(0.3)">
+        <Dove class="h-[132px] w-[132px]" />
+      </g>
+    </g>
+  </svg>
+
+  <!-- tall composition (phones) -->
+  <svg
+    data-journey-art
+    class="absolute bottom-0 left-0 z-10 block h-[56svh] w-full md:hidden"
+    viewBox="0 0 720 880"
+    preserveAspectRatio="xMidYMax slice"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <defs>
+      <mask id="story-road-m" maskUnits="userSpaceOnUse">
+        <path
+          data-journey-pathmask
+          d="M150 260 C260 330 160 420 270 490 C380 560 250 630 350 690 C420 732 500 716 545 700"
+          stroke="#fff"
+          stroke-width="30"
+          stroke-linecap="round"
+          fill="none"
+        ></path>
+      </mask>
+    </defs>
+
+    <g>
+      <rect x="470" y="196" width="250" height="30" fill="var(--color-sea-500)"></rect>
+      <path d="M482 206 h36 M538 216 h30 M592 204 h38 M652 214 h30" stroke="var(--color-dove-200)" stroke-width="3" stroke-linecap="round" opacity="0.8"></path>
+    </g>
+
+    <path d="M0,238 C120,216 260,206 400,220 C540,234 640,214 720,224 L720,880 L0,880 Z" fill="var(--color-grass-300)"></path>
+    <path d="M0,430 C130,404 300,398 440,412 C580,426 660,408 720,418 L720,880 L0,880 Z" fill="var(--color-grass-500)"></path>
+
+    <g>
+      <rect x="96" y="212" width="66" height="42" rx="3" fill="var(--color-bark-900)"></rect>
+      <path d="M88 214 L129 188 L170 214 Z" fill="var(--color-bark-950)"></path>
+      <rect x="112" y="226" width="14" height="15" rx="2" fill="var(--color-marigold-300)"></rect>
+      <rect x="136" y="228" width="12" height="26" rx="5" fill="var(--color-night-950)"></rect>
+    </g>
+
+    <g mask="url(#story-road-m)">
+      <path
+        d="M150 260 C260 330 160 420 270 490 C380 560 250 630 350 690 C420 732 500 716 545 700"
+        stroke="var(--color-bark-700)"
+        stroke-width="7"
+        stroke-linecap="round"
+        stroke-dasharray="20 22"
+        fill="none"
+      ></path>
+    </g>
+
+    <path d="M0,700 C140,676 320,686 460,692 C580,697 660,686 720,694 L720,880 L0,880 Z" fill="var(--color-grass-700)"></path>
+
+    <g fill="var(--color-marigold-400)"><circle cx="120" cy="760" r="7"></circle><circle cx="620" cy="800" r="6"></circle></g>
+    <g fill="#fffdf6"><circle cx="300" cy="810" r="6"></circle></g>
+    <g stroke="var(--color-grass-300)" stroke-width="4" stroke-linecap="round"><path d="M120 767 v18 M620 806 v16 M300 816 v14"></path></g>
+
+    <g>
+      <rect x="556" y="596" width="10" height="124" rx="2" fill="var(--color-bark-900)"></rect>
+      <g transform="rotate(-3 560 618)">
+        <rect x="518" y="602" width="140" height="34" rx="5" fill="var(--color-marigold-300)" stroke="var(--color-bark-900)" stroke-width="3"></rect>
+        <path d="M658 602 L678 619 L658 636 Z" fill="var(--color-marigold-300)" stroke="var(--color-bark-900)" stroke-width="3" stroke-linejoin="round"></path>
+        <text x="536" y="627" style="font-family: var(--font-hand); font-weight: 700;" font-size="26" fill="var(--color-bark-950)">Pa&rsquo;s Place</text>
+      </g>
+      <g transform="rotate(2 560 662)">
+        <rect x="524" y="646" width="120" height="31" rx="5" fill="var(--color-dove-200)" stroke="var(--color-bark-900)" stroke-width="3"></rect>
+        <path d="M644 646 L663 661.5 L644 677 Z" fill="var(--color-dove-200)" stroke="var(--color-bark-900)" stroke-width="3" stroke-linejoin="round"></path>
+        <text x="540" y="669" style="font-family: var(--font-hand); font-weight: 700;" font-size="22" fill="var(--color-bark-950)">the sea! 2 min</text>
+      </g>
+    </g>
+
+    <g data-journey-dove transform="translate(150, 225)">
+      <g transform="translate(-26, -29) scale(0.4)">
+        <Dove class="h-[132px] w-[132px]" />
+      </g>
+    </g>
+  </svg>
+
+  <p class="hand absolute bottom-4 right-6 z-20 text-lg text-bark-700/50">&middot; two &middot;</p>
+</section>
