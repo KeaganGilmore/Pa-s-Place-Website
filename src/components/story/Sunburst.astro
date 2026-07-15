@@ -1,11 +1,18 @@
 ---
-// Hand-drawn-feel sun rays radiating like the Pa's Place logo.
-// Deterministic irregularity: ray lengths and gaps vary in a fixed pattern.
+// The logo's sun: irregular hand-set rays around an open ring.
+// `core` fills the middle like a child's crayon sun; `spin` turns it slowly.
 interface Props {
   class?: string;
   color?: string;
+  core?: boolean;
+  spin?: boolean;
 }
-const { class: className = 'h-40 w-40', color = 'var(--color-marigold-400)' } = Astro.props;
+const {
+  class: className = 'h-40 w-40',
+  color = 'var(--color-marigold-400)',
+  core = false,
+  spin = false,
+} = Astro.props;
 
 const rays: string[] = [];
 const lengths = [26, 16, 34, 20, 28, 14, 32, 22, 18, 30, 15, 25];
@@ -22,7 +29,16 @@ for (let i = 0; i < 24; i++) {
 ---
 
 <svg class={className} viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <g stroke={color} stroke-width="5" stroke-linecap="round">
-    {rays.map((d) => <path d={d}></path>)}
+  <g class={spin ? 'rays-slow' : ''}>
+    <g stroke={color} stroke-width="5" stroke-linecap="round">
+      {rays.map((d) => <path d={d}></path>)}
+    </g>
   </g>
+  {
+    core ? (
+      <circle cx="100" cy="100" r="40" fill={color} />
+    ) : (
+      <circle cx="100" cy="100" r="42" stroke={color} stroke-width="5" fill="none" />
+    )
+  }
 </svg>

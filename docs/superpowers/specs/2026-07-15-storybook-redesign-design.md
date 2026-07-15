@@ -115,3 +115,32 @@ and the existing **film photographs** which appear as keepsakes taped into the b
 1. Deps + design system (global.css, Layout). 2. Shared SVG components.
 3. Header/footer. 4. Homepage scenes + choreography. 5. Sub-pages.
 6. `npm run build` green; browser-verify desktop (~1440w) + mobile (~390w); polish; commit.
+
+---
+
+## v3.1 rebalance — booking-first (same day, user direction)
+
+The full storybook shipped and was verified, then the brief evolved: keep the
+storybook as the base, but **cut the intensity and make booking a stay the
+paramount, friction-free path**.
+
+What changed:
+
+- **Ripped out** the pinned Dream and Journey scenes and all scroll-jacking.
+  Homepage went from ~13 viewports (4 pins) to ~6 viewports (0 pins).
+- **Homepage order now serves utility first:** night cover (with `Book a stay`
+  as the primary button) → booking band (`#stay`: price, Call/WhatsApp,
+  details link) → mission photo moment → three tides → swipe album → sunset CTA.
+- The dream→reality iris survives as a **single play-once CSS transition**
+  (IntersectionObserver adds a class; time-based, so it completes even in
+  rAF-throttled tabs). **GSAP removed entirely** — the site is pure CSS plus
+  ~80 lines of vanilla JS (cover drift, iris trigger, album drag-scroll).
+- **New `/book-a-stay` page:** pricing facts from CMS settings, house/coastline
+  keepsakes, three-step "how booking works", one-tap Call / WhatsApp / Email,
+  address + map, sponsor cross-link.
+- Header CTA → `Book a stay`; footer gained a pages column; every "stay"
+  mention site-wide routes to `/book-a-stay`.
+- Debugging note for posterity: in an occluded browser window Chrome throttles
+  rAF to ~0, which starves scrubbed/ticker animations and CSS-transition
+  *rendering* — verify end states by forcing frames, and prefer time-based
+  CSS transitions for one-shot effects.

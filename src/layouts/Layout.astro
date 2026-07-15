@@ -2,7 +2,9 @@
 import '@fontsource-variable/fraunces/full.css';
 import '@fontsource-variable/fraunces/full-italic.css';
 import '@fontsource-variable/nunito-sans';
+import '@fontsource-variable/caveat';
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { getSettings } from '../lib/cms';
@@ -10,10 +12,12 @@ import { getSettings } from '../lib/cms';
 interface Props {
   title?: string;
   description?: string;
+  /** 'night' — the page opens on a dark storybook scene; header floats moonlit until scrolled. */
+  headerTheme?: 'day' | 'night';
 }
 
 const settings = await getSettings();
-const { title, description = settings.tagline } = Astro.props;
+const { title, description = settings.tagline, headerTheme = 'day' } = Astro.props;
 const pageTitle = title ? `${title} | ${settings.siteName}` : `${settings.siteName} — ${settings.tagline}`;
 ---
 
@@ -26,8 +30,10 @@ const pageTitle = title ? `${title} | ${settings.siteName}` : `${settings.siteNa
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta name="theme-color" content={headerTheme === 'night' ? '#11152b' : '#fbf3e3'} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{pageTitle}</title>
+    <ClientRouter />
   </head>
   <body class="grain">
     <a
@@ -36,7 +42,7 @@ const pageTitle = title ? `${title} | ${settings.siteName}` : `${settings.siteNa
     >
       Skip to content
     </a>
-    <SiteHeader />
+    <SiteHeader theme={headerTheme} />
     <main id="main">
       <slot />
     </main>

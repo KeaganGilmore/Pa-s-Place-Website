@@ -1,73 +1,92 @@
 ---
 import { Image } from 'astro:assets';
 import logo from '../assets/brand/pas-place-logo.png';
-import WaveDivider from './WaveDivider.astro';
+import TornEdge from './story/TornEdge.astro';
+import Stars from './story/Stars.astro';
 import { getSettings } from '../lib/cms';
 
 const settings = await getSettings();
 const year = new Date().getFullYear();
 ---
 
-<footer>
-  <WaveDivider fill="var(--color-bark-950)" />
-  <div class="bg-bark-950 text-cream-100">
-    <div class="mx-auto grid max-w-6xl gap-12 px-5 pb-12 pt-10 md:grid-cols-[1.4fr_1fr_1fr]">
-      <div>
-        <div class="flex items-center gap-3">
-          <Image src={logo} alt="Pa's Place — dove and sunburst logo" widths={[128, 192]} sizes="64px" class="h-16 w-16 object-contain" />
-          <span class="font-display text-2xl font-bold text-paper">Pa&rsquo;s Place</span>
+<footer class="relative">
+  <TornEdge fill="var(--color-night-950)" seed={41} />
+  <div class="relative overflow-hidden bg-night-950 text-cream-100">
+    <Stars class="absolute inset-x-0 top-0 h-72 w-full opacity-80" count={34} seed={19} />
+
+    <div class="relative mx-auto max-w-6xl px-5 pt-16">
+      <div class="grid gap-12 pb-12 sm:grid-cols-2 md:grid-cols-[1.4fr_0.8fr_1fr_1fr]">
+        <div>
+          <div class="flex items-center gap-4">
+            <Image src={logo} alt="Pa's Place — dove and sunburst logo" widths={[128, 192]} sizes="72px" class="h-18 w-18 object-contain" />
+            <div>
+              <span class="font-display text-2xl font-bold text-moon">Pa&rsquo;s Place</span>
+              <span class="hand block text-lg text-marigold-300">est. Pennington, KwaZulu-Natal</span>
+            </div>
+          </div>
+          <p class="mt-5 max-w-sm text-cream-100/70">
+            A non-profit company giving coastal, fun-filled holidays to disadvantaged children —
+            and restful, affordable stays to the families who need them.
+          </p>
+          <p class="mt-5 font-display text-xl italic text-moon">
+            Every child deserves to see the sea.
+          </p>
         </div>
-        <p class="mt-4 max-w-sm text-cream-100/75">
-          A non-profit company giving coastal, fun-filled holidays to disadvantaged children —
-          and restful, affordable stays to the families who need them.
-        </p>
-        <p class="mt-4 font-display text-lg italic text-marigold-300">
-          Every child deserves to see the sea.
-        </p>
-      </div>
 
-      <div>
-        <h2 class="text-[0.7rem] font-extrabold uppercase tracking-[0.22em] text-marigold-400">Reach out</h2>
-        <ul class="mt-4 space-y-2.5 text-cream-100/85">
-          {settings.contact.person && <li>Ask for {settings.contact.person}</li>}
+        <div>
+          <h2 class="kicker text-marigold-400">The pages</h2>
+          <ul class="mt-4 space-y-2.5 text-cream-100/85">
+            <li><a class="underline-offset-4 hover:text-moon hover:underline" href="/book-a-stay">Book a stay</a></li>
+            <li><a class="underline-offset-4 hover:text-moon hover:underline" href="/our-story">Our story</a></li>
+            <li><a class="underline-offset-4 hover:text-moon hover:underline" href="/what-we-do">What we do</a></li>
+            <li><a class="underline-offset-4 hover:text-moon hover:underline" href="/get-involved">Get involved</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="kicker text-marigold-400">Reach out</h2>
+          <ul class="mt-4 space-y-2.5 text-cream-100/85">
+            {settings.contact.person && <li>Ask for {settings.contact.person}</li>}
+            {
+              settings.contact.phone && (
+                <li>
+                  <a class="underline-offset-4 hover:text-moon hover:underline" href={`tel:${settings.contact.phoneLink || settings.contact.phone}`}>
+                    {settings.contact.phone}
+                  </a>
+                </li>
+              )
+            }
+            {
+              settings.contact.email && (
+                <li>
+                  <a class="underline-offset-4 hover:text-moon hover:underline" href={`mailto:${settings.contact.email}`}>
+                    {settings.contact.email}
+                  </a>
+                </li>
+              )
+            }
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="kicker text-marigold-400">Find us</h2>
+          <p class="mt-4 whitespace-pre-line text-cream-100/85">{settings.contact.address}</p>
           {
-            settings.contact.phone && (
-              <li>
-                <a class="underline-offset-4 hover:text-paper hover:underline" href={`tel:${settings.contact.phoneLink || settings.contact.phone}`}>
-                  {settings.contact.phone}
-                </a>
-              </li>
+            settings.contact.mapUrl && (
+              <a class="mt-3 inline-block font-bold text-marigold-300 underline-offset-4 hover:underline" href={settings.contact.mapUrl}>
+                Open the map &rarr;
+              </a>
             )
           }
-          {
-            settings.contact.email && (
-              <li>
-                <a class="underline-offset-4 hover:text-paper hover:underline" href={`mailto:${settings.contact.email}`}>
-                  {settings.contact.email}
-                </a>
-              </li>
-            )
-          }
-        </ul>
+        </div>
       </div>
 
-      <div>
-        <h2 class="text-[0.7rem] font-extrabold uppercase tracking-[0.22em] text-marigold-400">Find us</h2>
-        <p class="mt-4 whitespace-pre-line text-cream-100/85">{settings.contact.address}</p>
-        {
-          settings.contact.mapUrl && (
-            <a class="mt-3 inline-block font-bold text-marigold-300 underline-offset-4 hover:underline" href={settings.contact.mapUrl}>
-              Open the map &rarr;
-            </a>
-          )
-        }
-      </div>
-    </div>
-
-    <div class="border-t border-bark-900">
-      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-5 text-sm text-cream-100/55">
-        <p>&copy; {year} Pa&rsquo;s Place NPC. All rights reserved.</p>
-        <p>Made with love on the South Coast.</p>
+      <div class="border-t border-night-800">
+        <div class="flex flex-wrap items-center justify-between gap-3 py-6 text-sm text-cream-100/50">
+          <p>&copy; {year} Pa&rsquo;s Place NPC. All rights reserved.</p>
+          <p class="hand text-lg text-cream-100/70">The End &mdash; well, not really. Every story needs its next reader.</p>
+          <p>Made with love on the South Coast.</p>
+        </div>
       </div>
     </div>
   </div>

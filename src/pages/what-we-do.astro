@@ -2,7 +2,8 @@
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
-import WaveDivider from '../components/WaveDivider.astro';
+import ChapterHeader from '../components/story/ChapterHeader.astro';
+import TornEdge from '../components/story/TornEdge.astro';
 import { getGallery, getSettings } from '../lib/cms';
 
 const settings = await getSettings();
@@ -19,83 +20,112 @@ const photo = (slug: string) => {
 
 const offerings = [
   {
-    eyebrow: 'For children',
+    eyebrow: 'for children',
     title: 'Sponsored seaside retreats',
     text: 'Our reason for being. Fun-filled, carefully held holidays for disadvantaged children — beach days, trail walks, rock pools, sports, team building, music and arts, and food they’ve never tried before. Every retreat is paced to each group: room for the noisiest hours and the quietest ones.',
     image: photo('rock-pools'),
-    note: 'Funded by sponsors and bookings — see how you can help.',
+    note: 'funded by sponsors and bookings — see how you can help',
     noteHref: '/get-involved',
   },
   {
-    eyebrow: 'For families & groups',
+    eyebrow: 'for families & groups',
     title: 'Affordable beachside stays',
     text: 'Comfortable, peaceful accommodation two minutes from the waves, priced for families and groups who struggle to find the funds for a restful holiday in today’s economy. Every paid stay helps keep the lights on for our children’s retreats.',
     image: photo('the-house'),
-    note: settings.pricing.accommodation,
+    note: `${settings.pricing.accommodation} — book a stay`,
+    noteHref: '/book-a-stay',
   },
   {
-    eyebrow: 'For our neighbours',
+    eyebrow: 'for our neighbours',
     title: 'Community food & play days',
     text: 'Occasional open days for local families: big pots of unique, filling meals, our playground in full voice, and planned programmes of activity. Long tables, longer afternoons.',
     image: photo('food-day'),
-    note: `Venue hire: ${settings.pricing.venue}`,
+    note: `venue hire: ${settings.pricing.venue}`,
+  },
+];
+
+const day = [
+  {
+    time: 'sunrise',
+    what: 'Beach walk while the sand is still cool — rock pools at low tide.',
+    dark: false,
+    icon: `<svg viewBox="0 0 64 64" class="h-12 w-12" fill="none" aria-hidden="true"><path d="M16 40 a16 16 0 0 1 32 0" fill="#f7ae3c"/><g stroke="#d1770e" stroke-width="3.5" stroke-linecap="round"><path d="M32 14 v-7 M14 22 l-5 -5 M50 22 l5 -5 M8 40 h-5 M61 40 h-5"/></g><path d="M4 46 h56 M12 53 h18 M38 53 h14" stroke="#3e7e8e" stroke-width="3.5" stroke-linecap="round"/></svg>`,
+  },
+  {
+    time: 'morning',
+    what: 'Trails through the milkwoods; nature seeking with big questions welcome.',
+    dark: false,
+    icon: `<svg viewBox="0 0 64 64" class="h-12 w-12" fill="none" aria-hidden="true"><path d="M8 56 C20 48 26 36 24 24 C36 30 44 26 48 16" stroke="#5c4a36" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="1 7"/><circle cx="50" cy="12" r="7" fill="#7d9a6a"/><circle cx="43" cy="17" r="5" fill="#7d9a6a"/><circle cx="56" cy="17" r="5" fill="#7d9a6a"/><path d="M50 22 v8" stroke="#5c4a36" stroke-width="3" stroke-linecap="round"/></svg>`,
+  },
+  {
+    time: 'midday',
+    what: 'Unique foods, prepared together and eaten loudly.',
+    dark: false,
+    icon: `<svg viewBox="0 0 64 64" class="h-12 w-12" fill="none" aria-hidden="true"><g stroke="#b4dceb" stroke-width="3" stroke-linecap="round"><path d="M26 16 c-2 -4 2 -6 0 -10"/><path d="M38 16 c-2 -4 2 -6 0 -10"/></g><ellipse cx="32" cy="24" rx="18" ry="4" fill="#33291c"/><path d="M14 24 h36 v6 a18 12 0 0 1 -36 0 Z" fill="#423424"/><path d="M10 21 l6 4 M54 21 l-6 4" stroke="#33291c" stroke-width="4" stroke-linecap="round"/></svg>`,
+  },
+  {
+    time: 'afternoon',
+    what: 'Sports, team building and beach games until the shadows stretch.',
+    dark: false,
+    icon: `<svg viewBox="0 0 64 64" class="h-12 w-12" fill="none" aria-hidden="true"><circle cx="32" cy="30" r="16" fill="#fffdf6" stroke="#423424" stroke-width="3"/><path d="M32 14 C38 22 38 38 32 46 M18 24 C26 28 38 28 46 24 M18 37 C26 33 38 33 46 37" stroke="#e2673f" stroke-width="3" fill="none"/><path d="M12 54 h40" stroke="#e2cb9a" stroke-width="4" stroke-linecap="round"/></svg>`,
+  },
+  {
+    time: 'evening',
+    what: 'Music, arts and shell painting on the veranda.',
+    dark: true,
+    icon: `<svg viewBox="0 0 64 64" class="h-12 w-12" fill="none" aria-hidden="true"><path d="M24 44 V16 l22 -6 v28" stroke="#f7ecd2" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><ellipse cx="19" cy="45" rx="6.5" ry="5" fill="#fbc968"/><ellipse cx="41" cy="39" rx="6.5" ry="5" fill="#fbc968"/></svg>`,
+  },
+  {
+    time: 'night',
+    what: 'Star gazing, quiet hours, and falling asleep to the sound of the sea.',
+    dark: true,
+    icon: `<svg viewBox="0 0 64 64" class="h-12 w-12" fill="none" aria-hidden="true"><path d="M40 10 a20 20 0 1 0 14 32 a17 17 0 0 1 -14 -32 Z" fill="#f7ecd2"/><path d="M18 14 l1.6 4 4 1.6 -4 1.6 -1.6 4 -1.6 -4 -4 -1.6 4 -1.6 Z" fill="#fbc968"/><path d="M52 46 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 Z" fill="#fbc968"/></svg>`,
   },
 ];
 ---
 
 <Layout title="What We Do" description="Sponsored children's retreats, affordable family stays, and community food & play days in Pennington, KZN.">
-  <!-- ============ PAGE HERO ============ -->
-  <section class="bg-cream-100">
-    <div class="mx-auto max-w-6xl px-5 pb-16 pt-24 sm:pt-32">
-      <p class="fade-up text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-marigold-600" style="--d: 0.05s">What we do</p>
-      <h1 class="fade-up mt-4 max-w-3xl font-display text-5xl font-semibold text-bark-900 sm:text-6xl" style="--d: 0.18s">
-        One home, three tides of work.
-      </h1>
-      <p class="fade-up mt-6 max-w-xl text-lg text-cocoa/85" style="--d: 0.32s">
-        Everything at Pa&rsquo;s Place feeds the same mission — the sponsored holidays are why we exist, and
-        the stays and open days keep them possible.
-      </p>
-    </div>
-    <WaveDivider fill="var(--color-paper)" />
-  </section>
+  <ChapterHeader
+    chapter="two"
+    title="One home, three tides of work."
+    note="the sponsored holidays are why we exist — the stays and open days keep them possible"
+    seed={59}
+  />
 
   <!-- ============ OFFERINGS ============ -->
-  <section class="py-16 sm:py-24">
+  <section class="bg-paper py-14 sm:py-20">
     <div class="mx-auto max-w-6xl space-y-24 px-5">
       {
         offerings.map((o, i) => (
           <article class={`grid items-center gap-12 lg:grid-cols-2 ${i % 2 === 1 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
             <div class="reveal">
-              <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-sea-600">{o.eyebrow}</p>
-              <h2 class="mt-4 text-3xl font-semibold text-bark-900 sm:text-4xl">{o.title}</h2>
+              <p class="hand text-2xl text-sea-600">{o.eyebrow}</p>
+              <h2 class="mt-3 font-display text-3xl font-semibold text-bark-900 sm:text-4xl">{o.title}</h2>
               <p class="mt-5 max-w-lg text-lg text-cocoa/85">{o.text}</p>
               {o.note && (
-                <p class="mt-6 inline-block rounded-full bg-cream-100 px-5 py-2.5 font-bold text-bark-900">
+                <p class="relative mt-8 inline-block rounded-xl border-2 border-bark-900/10 bg-cream-100 px-5 py-3">
+                  <span class="tape" aria-hidden="true" />
                   {o.noteHref ? (
-                    <a href={o.noteHref} class="underline decoration-marigold-500 decoration-2 underline-offset-4">
+                    <a href={o.noteHref} class="hand text-xl text-bark-900 underline decoration-marigold-500 decoration-2 underline-offset-4">
                       {o.note}
                     </a>
                   ) : (
-                    o.note
+                    <span class="hand text-xl text-bark-900">{o.note}</span>
                   )}
                 </p>
               )}
             </div>
             <div class="reveal">
               {o.image?.meta && (
-                <figure class={`polaroid mx-auto max-w-lg ${i % 2 === 1 ? '!-rotate-1' : '!rotate-1'}`}>
+                <figure class={`keepsake mx-auto max-w-lg ${i % 2 === 1 ? '!-rotate-1' : '!rotate-1'}`}>
                   <Image
                     src={o.image.meta}
                     alt={o.image.alt}
                     widths={[480, 800, 1100]}
                     sizes="(min-width: 1024px) 45vw, 92vw"
-                    class="aspect-[4/3] w-full rounded-[3px] object-cover"
+                    class="aspect-[4/3] w-full object-cover"
                   />
-                  {o.image.caption && (
-                    <figcaption class="pt-3 text-center font-display text-[1.05rem] italic text-cocoa/80">
-                      {o.image.caption}
-                    </figcaption>
-                  )}
+                  {o.image.caption && <figcaption class="hand pt-3 text-center text-[1.4rem] text-cocoa/85">{o.image.caption}</figcaption>}
                 </figure>
               )}
             </div>
@@ -105,38 +135,48 @@ const offerings = [
     </div>
   </section>
 
-  <!-- ============ A DAY WITH US ============ -->
-  <section class="relative">
-    <WaveDivider fill="var(--color-bark-950)" />
-    <div class="bg-bark-950 py-16 text-cream-100 sm:py-20">
-      <div class="mx-auto max-w-6xl px-5">
-        <h2 class="reveal text-center font-display text-4xl font-semibold text-paper sm:text-5xl">A day moves with the tides</h2>
-        <ol class="mx-auto mt-14 grid max-w-4xl gap-x-10 gap-y-8 sm:grid-cols-2">
+  <!-- ============ A DAY THAT PASSES AS YOU READ IT ============ -->
+  <section class="bg-paper pb-20 sm:pb-24">
+    <div class="mx-auto max-w-6xl px-5">
+      <div class="reveal max-w-2xl">
+        <p class="hand text-2xl text-marigold-600">read it left to right, like a day</p>
+        <h2 class="mt-2 font-display text-4xl font-semibold text-bark-900 sm:text-5xl">A day moves with the tides</h2>
+      </div>
+
+      <div
+        class="reveal mt-10 overflow-hidden rounded-[1.8rem] border-2 border-bark-900/10 shadow-[0_28px_56px_-30px_rgb(24_18_10/0.55)]"
+      >
+        <ol
+          class="flex snap-x snap-mandatory overflow-x-auto"
+          style="background: linear-gradient(to right, #fbf3e3 0%, #f9e0ae 26%, #f6c88b 46%, #c98a70 62%, #635177 78%, #1b2140 94%, #11152b 100%);"
+        >
           {
-            [
-              ['Sunrise', 'Beach walk while the sand is still cool — rock pools at low tide.'],
-              ['Morning', 'Trails through the milkwoods; nature seeking with big questions welcome.'],
-              ['Midday', 'Unique foods, prepared together and eaten loudly.'],
-              ['Afternoon', 'Sports, team building and beach games until the shadows stretch.'],
-              ['Evening', 'Music, arts and shell painting on the veranda.'],
-              ['Night', 'Star gazing, quiet hours, and falling asleep to the sound of the sea.'],
-            ].map(([time, what], i) => (
-              <li class="reveal flex gap-5">
-                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-bark-900 font-display text-lg font-semibold text-marigold-300">
-                  {i + 1}
-                </span>
-                <div>
-                  <h3 class="font-display text-xl font-semibold text-paper">{time}</h3>
-                  <p class="mt-1 text-cream-100/75">{what}</p>
-                </div>
+            day.map((d, i) => (
+              <li class={`min-w-[248px] shrink-0 snap-center px-7 py-9 sm:min-w-[264px] ${d.dark ? 'text-moon' : 'text-bark-950'}`}>
+                <Fragment set:html={d.icon} />
+                <p class={`hand mt-4 text-2xl ${d.dark ? 'text-marigold-300' : 'text-marigold-600'}`}>
+                  {i + 1}. {d.time}
+                </p>
+                <p class={`mt-2 text-[0.98rem] leading-relaxed ${d.dark ? 'text-cream-100/80' : 'text-bark-950/80'}`}>{d.what}</p>
               </li>
             ))
           }
         </ol>
-        <div class="mt-14 pb-6 text-center">
-          <a href="/get-involved" class="btn btn-marigold">Make a day like this happen</a>
-        </div>
+      </div>
+      <p class="hand mt-4 text-center text-xl text-bark-700/60">drag your way through the day &rarr;</p>
+
+      <div class="reveal mt-12 text-center">
+        <a href="/get-involved" class="btn btn-marigold">Make a day like this happen</a>
       </div>
     </div>
   </section>
+
+  <div class="relative">
+    <TornEdge fill="var(--color-cream-100)" seed={67} class="bg-paper" />
+    <div class="bg-cream-100 pb-16 pt-8 text-center">
+      <p class="hand text-2xl text-bark-700/70">
+        next: <a href="/get-involved" class="text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900">chapter three &mdash; how the story continues &rarr;</a>
+      </p>
+    </div>
+  </div>
 </Layout>

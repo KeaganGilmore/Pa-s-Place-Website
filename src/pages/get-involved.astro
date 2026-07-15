@@ -1,7 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import WaveDivider from '../components/WaveDivider.astro';
-import SunRays from '../components/SunRays.astro';
+import ChapterHeader from '../components/story/ChapterHeader.astro';
+import TornEdge from '../components/story/TornEdge.astro';
+import Dove from '../components/story/Dove.astro';
 import { getSettings } from '../lib/cms';
 
 const settings = await getSettings();
@@ -14,65 +15,61 @@ const ways = [
   },
   {
     title: 'Book a stay',
-    text: `Bring your family or group for an affordable beachside holiday (${settings.pricing.accommodation}). Every booking directly funds our children’s retreats.`,
+    text: `Bring your family or group for an affordable beachside holiday — ${settings.pricing.accommodation}. Every booking directly funds our children’s retreats.`,
+    href: '/book-a-stay',
+    cta: 'Booking details',
   },
   {
     title: 'Hire the venue',
-    text: `Host your gathering with us (${settings.pricing.venue}) and turn your event into a child’s holiday.`,
+    text: `Host your gathering with us — ${settings.pricing.venue} — and turn your event into a child’s holiday.`,
   },
 ];
 
 const roles = [
-  ['Activity coordinators', 'Run beach games, trails and team building'],
-  ['Caretakers', 'Help hold the quiet hours and the loud ones'],
-  ['Catering hands', 'Big pots, unique foods, many helpers'],
-  ['Admin & comms', 'Keep the tide charts of the organisation'],
-  ['Maintenance', 'Hammers, paintbrushes and salty hinges'],
+  ['activity coordinators', 'beach games, trails, team building'],
+  ['caretakers', 'holding the quiet hours and the loud ones'],
+  ['catering hands', 'big pots, unique foods, many helpers'],
+  ['admin & comms', 'keeping the tide charts of the organisation'],
+  ['maintenance', 'hammers, paintbrushes, salty hinges'],
 ];
 ---
 
 <Layout title="Get Involved" description="Sponsor a child's holiday, book a stay, volunteer or reach out — every bit helps send a child to the sea.">
-  <!-- ============ PAGE HERO ============ -->
-  <section class="bg-bark-950">
-    <div class="mx-auto max-w-6xl px-5 pb-16 pt-24 text-center sm:pt-28">
-      <SunRays class="fade-up mx-auto h-16 w-16" style="--d: 0s" />
-      <p class="fade-up mt-4 text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-marigold-300" style="--d: 0.05s">Get involved</p>
-      <h1 class="fade-up mx-auto mt-4 max-w-3xl font-display text-5xl font-semibold text-paper sm:text-6xl" style="--d: 0.18s">
-        Help a child meet the ocean.
-      </h1>
-      <p class="fade-up mx-auto mt-6 max-w-xl text-lg text-cream-100/80" style="--d: 0.32s">
-        However you join in — sponsoring, staying, volunteering — it all flows the same way.
-      </p>
-    </div>
-    <WaveDivider fill="var(--color-paper)" />
-  </section>
+  <ChapterHeader
+    chapter="three"
+    title="How the story continues."
+    note="spoiler: this is the chapter with you in it"
+    seed={71}
+  />
 
   <!-- ============ WAYS TO HELP ============ -->
-  <section class="py-16 sm:py-24">
+  <section class="bg-paper py-14 sm:py-20">
     <div class="mx-auto max-w-6xl px-5">
-      <div class="grid gap-8 md:grid-cols-3">
+      <div class="grid gap-10 md:grid-cols-3 md:gap-8">
         {
-          ways.map((w) => (
+          ways.map((w, i) => (
             <article
-              class={`reveal flex flex-col rounded-[1.8rem] p-8 ${
+              class={`reveal relative flex flex-col rounded-[1.5rem] border-2 p-8 pt-10 ${
                 w.accent
-                  ? 'bg-marigold-500 text-paper shadow-[0_24px_48px_-20px_rgb(209_119_14/0.6)]'
-                  : 'bg-cream-100 text-cocoa'
-              }`}
+                  ? 'border-bark-950 bg-marigold-400 shadow-[0.35rem_0.45rem_0_rgb(51_41_28/0.9)] md:-rotate-1'
+                  : 'border-bark-900/10 bg-[#fffdf6] shadow-[0_22px_44px_-26px_rgb(24_18_10/0.5)]'
+              } ${i === 2 ? 'md:rotate-1' : ''}`}
             >
-              <h2 class={`font-display text-2xl font-semibold ${w.accent ? 'text-paper' : 'text-bark-900'}`}>{w.title}</h2>
-              <p class={`mt-4 flex-1 ${w.accent ? 'text-paper/90' : 'text-cocoa/80'}`}>{w.text}</p>
+              <span class="tape" aria-hidden="true" />
+              {w.accent && <p class="hand absolute -top-9 right-2 rotate-2 text-xl text-marigold-600">start here! &darr;</p>}
+              <h2 class="font-display text-2xl font-semibold text-bark-950">{w.title}</h2>
+              <p class={`mt-4 flex-1 ${w.accent ? 'text-bark-950/85' : 'text-cocoa/80'}`}>{w.text}</p>
               <a
-                href={`mailto:${settings.contact.email}?subject=${encodeURIComponent(w.title + " — Pa's Place")}`}
-                class={`btn mt-7 self-start ${w.accent ? 'bg-paper !text-marigold-600 hover:bg-cream-100' : 'btn-bark'}`}
+                href={w.href ?? `mailto:${settings.contact.email}?subject=${encodeURIComponent(w.title + " — Pa's Place")}`}
+                class={`btn mt-7 self-start ${w.accent ? 'btn-paper' : 'btn-bark'}`}
               >
-                Email us about this
+                {w.cta ?? 'Email us about this'}
               </a>
             </article>
           ))
         }
       </div>
-      <p class="reveal mx-auto mt-10 max-w-2xl text-center text-cocoa/75">
+      <p class="reveal mx-auto mt-12 max-w-2xl text-center text-cocoa/75">
         Prefer to give directly? Contact us for our banking details — and tell us if you&rsquo;d like your gift
         to sponsor a specific retreat.
       </p>
@@ -81,35 +78,48 @@ const roles = [
 
   <!-- ============ VOLUNTEER ============ -->
   <section class="relative">
-    <WaveDivider fill="var(--color-cream-100)" />
+    <TornEdge fill="var(--color-cream-100)" seed={73} class="bg-paper" />
     <div class="bg-cream-100 py-16 sm:py-20">
-      <div class="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-[1fr_1.2fr]">
+      <div class="mx-auto grid max-w-6xl items-start gap-12 px-5 lg:grid-cols-[1fr_1.1fr]">
         <div class="reveal">
-          <p class="text-[0.72rem] font-extrabold uppercase tracking-[0.28em] text-marigold-600">Volunteer</p>
-          <h2 class="mt-4 text-4xl font-semibold text-bark-900">Come lend a hand</h2>
+          <p class="hand text-2xl text-marigold-600">volunteer</p>
+          <h2 class="mt-3 font-display text-4xl font-semibold text-bark-900">Come lend a hand</h2>
           <p class="mt-5 max-w-md text-lg text-cocoa/85">
-            Retreats run on many hands. If you have a free weekend and any of these instincts, we would love
-            to meet you.
+            Retreats run on many hands. If you have a free weekend and any of these instincts, we would
+            love to meet you.
           </p>
+          <div class="mt-8 w-28">
+            <Dove class="h-auto w-full" />
+          </div>
         </div>
-        <ul class="space-y-4">
-          {
-            roles.map(([role, blurb]) => (
-              <li class="reveal flex items-baseline justify-between gap-6 rounded-2xl bg-paper px-6 py-4 shadow-sm">
-                <span class="font-display text-lg font-semibold text-bark-900">{role}</span>
-                <span class="text-right text-sm text-cocoa/65">{blurb}</span>
-              </li>
-            ))
-          }
-        </ul>
+
+        <div class="reveal relative rotate-1 rounded-[1.2rem] border-2 border-bark-900/10 bg-[#fffdf6] p-8 shadow-[0_26px_50px_-28px_rgb(24_18_10/0.55)]">
+          <span class="tape" aria-hidden="true"></span>
+          <p class="hand text-2xl text-bark-700">help wanted (all handwriting welcome):</p>
+          <ul class="mt-5 space-y-4">
+            {
+              roles.map(([role, blurb]) => (
+                <li class="flex items-baseline gap-4 border-b border-dashed border-cream-300 pb-3 last:border-none">
+                  <svg class="h-5 w-5 shrink-0 translate-y-0.5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <rect x="2.5" y="2.5" width="19" height="19" rx="5" stroke="var(--color-bark-700)" stroke-width="2.4" />
+                    <path d="M7 12.5 l3.4 3.5 L17 8.5" stroke="var(--color-marigold-500)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <span class="hand text-2xl leading-none text-bark-900">{role}</span>
+                  <span class="ml-auto text-right text-sm text-cocoa/65">{blurb}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </div>
     </div>
+    <TornEdge fill="var(--color-paper)" flip seed={79} class="bg-cream-100" />
   </section>
 
-  <!-- ============ CONTACT ============ -->
-  <section class="py-16 sm:py-24">
+  <!-- ============ SAY HELLO ============ -->
+  <section class="bg-paper py-16 sm:py-24">
     <div class="mx-auto max-w-3xl px-5 text-center">
-      <h2 class="reveal text-4xl font-semibold text-bark-900 sm:text-5xl">
+      <h2 class="reveal font-display text-4xl font-semibold text-bark-900 sm:text-5xl">
         Or just <em class="squiggle font-display italic text-sea-600">say hello</em>
       </h2>
       <p class="reveal mt-5 text-lg text-cocoa/85">
@@ -134,8 +144,8 @@ const roles = [
       <p class="mt-8 text-cocoa/65">{settings.contact.address}</p>
       {
         settings.contact.mapUrl && (
-          <a class="mt-2 inline-block font-bold text-sea-800 underline-offset-4 hover:underline" href={settings.contact.mapUrl}>
-            Open the map &rarr;
+          <a class="hand mt-2 inline-block text-xl text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900" href={settings.contact.mapUrl}>
+            open the map &rarr;
           </a>
         )
       }

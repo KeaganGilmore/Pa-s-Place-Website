@@ -1,0 +1,149 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import Sunburst from '../components/story/Sunburst.astro';
+import TornEdge from '../components/story/TornEdge.astro';
+import { getGallery, getSettings } from '../lib/cms';
+import coastline from '../assets/images/coastline.webp';
+
+const settings = await getSettings();
+const gallery = await getGallery();
+
+const allImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/images/**/*.{webp,jpg,jpeg,png}',
+  { eager: true }
+);
+const house = gallery.find((g) => g.slug === 'the-house');
+const houseImage = house?.image ? allImages[house.image]?.default : undefined;
+
+const whatsapp = settings.contact.phoneLink
+  ? `https://wa.me/${settings.contact.phoneLink.replace(/[^0-9]/g, '')}`
+  : undefined;
+const bookingMail = `mailto:${settings.contact.email}?subject=${encodeURIComponent("Booking enquiry — Pa's Place")}`;
+
+const facts = [
+  { label: 'The place', value: 'A comfortable, peaceful beachside home in Kelso, Pennington — two minutes’ walk from the water.' },
+  { label: 'Who it suits', value: 'Families and groups — school holidays, church groups, quiet weekends away.' },
+  { label: 'Accommodation', value: settings.pricing.accommodation },
+  { label: 'Venue hire', value: settings.pricing.venue },
+];
+
+const steps = [
+  { title: 'Say hello', text: `Call or WhatsApp ${settings.contact.person ?? 'us'} — or send an email. No forms, no logins.` },
+  { title: 'Pick your dates', text: 'Tell us how many of you there are and when you’d like to come.' },
+  { title: 'Come down to the sea', text: 'Arrive, unpack, and be on the beach before the kettle’s boiled.' },
+];
+---
+
+<Layout title="Book a Stay" description="Affordable beachside accommodation in Pennington, KZN — R200 per person per night, and every booking funds a child's holiday.">
+  <!-- ============ HEADER ============ -->
+  <section class="relative overflow-hidden bg-cream-100">
+    <Sunburst class="absolute -right-16 -top-20 h-56 w-56 opacity-70 sm:-right-10 sm:h-72 sm:w-72" spin />
+    <div class="relative mx-auto max-w-6xl px-5 pb-14 pt-28 sm:pb-16 sm:pt-36">
+      <p class="hand fade-up text-2xl text-marigold-600" style="--d: 0.05s">book a stay</p>
+      <h1 class="fade-up mt-3 max-w-3xl font-display text-[2.6rem] font-semibold leading-[1.06] text-bark-900 sm:text-6xl" style="--d: 0.18s">
+        A beachside stay that gives one back.
+      </h1>
+      <p class="hand fade-up mt-5 max-w-xl text-2xl text-bark-700/80" style="--d: 0.32s">
+        {settings.pricing.accommodation} &mdash; and every night funds a child&rsquo;s seaside retreat
+      </p>
+      <div class="fade-up mt-8 flex flex-wrap gap-4" style="--d: 0.44s">
+        {settings.contact.phone && <a href={`tel:${settings.contact.phoneLink || settings.contact.phone}`} class="btn btn-marigold">Call {settings.contact.phone}</a>}
+        {whatsapp && <a href={whatsapp} class="btn btn-bark">WhatsApp us</a>}
+        <a href={bookingMail} class="btn btn-paper">Email an enquiry</a>
+      </div>
+    </div>
+    <TornEdge fill="var(--color-paper)" seed={83} class="relative" />
+  </section>
+
+  <!-- ============ THE DETAILS ============ -->
+  <section class="bg-paper py-14 sm:py-20">
+    <div class="mx-auto grid max-w-6xl gap-14 px-5 lg:grid-cols-[1.1fr_1fr]">
+      <div>
+        <h2 class="font-display text-3xl font-semibold text-bark-900 sm:text-4xl">The practical page</h2>
+        <dl class="mt-8 space-y-6">
+          {
+            facts.map((f) => (
+              <div class="reveal flex gap-5 border-b border-dashed border-cream-300 pb-5">
+                <dt class="hand w-36 shrink-0 text-2xl leading-tight text-marigold-600">{f.label}</dt>
+                <dd class="text-lg text-cocoa/85">{f.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <div class="reveal relative mt-10 rounded-[1.4rem] border-2 border-bark-900/10 bg-cream-100 p-7">
+          <span class="tape" aria-hidden="true"></span>
+          <h3 class="font-display text-xl font-semibold text-bark-900">Where you&rsquo;ll find us</h3>
+          <p class="mt-3 whitespace-pre-line text-cocoa/80">{settings.contact.address}</p>
+          {
+            settings.contact.mapUrl && (
+              <a class="hand mt-3 inline-block text-xl text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900" href={settings.contact.mapUrl}>
+                open the map &rarr;
+              </a>
+            )
+          }
+        </div>
+      </div>
+
+      <aside class="self-start lg:sticky lg:top-28">
+        {
+          houseImage && (
+            <figure class="keepsake reveal mx-auto max-w-md !rotate-1">
+              <Image
+                src={houseImage}
+                alt={house?.alt ?? "The Pa's Place house"}
+                widths={[480, 800]}
+                sizes="(min-width: 1024px) 40vw, 92vw"
+                class="aspect-[4/3] w-full object-cover"
+              />
+              <figcaption class="hand pt-3 text-center text-[1.4rem] text-cocoa/85">{house?.caption}</figcaption>
+            </figure>
+          )
+        }
+        <figure class="keepsake reveal mx-auto mt-10 max-w-md !-rotate-1">
+          <Image
+            src={coastline}
+            alt="The Pennington coastline — a golden beach and an old bench facing the sea"
+            widths={[480, 800]}
+            sizes="(min-width: 1024px) 40vw, 92vw"
+            class="aspect-[4/3] w-full object-cover"
+          />
+          <figcaption class="hand pt-3 text-center text-[1.4rem] text-cocoa/85">two minutes this way &rarr;</figcaption>
+        </figure>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="relative">
+    <TornEdge fill="var(--color-cream-100)" seed={89} class="bg-paper" />
+    <div class="bg-cream-100 py-16 sm:py-20">
+      <div class="mx-auto max-w-6xl px-5">
+        <h2 class="reveal text-center font-display text-3xl font-semibold text-bark-900 sm:text-4xl">Booking, in three small steps</h2>
+        <ol class="mx-auto mt-12 grid max-w-4xl gap-8 sm:grid-cols-3">
+          {
+            steps.map((s, i) => (
+              <li class={`reveal relative rounded-[1.4rem] border-2 border-bark-900/10 bg-[#fffdf6] p-7 pt-9 text-center shadow-[0_20px_40px_-26px_rgb(24_18_10/0.5)] ${i === 0 ? 'sm:-rotate-1' : i === 2 ? 'sm:rotate-1' : 'sm:translate-y-3'}`}>
+                <span class="tape" aria-hidden="true" />
+                <span class="hand text-3xl text-marigold-500">{i + 1}.</span>
+                <h3 class="mt-2 font-display text-xl font-semibold text-bark-900">{s.title}</h3>
+                <p class="mt-2 text-cocoa/80">{s.text}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="reveal mt-12 flex flex-wrap justify-center gap-4">
+          {settings.contact.phone && <a href={`tel:${settings.contact.phoneLink || settings.contact.phone}`} class="btn btn-marigold">Call {settings.contact.phone}</a>}
+          {whatsapp && <a href={whatsapp} class="btn btn-bark">WhatsApp us</a>}
+          <a href={bookingMail} class="btn btn-paper">Email an enquiry</a>
+        </div>
+        <p class="hand mt-8 text-center text-2xl text-bark-700/75">
+          rather give a holiday than take one? <a href="/get-involved" class="text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900">sponsor a child&rsquo;s stay &rarr;</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

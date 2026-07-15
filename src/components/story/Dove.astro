@@ -1,0 +1,84 @@
+---
+// The dove from the Pa's Place logo, redrawn as the storybook's guide.
+// Facing right, mid-flight. Wings are separate groups so `.dove-flying`
+// (see global.css) can flap them. `star` hangs a little wished-on star
+// from its beak for the dream pages.
+interface Props {
+  class?: string;
+  flying?: boolean;
+  star?: boolean;
+}
+const { class: className = 'h-24 w-28', flying = true, star = false } = Astro.props;
+---
+
+<svg
+  class={`${className} ${flying ? 'dove-flying' : ''}`}
+  viewBox="0 0 132 132"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
+  <!-- lower wing (beats behind the body) -->
+  <g class="dove-wing-down" style="transform-origin: 58px 56px;">
+    <path
+      d="M58 54 C60 66 68 79 84 88 C76 87 69 84 64 80 C63 84 57 80 53 73 C50 68 51 59 58 54 Z"
+      fill="#e9f4f9"
+      stroke="#b4dceb"
+      stroke-width="1.6"
+      stroke-linejoin="round"
+    />
+  </g>
+
+  <!-- tail fan -->
+  <path
+    d="M30 58 L6 62 L14 70 L2 78 L18 81 L12 92 L32 76 Z"
+    fill="#fffdf6"
+    stroke="#b4dceb"
+    stroke-width="1.6"
+    stroke-linejoin="round"
+  />
+
+  <!-- body, head and beak -->
+  <path
+    d="M12 82 C6 75 8 64 16 60 C32 50 52 43 70 40 C79 38 87 33 95 33 C105 33 112 39 112 46 L124 50 L111 55 C108 63 100 67 90 67 C74 73 56 73 40 73 C30 75 20 79 12 82 Z"
+    fill="#fffdf6"
+    stroke="#b4dceb"
+    stroke-width="1.6"
+    stroke-linejoin="round"
+  />
+  <!-- breast shading -->
+  <path
+    d="M42 70 C58 72 74 70 88 63 C80 71 62 76 46 73 Z"
+    fill="#d8edf5"
+    opacity="0.75"
+  />
+  <!-- beak -->
+  <path d="M112 45.5 L124 50 L111 54.5 Z" fill="#f7ae3c" />
+  <!-- eye -->
+  <circle cx="101" cy="42.5" r="2.3" fill="#33291c" />
+
+  <!-- upper wing (beats in front) -->
+  <g class="dove-wing-up" style="transform-origin: 62px 46px;">
+    <path
+      d="M60 46 C63 28 79 11 100 5 C93 17 91 24 89 32 C85 30 82 35 78 41 C74 39 69 43 66 47 C64 48 61 47 60 46 Z"
+      fill="#fffdf6"
+      stroke="#b4dceb"
+      stroke-width="1.6"
+      stroke-linejoin="round"
+    />
+  </g>
+
+  {
+    star && (
+      <g>
+        <path d="M124 50 C126 58 126 64 122 72" stroke="#f7ecd2" stroke-width="1.2" stroke-dasharray="2.5 3" fill="none" />
+        <path
+          class="twinkle"
+          style="--tw-delay: 0.6s"
+          d="M122 72 L124.4 78 L130 80.4 L124.4 82.8 L122 89 L119.6 82.8 L114 80.4 L119.6 78 Z"
+          fill="#fbc968"
+        />
+      </g>
+    )
+  }
+</svg>
