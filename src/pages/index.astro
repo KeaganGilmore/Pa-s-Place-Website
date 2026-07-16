@@ -2,7 +2,7 @@
 import type { ImageMetadata } from 'astro';
 import Layout from '../layouts/Layout.astro';
 import HeroDay from '../components/story/scenes/HeroDay.astro';
-import FactsRow from '../components/home/FactsRow.astro';
+import StayOptions from '../components/home/StayOptions.astro';
 import ThePlace from '../components/home/ThePlace.astro';
 import SceneAlbum from '../components/story/scenes/SceneAlbum.astro';
 import LocationBand from '../components/home/LocationBand.astro';
@@ -50,7 +50,7 @@ const priceChip = settings.pricing.accommodation?.split(' (')[0];
         />
       )
     }
-    <FactsRow accommodation={settings.pricing.accommodation} venue={settings.pricing.venue} />
+    <StayOptions accommodation={settings.pricing.accommodation} venue={settings.pricing.venue} />
     <ThePlace
       housePhoto={houseImage}
       houseAlt={house?.alt ?? "The Pa's Place house"}
@@ -66,7 +66,3 @@ const priceChip = settings.pricing.accommodation?.split(' (')[0];
     <CharityNote />
   </div>
 </Layout>
-
-<script>
-  import '../scripts/storybook';
-</script>

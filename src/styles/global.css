@@ -293,22 +293,6 @@ html {
 }
 .bob { animation: bob 4.5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
 
-@keyframes flap-up {
-  0%, 100% { transform: rotate(0deg); }
-  50%      { transform: rotate(-24deg); }
-}
-@keyframes flap-down {
-  0%, 100% { transform: rotate(0deg); }
-  50%      { transform: rotate(18deg); }
-}
-.dove-flying .dove-wing-up {
-  animation: flap-up 0.9s ease-in-out infinite;
-}
-.dove-flying .dove-wing-down {
-  animation: flap-down 0.9s ease-in-out infinite;
-}
-.dove-wing-up, .dove-wing-down { transform-box: fill-box; }
-
 @keyframes rays-slow { to { transform: rotate(360deg); } }
 .rays-slow {
   animation: rays-slow 140s linear infinite;
@@ -384,8 +368,7 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .fade-up, .twinkle, .firefly, .bob, .rays-slow, .waft, .waft-late,
-  .dove-flying .dove-wing-up, .dove-flying .dove-wing-down {
+  .fade-up, .twinkle, .firefly, .bob, .rays-slow, .waft, .waft-late {
     animation: none;
   }
   .marquee-track { animation: none; flex-wrap: wrap; width: auto; }

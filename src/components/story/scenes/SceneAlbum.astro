@@ -1,9 +1,7 @@
 ---
-// Page four: the family album. Real film photographs taped into the book,
-// read sideways like flipping through a shoebox of prints.
+// The family album — real film photographs taped into a simple grid.
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
-import TornEdge from '../TornEdge.astro';
 
 interface AlbumPhoto {
   meta: ImageMetadata;
@@ -14,48 +12,11 @@ interface Props {
   photos: AlbumPhoto[];
 }
 const { photos } = Astro.props;
-
-// little doodles scattered between the prints
-const doodles = [
-  {
-    after: 1,
-    note: 'found in a rock pool!',
-    svg: `<svg viewBox="0 0 120 110" class="mx-auto h-20 w-20" fill="none" aria-hidden="true">
-      <path d="M60 96 C30 96 14 74 16 50 C18 30 36 14 60 14 C84 14 102 30 104 50 C106 74 90 96 60 96 Z" fill="#fbc968" stroke="#5c4a36" stroke-width="4" stroke-linejoin="round"/>
-      <path d="M60 96 L38 26 M60 96 L60 20 M60 96 L82 26 M60 96 L26 44 M60 96 L94 44" stroke="#5c4a36" stroke-width="3.5" stroke-linecap="round"/>
-    </svg>`,
-  },
-  {
-    after: 3,
-    note: 'low tide, high spirits',
-    svg: `<svg viewBox="0 0 130 110" class="mx-auto h-20 w-24" fill="none" aria-hidden="true">
-      <path d="M65 12 L78 42 L110 46 L86 68 L93 100 L65 84 L37 100 L44 68 L20 46 L52 42 Z" fill="#4f93a3" stroke="#29586a" stroke-width="4" stroke-linejoin="round"/>
-      <circle cx="58" cy="52" r="3.5" fill="#11152b"/>
-      <circle cx="74" cy="52" r="3.5" fill="#11152b"/>
-      <path d="M60 64 q6 5 12 0" stroke="#11152b" stroke-width="3" stroke-linecap="round"/>
-    </svg>`,
-  },
-  {
-    after: 5,
-    note: 'sun cream, everywhere',
-    svg: `<svg viewBox="0 0 120 110" class="mx-auto h-20 w-20" fill="none" aria-hidden="true">
-      <circle cx="60" cy="55" r="24" fill="#f7ae3c" stroke="#d1770e" stroke-width="4"/>
-      <g stroke="#d1770e" stroke-width="4.5" stroke-linecap="round">
-        <path d="M60 18 v-10 M60 92 v10 M23 55 h-10 M97 55 h10 M34 29 l-8 -8 M86 81 l8 8 M86 29 l8 -8 M34 81 l-8 8"/>
-      </g>
-      <circle cx="52" cy="50" r="3" fill="#5c4a36"/>
-      <circle cx="68" cy="50" r="3" fill="#5c4a36"/>
-      <path d="M52 63 q8 7 16 0" stroke="#5c4a36" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-    </svg>`,
-  },
-];
 ---
 
-<section data-scene="album" class="relative bg-paper" aria-label="Page four — the family album">
-  <TornEdge fill="var(--color-paper)" seed={29} class="relative z-20 -mt-[25px] sm:-mt-[35px]" />
-
-  <div class="relative z-10 pt-14 sm:pt-16">
-    <div class="mx-auto flex max-w-6xl flex-wrap items-end justify-between gap-x-10 gap-y-3 px-5">
+<section class="relative bg-paper" aria-label="The family album">
+  <div class="mx-auto max-w-6xl px-5 pb-20 pt-14 sm:pt-16">
+    <div class="reveal flex flex-wrap items-end justify-between gap-x-10 gap-y-3">
       <div>
         <p class="hand text-2xl text-marigold-600">from the family album</p>
         <h2 class="mt-2 font-display text-4xl font-semibold text-bark-900 sm:text-5xl">Days at Pa&rsquo;s Place</h2>
@@ -65,50 +26,34 @@ const doodles = [
       </p>
     </div>
 
-    <div data-album-viewport class="mt-10 cursor-grab snap-x snap-mandatory overflow-x-auto pb-12 select-none">
-      <div data-album-track class="flex w-max items-center gap-10 px-6 sm:px-10 md:gap-14">
-        {
-          photos.map((p, i) => (
-            <>
-              <figure class="keepsake keepsake-tilt w-[74vw] shrink-0 snap-center sm:w-[46vw] md:w-[38vw] lg:w-[420px]">
-                <Image
-                  src={p.meta}
-                  alt={p.alt}
-                  widths={[400, 640, 900]}
-                  sizes="(min-width: 1024px) 420px, (min-width: 640px) 46vw, 74vw"
-                  loading="eager"
-                  class="aspect-square w-full object-cover"
-                />
-                {p.caption && <figcaption class="hand pt-3 text-center text-[1.4rem] leading-snug text-cocoa/85">{p.caption}</figcaption>}
-              </figure>
-              {doodles
-                .filter((d) => d.after === i)
-                .map((d) => (
-                  <div class="w-36 shrink-0 self-center text-center">
-                    <Fragment set:html={d.svg} />
-                    <p class="hand mt-2 text-xl leading-tight text-bark-700/75">{d.note}</p>
-                  </div>
-                ))}
-            </>
-          ))
-        }
+    <div class="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        photos.map((p) => (
+          <figure class="keepsake keepsake-tilt reveal">
+            <Image
+              src={p.meta}
+              alt={p.alt}
+              widths={[400, 640, 900]}
+              sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
+              class="aspect-square w-full object-cover"
+            />
+            {p.caption && <figcaption class="hand pt-3 text-center text-[1.35rem] leading-snug text-cocoa/85">{p.caption}</figcaption>}
+          </figure>
+        ))
+      }
 
-        <!-- the empty frame -->
-        <figure class="keepsake w-[74vw] shrink-0 snap-center !rotate-1 sm:w-[46vw] md:w-[38vw] lg:w-[420px]">
-          <div class="grid aspect-square w-full place-items-center rounded-[2px] border-4 border-dashed border-cream-300 bg-[#fffcf3] p-8 text-center">
-            <div>
-              <p class="hand text-[1.6rem] leading-snug text-bark-700">
-                this frame is waiting for a child who hasn&rsquo;t met the sea yet.
-              </p>
-              <a href="/get-involved" class="btn btn-marigold mt-6">Sponsor a holiday</a>
-            </div>
+      <!-- the empty frame -->
+      <figure class="keepsake reveal !rotate-1">
+        <div class="grid aspect-square w-full place-items-center rounded-[2px] border-4 border-dashed border-cream-300 bg-[#fffcf3] p-8 text-center">
+          <div>
+            <p class="hand text-[1.5rem] leading-snug text-bark-700">
+              this frame is waiting for a child who hasn&rsquo;t met the sea yet.
+            </p>
+            <a href="/our-story" class="btn btn-marigold mt-5">Read the story</a>
           </div>
-          <figcaption class="hand pt-3 text-center text-[1.4rem] text-cocoa/85">the next photo &rarr;</figcaption>
-        </figure>
-      </div>
+        </div>
+        <figcaption class="hand pt-3 text-center text-[1.35rem] text-cocoa/85">the next photo &rarr;</figcaption>
+      </figure>
     </div>
   </div>
-
-  <p class="hand pb-4 pr-6 text-right text-lg text-bark-700/50">&middot; four &middot;</p>
-
 </section>

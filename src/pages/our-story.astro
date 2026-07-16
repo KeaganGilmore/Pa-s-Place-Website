@@ -5,9 +5,8 @@ import Layout from '../layouts/Layout.astro';
 import StoryNight from '../components/story/scenes/StoryNight.astro';
 import StoryDream from '../components/story/scenes/StoryDream.astro';
 import StoryJourney from '../components/story/scenes/StoryJourney.astro';
-import MissionMoment from '../components/story/scenes/MissionMoment.astro';
+import NotebookSpread from '../components/story/scenes/NotebookSpread.astro';
 import StoryEnd from '../components/story/scenes/StoryEnd.astro';
-import TornEdge from '../components/story/TornEdge.astro';
 import { getGallery } from '../lib/cms';
 import coastline from '../assets/images/coastline.webp';
 import firstSea from '../assets/images/hero-first-sea.webp';
@@ -30,14 +29,13 @@ const houseImage = house?.image ? allImages[house.image]?.default : undefined;
     <StoryNight />
     <StoryDream />
     <StoryJourney />
-    <MissionMoment
+    <NotebookSpread
       photo={firstSea}
       photoAlt="A grandfather and child walking hand in hand through the dunes toward the sea"
     />
 
     <!-- ============ THE STORY, TOLD ============ -->
     <section class="relative bg-paper" aria-label="What Pa's Place is">
-      <TornEdge fill="var(--color-paper)" seed={97} class="relative z-10 -mt-[25px] sm:-mt-[35px]" />
       <div class="mx-auto grid max-w-6xl gap-14 px-5 py-14 sm:py-20 lg:grid-cols-[1.2fr_1fr]">
         <div class="max-w-xl space-y-6 text-lg text-cocoa/90">
           <p class="hand !-mb-2 text-2xl text-marigold-600">so, plainly then:</p>

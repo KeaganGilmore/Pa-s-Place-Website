@@ -1,18 +1,17 @@
 ---
 // The dove from the Pa's Place logo, redrawn as the storybook's guide.
-// Facing right, mid-flight. Wings are separate groups so `.dove-flying`
-// (see global.css) can flap them. `star` hangs a little wished-on star
-// from its beak for the dream pages.
+// Facing right, gliding — wings held still (animated flapping read as
+// cheap, so the dove keeps its dignity). `star` hangs a little wished-on
+// star from its beak for the dream pages.
 interface Props {
   class?: string;
-  flying?: boolean;
   star?: boolean;
 }
-const { class: className = 'h-24 w-28', flying = true, star = false } = Astro.props;
+const { class: className = 'h-24 w-28', star = false } = Astro.props;
 ---
 
 <svg
-  class={`${className} ${flying ? 'dove-flying' : ''}`}
+  class={className}
   viewBox="0 0 132 132"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"

@@ -6,7 +6,6 @@ import Sunburst from '../components/story/Sunburst.astro';
 import TornEdge from '../components/story/TornEdge.astro';
 import BookingForm from '../components/BookingForm.astro';
 import { getGallery, getSettings } from '../lib/cms';
-import coastline from '../assets/images/coastline.webp';
 
 const settings = await getSettings();
 const gallery = await getGallery();
@@ -15,46 +14,46 @@ const allImages = import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/images/**/*.{webp,jpg,jpeg,png}',
   { eager: true }
 );
-const house = gallery.find((g) => g.slug === 'the-house');
-const houseImage = house?.image ? allImages[house.image]?.default : undefined;
+const foodDay = gallery.find((g) => g.slug === 'food-day');
+const foodImage = foodDay?.image ? allImages[foodDay.image]?.default : undefined;
 
 const whatsappDigits = settings.contact.phoneLink?.replace(/[^0-9]/g, '') || undefined;
 
 const facts = [
-  { label: 'The place', value: 'A comfortable, peaceful beachside home in Kelso, Pennington — two minutes’ walk from the water.' },
-  { label: 'Who it suits', value: 'Families and groups — school holidays, church groups, quiet weekends away.' },
-  { label: 'The rate', value: settings.pricing.accommodation },
-  { label: 'Day events', value: `Rather hosting than sleeping over? ${settings.pricing.venue}` },
+  { label: 'The rate', value: settings.pricing.venue },
+  { label: 'What suits it', value: 'Birthdays, church gatherings, year-end functions, family days — long tables, big pots, loud lawns.' },
+  { label: 'The setting', value: 'A peaceful garden with a playground, two minutes’ walk from the beach in Kelso, Pennington.' },
+  { label: 'Sleeping over?', value: `Make a weekend of it — ${settings.pricing.accommodation}.` },
 ];
 
 const steps = [
-  { title: 'Send your dates', text: 'Use the form, WhatsApp, or just phone — whichever is easiest for you.' },
-  { title: 'We confirm availability', text: `${settings.contact.person ?? 'We'} will come back to you quickly with a yes and the total.` },
-  { title: 'Pay the deposit, you’re booked', text: 'A simple EFT deposit locks in your dates — banking details come with the confirmation.' },
+  { title: 'Send your date', text: 'Use the form, WhatsApp, or phone — tell us roughly how many of you there are.' },
+  { title: 'We confirm availability', text: `${settings.contact.person ?? 'We'} will come back quickly with a yes and the total.` },
+  { title: 'Pay the deposit, it’s yours', text: 'The R500 deposit locks in your date by EFT — banking details come with the confirmation.' },
 ];
 ---
 
-<Layout title="Book a Stay" description="Book affordable beachside accommodation in Pennington, KZN — R200 per person per night, and every booking funds a child's holiday.">
+<Layout title="Venue Hire" description="Hire the Pa's Place venue in Pennington, KZN for gatherings and day events — R80 per person, and every event funds children's holidays.">
   <!-- ============ HEADER ============ -->
   <section class="relative overflow-hidden bg-cream-100">
     <Sunburst class="absolute -right-16 -top-20 h-56 w-56 opacity-70 sm:-right-10 sm:h-72 sm:w-72" spin />
     <div class="relative mx-auto max-w-6xl px-5 pb-12 pt-28 sm:pb-14 sm:pt-36">
-      <p class="hand fade-up text-2xl text-marigold-600" style="--d: 0.05s">book a stay</p>
+      <p class="hand fade-up text-2xl text-marigold-600" style="--d: 0.05s">venue hire</p>
       <h1 class="fade-up mt-3 max-w-3xl font-display text-[2.6rem] font-semibold leading-[1.06] text-bark-900 sm:text-6xl" style="--d: 0.18s">
-        Pick your dates. We&rsquo;ll have the sea ready.
+        Long tables, a loud lawn, and the sea up the road.
       </h1>
       <p class="hand fade-up mt-5 max-w-xl text-2xl text-bark-700/80" style="--d: 0.32s">
-        {settings.pricing.accommodation} &mdash; and every night funds a child&rsquo;s seaside retreat
+        {settings.pricing.venue} &mdash; and every event helps fund a child&rsquo;s holiday
       </p>
     </div>
-    <TornEdge fill="var(--color-paper)" seed={83} class="relative" />
+    <TornEdge fill="var(--color-paper)" seed={101} class="relative" />
   </section>
 
   <!-- ============ REQUEST + FACTS ============ -->
   <section class="bg-paper py-12 sm:py-16">
     <div class="mx-auto grid max-w-6xl items-start gap-12 px-5 lg:grid-cols-[1.15fr_1fr]">
       <div class="fade-up" style="--d: 0.15s">
-        <BookingForm kind="stay" email={settings.contact.email} whatsappDigits={whatsappDigits} />
+        <BookingForm kind="venue" email={settings.contact.email} whatsappDigits={whatsappDigits} />
         <p class="hand mt-5 text-center text-xl text-bark-700/75">
           faster by voice? {settings.contact.phone && <a class="text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900" href={`tel:${settings.contact.phoneLink || settings.contact.phone}`}>call {settings.contact.person ?? 'us'} on {settings.contact.phone}</a>}
         </p>
@@ -62,16 +61,16 @@ const steps = [
 
       <aside>
         {
-          houseImage && (
-            <figure class="keepsake reveal mx-auto max-w-md !rotate-1">
+          foodImage && (
+            <figure class="keepsake reveal mx-auto max-w-md !-rotate-1">
               <Image
-                src={houseImage}
-                alt={house?.alt ?? "The Pa's Place house"}
+                src={foodImage}
+                alt={foodDay?.alt ?? "A community food day at Pa's Place"}
                 widths={[480, 800]}
                 sizes="(min-width: 1024px) 40vw, 92vw"
                 class="aspect-[4/3] w-full object-cover"
               />
-              <figcaption class="hand pt-3 text-center text-[1.4rem] text-cocoa/85">{house?.caption}</figcaption>
+              <figcaption class="hand pt-3 text-center text-[1.4rem] text-cocoa/85">{foodDay?.caption ?? 'long tables, longer afternoons'}</figcaption>
             </figure>
           )
         }
@@ -96,9 +95,9 @@ const steps = [
     </div>
   </section>
 
-  <!-- ============ HOW BOOKING & PAYMENT WORK ============ -->
+  <!-- ============ HOW IT WORKS ============ -->
   <section class="relative">
-    <TornEdge fill="var(--color-cream-100)" seed={89} class="bg-paper" />
+    <TornEdge fill="var(--color-cream-100)" seed={103} class="bg-paper" />
     <div class="bg-cream-100 py-16 sm:py-20">
       <div class="mx-auto max-w-6xl px-5">
         <h2 class="reveal text-center font-display text-3xl font-semibold text-bark-900 sm:text-4xl">Booking &amp; payment, in three small steps</h2>
@@ -115,24 +114,9 @@ const steps = [
           }
         </ol>
         <p class="reveal hand mt-10 text-center text-2xl text-bark-700/75">
-          hosting a day event instead? <a href="/venue-hire" class="text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900">hire the venue &rarr;</a>
+          staying the night instead? <a href="/book-a-stay" class="text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900">book the house &rarr;</a>
         </p>
       </div>
     </div>
-    <TornEdge fill="var(--color-paper)" flip seed={95} class="bg-cream-100" />
-  </section>
-
-  <!-- ============ BEACH REMINDER ============ -->
-  <section class="bg-paper pb-20">
-    <figure class="keepsake mx-auto max-w-2xl !-rotate-1 px-0">
-      <Image
-        src={coastline}
-        alt="The Pennington coastline — a golden beach and an old bench facing the sea"
-        widths={[640, 1024]}
-        sizes="(min-width: 768px) 672px, 92vw"
-        class="aspect-[16/9] w-full object-cover"
-      />
-      <figcaption class="hand pt-3 text-center text-[1.4rem] text-cocoa/85">two minutes from your front door &rarr;</figcaption>
-    </figure>
   </section>
 </Layout>

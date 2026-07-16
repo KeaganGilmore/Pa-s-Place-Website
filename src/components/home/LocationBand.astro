@@ -20,7 +20,7 @@ const { address, mapUrl } = Astro.props;
         <p class="hand mt-3 text-xl text-bark-700/75">about an hour south of Durban, and two minutes from the water</p>
       </div>
       <div class="flex flex-wrap gap-4 md:flex-col">
-        {mapUrl && <a href={mapUrl} class="btn btn-marigold">Open the map</a>}
+        {mapUrl && <a href={mapUrl} target="_blank" rel="noopener" class="btn btn-marigold">Open the map</a>}
         <a href="/book-a-stay" class="btn btn-paper">Book a stay</a>
       </div>
     </div>

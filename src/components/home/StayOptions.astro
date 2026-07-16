@@ -1,0 +1,79 @@
+---
+// The two ways to use Pa's Place, right up front — nobody should have to
+// hunt for what it costs or where to book.
+interface Props {
+  accommodation?: string;
+  venue?: string;
+}
+const { accommodation, venue } = Astro.props;
+
+const options = [
+  {
+    kicker: 'sleep over',
+    title: 'Beach house holidays',
+    price: accommodation ?? 'ask us for rates',
+    points: [
+      'the whole house for your family or group',
+      'two minutes’ walk from the beach',
+      'peaceful garden setting with a playground',
+    ],
+    cta: { label: 'Book a stay', href: '/book-a-stay' },
+    accent: true,
+  },
+  {
+    kicker: 'spend the day',
+    title: 'Venue & day events',
+    price: venue ?? 'ask us for rates',
+    points: [
+      'gatherings, parties and church groups',
+      'lawn, playground and space for long tables',
+      'a short stroll from the sand between courses',
+    ],
+    cta: { label: 'Hire the venue', href: '/venue-hire' },
+    accent: false,
+  },
+];
+---
+
+<section class="bg-paper" aria-label="Ways to stay">
+  <div class="mx-auto max-w-6xl px-5 pb-6 pt-14 sm:pt-16">
+    <div class="reveal flex flex-wrap items-end justify-between gap-x-10 gap-y-2">
+      <h2 class="font-display text-3xl font-semibold text-bark-900 sm:text-4xl">Choose your kind of day</h2>
+      <p class="hand pb-1 text-xl text-bark-700/75">both fund children&rsquo;s holidays — that&rsquo;s the whole idea</p>
+    </div>
+
+    <div class="mt-8 grid gap-6 md:grid-cols-2">
+      {
+        options.map((o) => (
+          <article
+            class={`reveal relative flex flex-col rounded-[1.5rem] border-2 p-7 pt-9 sm:p-8 sm:pt-10 ${
+              o.accent
+                ? 'border-bark-950 bg-marigold-400 shadow-[0.35rem_0.45rem_0_rgb(51_41_28/0.9)]'
+                : 'border-bark-900/10 bg-[#fffdf6] shadow-[0_22px_44px_-26px_rgb(24_18_10/0.5)]'
+            }`}
+          >
+            <span class="tape" aria-hidden="true" />
+            <p class={`hand text-xl ${o.accent ? 'text-bark-900' : 'text-sea-600'}`}>{o.kicker}</p>
+            <h3 class="mt-1 font-display text-2xl font-semibold text-bark-950 sm:text-3xl">{o.title}</h3>
+            <p class={`mt-3 inline-block self-start rounded-lg px-3 py-1.5 font-bold ${o.accent ? 'bg-bark-950 text-marigold-300' : 'bg-cream-100 text-bark-900'}`}>
+              {o.price}
+            </p>
+            <ul class={`mt-4 flex-1 space-y-2 ${o.accent ? 'text-bark-950/85' : 'text-cocoa/80'}`}>
+              {o.points.map((p) => (
+                <li class="flex items-start gap-2.5">
+                  <svg class="mt-1.5 h-3 w-3 shrink-0" viewBox="0 0 12 12" fill={o.accent ? '#33291c' : '#f0931f'} aria-hidden="true">
+                    <path d="M6 0l1.4 4.6L12 6l-4.6 1.4L6 12 4.6 7.4 0 6l4.6-1.4Z" />
+                  </svg>
+                  {p}
+                </li>
+              ))}
+            </ul>
+            <a href={o.cta.href} class={`btn mt-6 self-start ${o.accent ? 'btn-paper' : 'btn-marigold'}`}>
+              {o.cta.label}
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

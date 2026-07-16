@@ -22,6 +22,8 @@ const ways = [
   {
     title: 'Hire the venue',
     text: `Host your gathering with us — ${settings.pricing.venue} — and turn your event into a child’s holiday.`,
+    href: '/venue-hire',
+    cta: 'Venue details',
   },
 ];
 
@@ -144,7 +146,7 @@ const roles = [
       <p class="mt-8 text-cocoa/65">{settings.contact.address}</p>
       {
         settings.contact.mapUrl && (
-          <a class="hand mt-2 inline-block text-xl text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900" href={settings.contact.mapUrl}>
+          <a class="hand mt-2 inline-block text-xl text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900" href={settings.contact.mapUrl} target="_blank" rel="noopener">
             open the map &rarr;
           </a>
         )

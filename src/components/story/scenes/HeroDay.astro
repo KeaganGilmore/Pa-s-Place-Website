@@ -5,7 +5,6 @@
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import Sunburst from '../Sunburst.astro';
-import Dove from '../Dove.astro';
 import TornEdge from '../TornEdge.astro';
 
 interface Props {
@@ -39,11 +38,6 @@ const chips = [priceChip && `from ${priceChip}`, '2 minutes from the beach', 'fa
 
   <!-- the sun of the book, peeking in -->
   <Sunburst class="absolute -right-12 -top-14 h-44 w-44 opacity-90 sm:-right-8 sm:h-56 sm:w-56" color="#fbc968" spin />
-
-  <!-- the dove crosses the morning -->
-  <div class="absolute left-[6%] top-[12%] w-16 opacity-95 sm:w-20" aria-hidden="true">
-    <Dove class="h-auto w-full" />
-  </div>
 
   <div class="relative z-10 mx-auto w-full max-w-6xl px-5 pb-12 pt-36 sm:pb-14">
     <div class="relative max-w-2xl rounded-[1.6rem] bg-paper/95 p-6 shadow-[0_30px_60px_-30px_rgb(24_18_10/0.7)] sm:p-9">
