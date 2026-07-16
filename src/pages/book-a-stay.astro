@@ -4,7 +4,7 @@ import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Sunburst from '../components/story/Sunburst.astro';
 import TornEdge from '../components/story/TornEdge.astro';
-import BookingForm from '../components/BookingForm.astro';
+import BookingEngine from '../components/booking/BookingEngine.tsx';
 import { getGallery, getSettings } from '../lib/cms';
 import coastline from '../assets/images/coastline.webp';
 
@@ -28,9 +28,9 @@ const facts = [
 ];
 
 const steps = [
-  { title: 'Send your dates', text: 'Use the form, WhatsApp, or just phone — whichever is easiest for you.' },
-  { title: 'We confirm availability', text: `${settings.contact.person ?? 'We'} will come back to you quickly with a yes and the total.` },
-  { title: 'Pay the deposit, you’re booked', text: 'A simple EFT deposit locks in your dates — banking details come with the confirmation.' },
+  { title: 'Pick your dates', text: 'The calendar shows live availability — choose a clear stretch and your party size.' },
+  { title: 'Pay the 50% deposit', text: 'Card or instant EFT, secured — your dates are locked in the moment it clears.' },
+  { title: 'Get your confirmation', text: 'A booking reference and directions land in your inbox. Balance is payable on arrival.' },
 ];
 ---
 
@@ -50,32 +50,43 @@ const steps = [
     <TornEdge fill="var(--color-paper)" seed={83} class="relative" />
   </section>
 
-  <!-- ============ REQUEST + FACTS ============ -->
+  <!-- ============ THE BOOKING ENGINE ============ -->
   <section class="bg-paper py-12 sm:py-16">
-    <div class="mx-auto grid max-w-6xl items-start gap-12 px-5 lg:grid-cols-[1.15fr_1fr]">
+    <div class="mx-auto max-w-6xl px-5">
       <div class="fade-up" style="--d: 0.15s">
-        <BookingForm kind="stay" email={settings.contact.email} whatsappDigits={whatsappDigits} />
-        <p class="hand mt-5 text-center text-xl text-bark-700/75">
-          faster by voice? {settings.contact.phone && <a class="text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900" href={`tel:${settings.contact.phoneLink || settings.contact.phone}`}>call {settings.contact.person ?? 'us'} on {settings.contact.phone}</a>}
-        </p>
+        <BookingEngine
+          client:load
+          kind="stay"
+          phone={settings.contact.phone}
+          phoneLink={settings.contact.phoneLink}
+          whatsapp={whatsappDigits ? `https://wa.me/${whatsappDigits}` : undefined}
+        />
       </div>
+      <p class="hand mt-6 text-center text-xl text-bark-700/75">
+        rather book by voice? {settings.contact.phone && <a class="text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900" href={`tel:${settings.contact.phoneLink || settings.contact.phone}`}>call {settings.contact.person ?? 'us'} on {settings.contact.phone}</a>}
+      </p>
+    </div>
+  </section>
 
-      <aside>
-        {
-          houseImage && (
-            <figure class="keepsake reveal mx-auto max-w-md !rotate-1">
-              <Image
-                src={houseImage}
-                alt={house?.alt ?? "The Pa's Place house"}
-                widths={[480, 800]}
-                sizes="(min-width: 1024px) 40vw, 92vw"
-                class="aspect-[4/3] w-full object-cover"
-              />
-              <figcaption class="hand pt-3 text-center text-[1.4rem] text-cocoa/85">{house?.caption}</figcaption>
-            </figure>
-          )
-        }
-        <dl class="mt-10 space-y-5">
+  <!-- ============ THE PLACE, BRIEFLY ============ -->
+  <section class="bg-paper pb-16">
+    <div class="mx-auto grid max-w-6xl items-center gap-12 px-5 lg:grid-cols-2">
+      {
+        houseImage && (
+          <figure class="keepsake reveal mx-auto max-w-md !rotate-1">
+            <Image
+              src={houseImage}
+              alt={house?.alt ?? "The Pa's Place house"}
+              widths={[480, 800]}
+              sizes="(min-width: 1024px) 40vw, 92vw"
+              class="aspect-[4/3] w-full object-cover"
+            />
+            <figcaption class="hand pt-3 text-center text-[1.4rem] text-cocoa/85">{house?.caption}</figcaption>
+          </figure>
+        )
+      }
+      <div>
+        <dl class="space-y-5">
           {
             facts.map((f) => (
               <div class="reveal flex gap-5 border-b border-dashed border-cream-300 pb-4">
@@ -92,7 +103,7 @@ const steps = [
             </a>
           )
         }
-      </aside>
+      </div>
     </div>
   </section>
 

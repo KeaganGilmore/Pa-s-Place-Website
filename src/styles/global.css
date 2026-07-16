@@ -181,6 +181,24 @@ html {
 .btn-on-night:hover { box-shadow: 0.3rem 0.4rem 0 rgb(0 0 0 / 0.55); }
 .btn-on-night:active { box-shadow: 0.05rem 0.05rem 0 rgb(0 0 0 / 0.55); }
 
+/* ---------- form fields ---------- */
+
+.frm {
+  display: block;
+  width: 100%;
+  border-radius: 0.8rem;
+  border: 2px solid color-mix(in srgb, var(--color-bark-900) 14%, transparent);
+  background: var(--color-paper);
+  padding: 0.6rem 0.9rem;
+  color: var(--color-cocoa);
+  font-size: 1rem;
+}
+.frm:focus {
+  outline: none;
+  border-color: var(--color-marigold-500);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-marigold-400) 30%, transparent);
+}
+
 /* ---------- squiggle underline accent ---------- */
 
 .squiggle {
