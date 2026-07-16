@@ -1,0 +1,11 @@
+{
+  "name": "The Rock Pool",
+  "blurb": "bunk beds, big windows — backpacker style",
+  "image": "/src/assets/images/options/bunk-room.webp",
+  "sleeps": "sleeps 2–6",
+  "minPeople": 2,
+  "maxPeople": 6,
+  "rate": 160,
+  "kind": "stay",
+  "order": 3
+}

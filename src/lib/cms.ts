@@ -21,3 +21,10 @@ export async function getGallery() {
     .map((e) => ({ slug: e.slug, ...e.entry }))
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 }
+
+export async function getStayOptions() {
+  const entries = await reader.collections.stayOptions.all();
+  return entries
+    .map((e) => ({ slug: e.slug, ...e.entry }))
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+}

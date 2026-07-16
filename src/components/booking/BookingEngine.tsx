@@ -1,18 +1,12 @@
 // The booking engine: choose an option (rooms / whole house / venue) →
 // availability calendar → live quote → guest details → payment →
-// confirmation. Fully client-side demo — availability is seeded
-// deterministically per option and "payment" is simulated, but the flow,
-// validation and states behave like the real thing.
+// confirmation. Options come from the Keystatic `stayOptions` collection
+// (name, blurb, photo, capacity, rate), so the admin panel controls what's
+// bookable. Availability is seeded deterministically per option and
+// "payment" is simulated — the flow behaves like the real thing.
 import { useState } from 'react';
 
-interface Props {
-  defaultOption?: string;
-  phone?: string;
-}
-
-/* ---------- the inventory ---------- */
-
-interface Option {
+export interface EngineOption {
   id: string;
   name: string;
   blurb: string;
@@ -22,59 +16,14 @@ interface Option {
   rate: number;
   rateLabel: string;
   kind: 'stay' | 'venue';
-  icon: string;
+  image: { src: string; alt: string } | null;
 }
 
-const OPTIONS: Option[] = [
-  {
-    id: 'whole-house',
-    name: 'The Whole House',
-    blurb: 'every room, the veranda, the garden — all yours',
-    sleeps: 'sleeps up to 12',
-    minPeople: 4,
-    maxPeople: 12,
-    rate: 200,
-    rateLabel: 'R200 pp / night',
-    kind: 'stay',
-    icon: `<svg viewBox="0 0 48 48" class="h-9 w-9" fill="none" aria-hidden="true"><path d="M8 22 L24 9 L40 22 v16 a3 3 0 0 1-3 3 H11 a3 3 0 0 1-3-3 Z" fill="#f6ead1" stroke="#423424" stroke-width="2.6" stroke-linejoin="round"/><rect x="20" y="28" width="8" height="13" rx="3" fill="#5c4a36"/><rect x="12" y="26" width="6" height="6" rx="1" fill="#b4dceb" stroke="#423424" stroke-width="1.8"/><rect x="30" y="26" width="6" height="6" rx="1" fill="#b4dceb" stroke="#423424" stroke-width="1.8"/></svg>`,
-  },
-  {
-    id: 'family-room',
-    name: "The Dove's Nest",
-    blurb: 'the quiet family room with the garden window',
-    sleeps: 'sleeps 2–4',
-    minPeople: 2,
-    maxPeople: 4,
-    rate: 200,
-    rateLabel: 'R200 pp / night',
-    kind: 'stay',
-    icon: `<svg viewBox="0 0 48 48" class="h-9 w-9" fill="none" aria-hidden="true"><rect x="6" y="24" width="36" height="12" rx="3" fill="#f6ead1" stroke="#423424" stroke-width="2.6"/><path d="M6 36 v5 M42 36 v5" stroke="#423424" stroke-width="2.6" stroke-linecap="round"/><rect x="9" y="17" width="13" height="8" rx="4" fill="#fbc968" stroke="#423424" stroke-width="2.2"/><path d="M6 24 v-8" stroke="#423424" stroke-width="2.6" stroke-linecap="round"/></svg>`,
-  },
-  {
-    id: 'bunk-room',
-    name: 'The Rock Pool',
-    blurb: 'bunk beds, big windows — backpacker style',
-    sleeps: 'sleeps 2–6',
-    minPeople: 2,
-    maxPeople: 6,
-    rate: 160,
-    rateLabel: 'R160 pp / night',
-    kind: 'stay',
-    icon: `<svg viewBox="0 0 48 48" class="h-9 w-9" fill="none" aria-hidden="true"><path d="M8 8 v32 M40 8 v32" stroke="#423424" stroke-width="2.6" stroke-linecap="round"/><rect x="8" y="12" width="32" height="7" rx="2.5" fill="#4f93a3" stroke="#423424" stroke-width="2.2"/><rect x="8" y="27" width="32" height="7" rx="2.5" fill="#fbc968" stroke="#423424" stroke-width="2.2"/></svg>`,
-  },
-  {
-    id: 'venue',
-    name: 'Venue & Day Events',
-    blurb: 'the lawn, playground and long tables for the day',
-    sleeps: '10–40 guests',
-    minPeople: 10,
-    maxPeople: 40,
-    rate: 80,
-    rateLabel: 'R80 pp / day',
-    kind: 'venue',
-    icon: `<svg viewBox="0 0 48 48" class="h-9 w-9" fill="none" aria-hidden="true"><g stroke="#b4dceb" stroke-width="2.4" stroke-linecap="round"><path d="M19 12 c-1.6-3 1.6-4.4 0-7.5"/><path d="M28 12 c-1.6-3 1.6-4.4 0-7.5"/></g><ellipse cx="24" cy="19" rx="13" ry="3" fill="#33291c"/><path d="M11 19 h26 v4.5 a13 9 0 0 1-26 0 Z" fill="#423424" stroke="#33291c" stroke-width="2"/><path d="M8 41 h32" stroke="#7d9a6a" stroke-width="2.6" stroke-linecap="round"/></svg>`,
-  },
-];
+interface Props {
+  options: EngineOption[];
+  defaultOption?: string;
+  phone?: string;
+}
 
 /* ---------- date helpers ---------- */
 
@@ -185,16 +134,16 @@ function Month({
 
 /* ---------- the engine ---------- */
 
-export default function BookingEngine({ defaultOption, phone }: Props) {
+export default function BookingEngine({ options, defaultOption, phone }: Props) {
   const [optionId, setOptionId] = useState<string | null>(defaultOption ?? null);
-  const option = OPTIONS.find((o) => o.id === optionId) ?? null;
+  const option = options.find((o) => o.id === optionId) ?? null;
   const isStay = option?.kind !== 'venue';
 
   const [step, setStep] = useState<0 | 1 | 2 | 3 | 4>(0);
   const [monthOffset, setMonthOffset] = useState(0);
   const [arrive, setArrive] = useState<string | null>(null);
   const [depart, setDepart] = useState<string | null>(null);
-  const [people, setPeople] = useState(defaultOption ? (OPTIONS.find((o) => o.id === defaultOption)?.minPeople ?? 4) : 4);
+  const [people, setPeople] = useState(defaultOption ? (options.find((o) => o.id === defaultOption)?.minPeople ?? 4) : 4);
   const [warn, setWarn] = useState('');
 
   const [name, setName] = useState('');
@@ -220,7 +169,7 @@ export default function BookingEngine({ defaultOption, phone }: Props) {
   const deposit = option ? (isStay ? Math.ceil(total / 2 / 50) * 50 : VENUE_DEPOSIT) : 0;
   const balance = Math.max(0, total - deposit);
 
-  const chooseOption = (o: Option) => {
+  const chooseOption = (o: EngineOption) => {
     setOptionId(o.id);
     setArrive(null);
     setDepart(null);
@@ -394,7 +343,7 @@ export default function BookingEngine({ defaultOption, phone }: Props) {
           <div className="mt-6">
             <p className="hand text-xl text-bark-700/80">what kind of visit is this?</p>
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              {OPTIONS.map((o) => {
+              {options.map((o) => {
                 const active = optionId === o.id;
                 return (
                   <button
@@ -402,24 +351,33 @@ export default function BookingEngine({ defaultOption, phone }: Props) {
                     type="button"
                     onClick={() => chooseOption(o)}
                     aria-pressed={active}
-                    className={`relative rounded-[1.2rem] border-2 p-5 text-left transition ${
+                    className={`relative overflow-hidden rounded-[1.2rem] border-2 text-left transition ${
                       active
                         ? 'border-bark-950 bg-marigold-400/25 shadow-[0.2rem_0.25rem_0_rgb(51_41_28/0.85)]'
                         : 'border-bark-900/12 bg-paper hover:border-bark-900/30 hover:bg-cream-100'
                     }`}
                   >
-                    <div className="flex items-start justify-between gap-3">
-                      <span dangerouslySetInnerHTML={{ __html: o.icon }} />
-                      {active && (
-                        <span className="grid h-6 w-6 place-items-center rounded-full bg-marigold-400 text-sm font-extrabold text-bark-950 ring-2 ring-bark-950">✓</span>
-                      )}
-                    </div>
-                    <h3 className="mt-3 font-display text-xl font-semibold text-bark-900">{o.name}</h3>
-                    <p className="hand mt-0.5 text-lg leading-snug text-bark-700/85">{o.blurb}</p>
-                    <div className="mt-3 flex flex-wrap items-center gap-2 text-[0.78rem] font-bold">
-                      <span className="rounded-full bg-cream-200 px-2.5 py-0.5 text-bark-900">{o.rateLabel}</span>
-                      <span className="rounded-full bg-cream-200 px-2.5 py-0.5 text-bark-700/80">{o.sleeps}</span>
-                    </div>
+                    {o.image && (
+                      <span className="relative block">
+                        <img
+                          src={o.image.src}
+                          alt={o.image.alt}
+                          loading="lazy"
+                          className="aspect-[16/9] w-full object-cover"
+                        />
+                        {active && (
+                          <span className="absolute right-2.5 top-2.5 grid h-7 w-7 place-items-center rounded-full bg-marigold-400 text-sm font-extrabold text-bark-950 shadow ring-2 ring-bark-950">✓</span>
+                        )}
+                      </span>
+                    )}
+                    <span className="block p-4 pt-3">
+                      <h3 className="font-display text-xl font-semibold text-bark-900">{o.name}</h3>
+                      <p className="hand mt-0.5 text-lg leading-snug text-bark-700/85">{o.blurb}</p>
+                      <span className="mt-2.5 flex flex-wrap items-center gap-2 text-[0.78rem] font-bold">
+                        <span className="rounded-full bg-cream-200 px-2.5 py-0.5 text-bark-900">{o.rateLabel}</span>
+                        <span className="rounded-full bg-cream-200 px-2.5 py-0.5 text-bark-700/80">{o.sleeps}</span>
+                      </span>
+                    </span>
                   </button>
                 );
               })}

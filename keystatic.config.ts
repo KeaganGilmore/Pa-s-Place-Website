@@ -80,6 +80,50 @@ export default config({
     }),
   },
   collections: {
+    stayOptions: collection({
+      label: 'Stay Options (booking)',
+      slugField: 'name',
+      path: 'src/content/stay-options/*',
+      format: { data: 'json' },
+      schema: {
+        name: fields.slug({ name: { label: 'Name (shown on the booking card)' } }),
+        blurb: fields.text({
+          label: 'One-line description',
+          description: 'Shown in handwriting under the name, e.g. "the quiet family room with the garden window".',
+        }),
+        image: fields.image({
+          label: 'Photo',
+          description: 'The card photo. Currently AI placeholders — replace with real photos any time.',
+          directory: 'src/assets/images/options',
+          publicPath: '/src/assets/images/options/',
+          validation: { isRequired: true },
+        }),
+        sleeps: fields.text({
+          label: 'Capacity label',
+          description: 'e.g. "sleeps 2–4" or "10–40 guests"',
+        }),
+        minPeople: fields.integer({ label: 'Minimum people', defaultValue: 2 }),
+        maxPeople: fields.integer({ label: 'Maximum people', defaultValue: 12 }),
+        rate: fields.integer({
+          label: 'Rate per person (Rand)',
+          description: 'Per night for rooms, per day for the venue.',
+          defaultValue: 200,
+        }),
+        kind: fields.select({
+          label: 'Type',
+          options: [
+            { label: 'Overnight stay (per night, 50% deposit)', value: 'stay' },
+            { label: 'Day venue (per day, R500 deposit)', value: 'venue' },
+          ],
+          defaultValue: 'stay',
+        }),
+        order: fields.integer({
+          label: 'Display order',
+          description: 'Lower numbers show first.',
+          defaultValue: 0,
+        }),
+      },
+    }),
     gallery: collection({
       label: 'Photo Gallery',
       slugField: 'title',

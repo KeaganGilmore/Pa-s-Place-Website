@@ -1,0 +1,11 @@
+{
+  "name": "The Whole House",
+  "blurb": "every room, the veranda, the garden — all yours",
+  "image": "/src/assets/images/options/whole-house.webp",
+  "sleeps": "sleeps up to 12",
+  "minPeople": 4,
+  "maxPeople": 12,
+  "rate": 200,
+  "kind": "stay",
+  "order": 1
+}

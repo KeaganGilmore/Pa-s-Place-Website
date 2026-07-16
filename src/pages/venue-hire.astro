@@ -1,11 +1,11 @@
 ---
 import type { ImageMetadata } from 'astro';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Sunburst from '../components/story/Sunburst.astro';
 import TornEdge from '../components/story/TornEdge.astro';
 import BookingEngine from '../components/booking/BookingEngine.tsx';
-import { getGallery, getSettings } from '../lib/cms';
+import { getGallery, getSettings, getStayOptions } from '../lib/cms';
 
 const settings = await getSettings();
 const gallery = await getGallery();
@@ -17,7 +17,26 @@ const allImages = import.meta.glob<{ default: ImageMetadata }>(
 const foodDay = gallery.find((g) => g.slug === 'food-day');
 const foodImage = foodDay?.image ? allImages[foodDay.image]?.default : undefined;
 
-const whatsappDigits = settings.contact.phoneLink?.replace(/[^0-9]/g, '') || undefined;
+// CMS-managed bookable options, photos resolved to optimized URLs for the island
+const rawOptions = await getStayOptions();
+const options = await Promise.all(
+  rawOptions.map(async (o) => {
+    const meta = o.image ? allImages[o.image]?.default : undefined;
+    const img = meta ? await getImage({ src: meta, width: 800, format: 'webp' }) : null;
+    return {
+      id: o.slug,
+      name: o.name,
+      blurb: o.blurb ?? '',
+      sleeps: o.sleeps ?? '',
+      minPeople: o.minPeople ?? 2,
+      maxPeople: o.maxPeople ?? 12,
+      rate: o.rate ?? 200,
+      rateLabel: `R${o.rate ?? 200} pp / ${o.kind === 'venue' ? 'day' : 'night'}`,
+      kind: (o.kind ?? 'stay') as 'stay' | 'venue',
+      image: img ? { src: img.src, alt: o.name } : null,
+    };
+  })
+);
 
 const facts = [
   { label: 'The rate', value: settings.pricing.venue },
@@ -53,7 +72,7 @@ const steps = [
   <section class="bg-paper py-12 sm:py-16">
     <div class="mx-auto max-w-6xl px-5">
       <div class="fade-up" style="--d: 0.15s">
-        <BookingEngine client:load defaultOption="venue" phone={settings.contact.phone} />
+        <BookingEngine client:load options={options} defaultOption="venue-day-events" phone={settings.contact.phone} />
       </div>
       <p class="hand mt-6 text-center text-xl text-bark-700/75">
         rather book by voice? {settings.contact.phone && <a class="text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900" href={`tel:${settings.contact.phoneLink || settings.contact.phone}`}>call {settings.contact.person ?? 'us'} on {settings.contact.phone}</a>}

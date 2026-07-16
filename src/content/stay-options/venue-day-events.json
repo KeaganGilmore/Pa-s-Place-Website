@@ -1,0 +1,11 @@
+{
+  "name": "Venue & Day Events",
+  "blurb": "the lawn, playground and long tables for the day",
+  "image": "/src/assets/images/options/venue.webp",
+  "sleeps": "10–40 guests",
+  "minPeople": 10,
+  "maxPeople": 40,
+  "rate": 80,
+  "kind": "venue",
+  "order": 4
+}
