@@ -53,13 +53,7 @@ const steps = [
   <section class="bg-paper py-12 sm:py-16">
     <div class="mx-auto max-w-6xl px-5">
       <div class="fade-up" style="--d: 0.15s">
-        <BookingEngine
-          client:load
-          kind="venue"
-          phone={settings.contact.phone}
-          phoneLink={settings.contact.phoneLink}
-          whatsapp={whatsappDigits ? `https://wa.me/${whatsappDigits}` : undefined}
-        />
+        <BookingEngine client:load defaultOption="venue" phone={settings.contact.phone} />
       </div>
       <p class="hand mt-6 text-center text-xl text-bark-700/75">
         rather book by voice? {settings.contact.phone && <a class="text-sea-800 underline decoration-marigold-400 decoration-2 underline-offset-4 hover:text-bark-900" href={`tel:${settings.contact.phoneLink || settings.contact.phone}`}>call {settings.contact.person ?? 'us'} on {settings.contact.phone}</a>}
